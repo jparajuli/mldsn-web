@@ -159,7 +159,7 @@ const BLOGS = [
 
 // ─── Styles injected once ─────────────────────────────────────────────────────
 const GLOBAL_CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -175,8 +175,8 @@ const GLOBAL_CSS = `
     --text:    #e2e8f0;
     --muted:   #64748b;
     --sub:     #94a3b8;
-    --ff-head: 'Syne', sans-serif;
-    --ff-body: 'DM Sans', sans-serif;
+    --ff-head: 'Fraunces', Georgia, serif;
+    --ff-body: 'Outfit', sans-serif;
     --ff-mono: 'JetBrains Mono', monospace;
   }
 
@@ -297,10 +297,11 @@ function Navbar() {
           width: 36, height: 36, borderRadius: 8,
           background: "linear-gradient(135deg, var(--accent), var(--accent2))",
           display: "flex", alignItems: "center", justifyContent: "center",
-          fontFamily: "var(--ff-head)", fontWeight: 800, fontSize: 14, color: "#fff",
+          fontFamily: "var(--ff-body)", fontWeight: 700, fontSize: 13, color: "#fff",
+          letterSpacing: ".04em",
         }}>ML</div>
         <div>
-          <div style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: 15, lineHeight: 1.1 }}>MLDSN Nepal</div>
+          <div style={{ fontFamily: "var(--ff-body)", fontWeight: 600, fontSize: 15, lineHeight: 1.1 }}>MLDSN Nepal</div>
           <div style={{ fontSize: 10, color: "var(--muted)", letterSpacing: ".06em" }}>Machine Learning & Data Science Network</div>
         </div>
       </a>
@@ -349,14 +350,14 @@ function Navbar() {
         }}>
           {NAV_LINKS.map(l => (
             <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)}
-              style={{ padding: "14px 0", fontSize: 20, fontFamily: "var(--ff-head)", fontWeight: 700,
+              style={{ padding: "14px 0", fontSize: 18, fontFamily: "var(--ff-body)", fontWeight: 600,
                 color: "var(--text)", borderBottom: "1px solid var(--border)" }}>
               {l.label}
             </a>
           ))}
           <a href="https://www.mldsnnepal.org/become-a-member"
             style={{ marginTop: 24, padding: "14px 24px", borderRadius: 10, background: "var(--accent)",
-              color: "#fff", fontSize: 16, fontWeight: 700, textAlign: "center" }}>
+              color: "#fff", fontSize: 15, fontWeight: 600, textAlign: "center" }}>
             Join Network
           </a>
         </div>
@@ -417,9 +418,11 @@ function Hero() {
         </div>
 
         <h1 style={{
-          fontFamily: "var(--ff-head)", fontWeight: 800,
-          fontSize: "clamp(2.6rem,6vw,5rem)", lineHeight: 1.05,
+          fontFamily: "var(--ff-head)", fontWeight: 700,
+          fontSize: "clamp(2.2rem,4.5vw,3.8rem)", lineHeight: 1.1,
+          letterSpacing: "-0.02em", fontOpticalSizing: "auto",
           marginBottom: 24, animation: "fade-up .6s .1s ease both",
+          maxWidth: 720,
         }}>
           Machine Learning &{" "}
           <span style={{ background: "linear-gradient(90deg, var(--accent), var(--accent2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -479,8 +482,9 @@ function StatsTicker() {
             borderRight: i < STATS.length - 1 ? "1px solid var(--border)" : "none",
           }}>
             <div style={{
-              fontFamily: "var(--ff-head)", fontWeight: 800,
-              fontSize: "clamp(1.8rem,3vw,2.4rem)",
+              fontFamily: "var(--ff-head)", fontWeight: 700,
+              fontSize: "clamp(1.6rem,2.8vw,2.2rem)",
+              letterSpacing: "-0.02em",
               color: i % 2 === 0 ? "var(--accent)" : "var(--accent2)",
               lineHeight: 1,
             }}>
@@ -502,7 +506,7 @@ function About() {
         {/* Left text */}
         <div>
           <SectionLabel>Who We Are</SectionLabel>
-          <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 800, fontSize: "clamp(1.8rem,3vw,2.6rem)", lineHeight: 1.2, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.55rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em", marginBottom: 20 }}>
             Nepal's leading community for <span style={{ color: "var(--accent)" }}>AI & Data Science</span>
           </h2>
           <p style={{ color: "var(--sub)", lineHeight: 1.8, marginBottom: 16, fontSize: ".97rem" }}>
@@ -585,7 +589,7 @@ function Mission() {
     }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <SectionLabel>Our Mission</SectionLabel>
-        <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 800, fontSize: "clamp(1.8rem,3vw,2.6rem)", marginBottom: 48, maxWidth: 560 }}>
+        <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.55rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em", marginBottom: 48, maxWidth: 480 }}>
           Four pillars driving AI in Nepal
         </h2>
 
@@ -623,7 +627,7 @@ function History() {
     <section style={{ padding: "100px clamp(20px,6vw,80px)" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <SectionLabel>A Bit of History</SectionLabel>
-        <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 800, fontSize: "clamp(1.8rem,3vw,2.6rem)", marginBottom: 56 }}>
+        <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.55rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em", marginBottom: 56 }}>
           Our journey since 2018
         </h2>
 
@@ -673,7 +677,7 @@ function Team() {
     }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <SectionLabel>The People</SectionLabel>
-        <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 800, fontSize: "clamp(1.8rem,3vw,2.6rem)", marginBottom: 8 }}>
+        <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.55rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em", marginBottom: 8 }}>
           Core Team
         </h2>
         <p style={{ color: "var(--sub)", marginBottom: 48, maxWidth: 500, fontSize: ".95rem" }}>
@@ -718,7 +722,7 @@ function Team() {
 
         {/* Advisors */}
         <div style={{ borderTop: "1px solid var(--border)", paddingTop: 48 }}>
-          <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "1.3rem", marginBottom: 24, color: "var(--accent2)" }}>
+          <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 600, fontSize: "1.1rem", marginBottom: 24, color: "var(--accent2)", letterSpacing: "-0.01em" }}>
             Advisory Board
           </h3>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 14 }}>
@@ -765,7 +769,7 @@ function Events() {
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <SectionLabel>Events</SectionLabel>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48, flexWrap: "wrap", gap: 16 }}>
-          <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 800, fontSize: "clamp(1.8rem,3vw,2.6rem)" }}>
+          <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.55rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em" }}>
             News & Events
           </h2>
           <a href="https://www.mldsnnepal.org/news-and-events/events" target="_blank"
@@ -814,7 +818,7 @@ function Blog() {
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <SectionLabel>Knowledge Hub</SectionLabel>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48, flexWrap: "wrap", gap: 16 }}>
-          <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 800, fontSize: "clamp(1.8rem,3vw,2.6rem)" }}>
+          <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.55rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em" }}>
             Recent Blog Posts
           </h2>
           <a href="https://www.mldsnnepal.org/blog" target="_blank"
@@ -869,7 +873,7 @@ function JoinCTA() {
 
         <div style={{ position: "relative", zIndex: 1 }}>
           <Tag>Community</Tag>
-          <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 800, fontSize: "clamp(1.8rem,3.5vw,2.8rem)", margin: "20px 0 16px", lineHeight: 1.15 }}>
+          <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.6rem,2.8vw,2.4rem)", margin: "20px 0 16px", lineHeight: 1.2, letterSpacing: "-0.02em" }}>
             Become a Member of<br />
             <span style={{ color: "var(--accent)" }}>MLDSN Nepal</span>
           </h2>
@@ -920,9 +924,10 @@ function Footer() {
                 width: 36, height: 36, borderRadius: 8,
                 background: "linear-gradient(135deg, var(--accent), var(--accent2))",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontFamily: "var(--ff-head)", fontWeight: 800, fontSize: 14, color: "#fff",
+                fontFamily: "var(--ff-body)", fontWeight: 700, fontSize: 13, color: "#fff",
+                letterSpacing: ".04em",
               }}>ML</div>
-              <div style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: 15 }}>MLDSN Nepal</div>
+              <div style={{ fontFamily: "var(--ff-body)", fontWeight: 600, fontSize: 15 }}>MLDSN Nepal</div>
             </div>
             <p style={{ color: "var(--muted)", fontSize: ".87rem", lineHeight: 1.75, maxWidth: 260, marginBottom: 20 }}>
               A non-profit community advancing machine learning and data science education across Nepal since 2018.
@@ -938,7 +943,7 @@ function Footer() {
 
           {/* Quick Links */}
           <div>
-            <div style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: ".9rem", marginBottom: 16, color: "var(--text)" }}>Quick Links</div>
+            <div style={{ fontFamily: "var(--ff-body)", fontWeight: 600, fontSize: ".85rem", marginBottom: 16, color: "var(--text)", letterSpacing: ".02em" }}>Quick Links</div>
             {[["NWMLDS 2021","https://www.mldsnnepal.org/news-and-events/events/nwmlds-2021"],
               ["NWMLDS 2020","https://www.mldsnnepal.org/news-and-events/events/nwmlds-2020"],
               ["Research & Career","https://www.mldsnnepal.org/research-career"],
@@ -954,7 +959,7 @@ function Footer() {
 
           {/* Recent Blogs */}
           <div>
-            <div style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: ".9rem", marginBottom: 16, color: "var(--text)" }}>Recent Blogs</div>
+            <div style={{ fontFamily: "var(--ff-body)", fontWeight: 600, fontSize: ".85rem", marginBottom: 16, color: "var(--text)", letterSpacing: ".02em" }}>Recent Blogs</div>
             {BLOGS.map(b => (
               <a key={b.title} href={b.url} target="_blank"
                 style={{ display: "block", color: "var(--muted)", fontSize: ".83rem", marginBottom: 10, lineHeight: 1.4, transition: "color .2s" }}
@@ -966,7 +971,7 @@ function Footer() {
 
           {/* Community */}
           <div>
-            <div style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: ".9rem", marginBottom: 16, color: "var(--text)" }}>Community</div>
+            <div style={{ fontFamily: "var(--ff-body)", fontWeight: 600, fontSize: ".85rem", marginBottom: 16, color: "var(--text)", letterSpacing: ".02em" }}>Community</div>
             <a href="https://www.facebook.com/groups/217595548832685" target="_blank"
               style={{
                 display: "flex", alignItems: "center", gap: 8,
