@@ -333,9 +333,12 @@ function Btn({ children, href, onClick, primary, small, style: extra = {} }) {
 }
 
 // ─── NAVBAR ───────────────────────────────────────────────────────────────────
+// KEY FIX: accept `page` prop so we can detect if we're already on home,
+// and skip the navigate("home") call that triggers scrollTo(top) and
+// races against the section scroll.
 function Navbar({ page, navigate }) {
-  const [scrolled, setScrolled]   = useState(false);
-  const [menuOpen, setMenuOpen]   = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
@@ -343,14 +346,39 @@ function Navbar({ page, navigate }) {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
+  // Scroll to a home-page section.
+  // If already on home: scroll immediately (no delay needed).
+  // If on another page: navigate to home first, then scroll after mount.
+  const scrollToSection = useCallback((sectionId) => {
+    if (page === "home") {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("home");
+      // Wait for the home page to render, then scroll.
+      // requestAnimationFrame x2 ensures the DOM has painted before we scroll.
+      const doScroll = () => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        } else {
+          // Fallback: retry once more if DOM not ready yet
+          requestAnimationFrame(() =>
+            document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
+          );
+        }
+      };
+      requestAnimationFrame(() => requestAnimationFrame(doScroll));
+    }
+  }, [page, navigate]);
+
   const links = [
-    { label:"Home",    action: () => navigate("home") },
-    { label:"About",   action: () => { navigate("home"); setTimeout(()=>{ document.getElementById("about")?.scrollIntoView({behavior:"smooth"}); }, 80); } },
-    { label:"Mission", action: () => { navigate("home"); setTimeout(()=>{ document.getElementById("mission")?.scrollIntoView({behavior:"smooth"}); }, 80); } },
-    { label:"Team",    action: () => { navigate("home"); setTimeout(()=>{ document.getElementById("team")?.scrollIntoView({behavior:"smooth"}); }, 80); } },
-    { label:"Events",  action: () => { navigate("home"); setTimeout(()=>{ document.getElementById("events")?.scrollIntoView({behavior:"smooth"}); }, 80); } },
+    { label:"Home",    action: () => { navigate("home"); window.scrollTo({ top: 0, behavior: "smooth" }); } },
+    { label:"About",   action: () => scrollToSection("about") },
+    { label:"Mission", action: () => scrollToSection("mission") },
+    { label:"Team",    action: () => scrollToSection("team") },
+    { label:"Events",  action: () => scrollToSection("events") },
     { label:"Blog",    action: () => navigate("blog") },
-    { label:"Contact", action: () => { navigate("home"); setTimeout(()=>{ document.getElementById("contact")?.scrollIntoView({behavior:"smooth"}); }, 80); } },
+    { label:"Contact", action: () => scrollToSection("contact") },
   ];
 
   const isBlog = page === "blog" || page === "article";
@@ -367,7 +395,7 @@ function Navbar({ page, navigate }) {
       height:68,
     }}>
       {/* Logo */}
-      <button onClick={() => navigate("home")} style={{ background:"none", border:"none", display:"flex", alignItems:"center", gap:10, padding:0 }}>
+      <button onClick={() => { navigate("home"); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ background:"none", border:"none", display:"flex", alignItems:"center", gap:10, padding:0 }}>
         <div style={{ width:36, height:36, borderRadius:8, background:"linear-gradient(135deg,var(--accent),var(--accent2))", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"var(--ff-body)", fontWeight:700, fontSize:13, color:"#fff", letterSpacing:".04em" }}>ML</div>
         <div style={{ textAlign:"left" }}>
           <div style={{ fontFamily:"var(--ff-body)", fontWeight:600, fontSize:15, color:"var(--text)", lineHeight:1.1 }}>MLDSN Nepal</div>
@@ -436,7 +464,7 @@ function Hero({ navigate }) {
         </p>
         <div style={{ display:"flex", gap:14, flexWrap:"wrap", animation:"fade-up .6s .3s ease both" }}>
           <Btn href="https://www.mldsnnepal.org/become-a-member" primary>Become a Member</Btn>
-          <Btn onClick={() => { navigate("home"); setTimeout(()=>document.getElementById("about")?.scrollIntoView({behavior:"smooth"}),80); }}>
+          <Btn onClick={() => document.getElementById("about")?.scrollIntoView({ behavior:"smooth" })}>
             Learn More ↓
           </Btn>
         </div>
@@ -563,7 +591,7 @@ function Team() {
         <p style={{ color:"var(--sub)", marginBottom:48, maxWidth:500, fontSize:".95rem" }}>Volunteers from academia, industry, and research — united by the mission to grow Nepal's AI ecosystem.</p>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:16, marginBottom:56 }}>
           {TEAM.map((m,i) => (
-            <a key={i} href={m.url||"#"} target="_blank" style={{ display:"block", background:"var(--card)", border:"1px solid var(--border)", borderRadius:14, padding:"22px 20px", transition:"all .25s", textDecoration:"none" }}
+            <a key={i} href={m.url||"#"} target="_blank" style={{ display:"block", background:"var(--card)", border:"1px solid var(--border)", borderRadius:14, padding:"22px 20px", transition:"all .25px", textDecoration:"none" }}
               onMouseEnter={e=>{ e.currentTarget.style.borderColor=`${m.color}44`; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow=`0 12px 32px ${m.color}14`; }}
               onMouseLeave={e=>{ e.currentTarget.style.borderColor="var(--border)"; e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; }}>
               <div style={{ display:"flex", alignItems:"center", gap:14, marginBottom:12 }}>
@@ -920,11 +948,9 @@ function ArticleView({ post, navigate }) {
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function App() {
-  // page: "home" | "blog" | "article"
   const [page, setPage]             = useState("home");
   const [activePost, setActivePost] = useState(null);
 
-  // Inject global CSS once
   useEffect(() => {
     const el = document.createElement("style");
     el.textContent = GLOBAL_CSS;
@@ -935,7 +961,10 @@ export default function App() {
   const navigate = useCallback((target, post = null) => {
     setPage(target);
     if (post) setActivePost(post);
-    window.scrollTo({ top:0, behavior:"smooth" });
+    // Only scroll to top when navigating to a new page (not section scrolls)
+    if (target !== "home" || post) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, []);
 
   return (
