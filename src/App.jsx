@@ -96,8 +96,8 @@ const MISSION_ITEMS = [
 const TEAM = [
   { name:"Dr. Jhanak Parajuli",      role:"Data Scientist & Global Program Manager", location:"Germany",                        url:"https://www.databigyan.com/about-me",                                       initials:"JP", color:"#4f9cf9" },
   { name:"Dr. Sarbagya Ratna Shakya",role:"Asst. Professor",                         location:"Eastern New Mexico University, USA",url:"https://www.linkedin.com/in/sarbagya-ratna-shakya-b2a30716a/",           initials:"SR", color:"#a78bfa" },
-  { name:"Mr. Tej Bahadur Shahi",    role:"PhD Student",                             location:"CQUniversity, Australia",         url:"https://tejshahi.github.io/",                                              initials:"TS", color:"#34d399" },
-  { name:"Mr. Surya Bahadur Basnet", role:"Head of Department",                      location:"KIST College, Nepal",             url:"https://www.linkedin.com/in/surya-basnet-554859172/",                      initials:"SB", color:"#fb923c" },
+  { name:"Dr. Tej Bahadur Shahi",    role:"Researcher",                             location:"CQUniversity, Australia",         url:"https://tejshahi.github.io/",                                              initials:"TS", color:"#34d399" },
+  { name:"Mr. Surya Bahadur Basnet", role:"Principal",                               location:"Sankalpa College, Nepal",             url:"https://www.linkedin.com/in/surya-basnet-554859172/",                      initials:"SB", color:"#fb923c" },
   { name:"Mr. Ashok Pant",           role:"CTO & Co-founder",                        location:"Treeleaf, Nepal",                 url:"https://treeleaf.ai/about.html",                                           initials:"AP", color:"#f472b6" },
   { name:"Mr. Dilip Yogi",           role:"Application Architect",                   location:"ABC Fitness Solution, USA",        url:"https://www.linkedin.com/in/yogidilip/",                                   initials:"DY", color:"#facc15" },
 ];
