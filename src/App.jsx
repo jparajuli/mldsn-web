@@ -507,7 +507,7 @@ function Mission() {
     <section id="mission" style={{ padding:"100px clamp(20px,6vw,80px)", background:"var(--surface)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)" }}>
       <div style={{ maxWidth:1100, margin:"0 auto" }}>
         <SectionLabel>Our Mission</SectionLabel>
-        <h2 style={{ fontFamily:"var(--ff-head)", fontWeight:700, fontSize:"clamp(1.55rem,2.4vw,2.1rem)", lineHeight:1.25, letterSpacing:"-0.02em", marginBottom:48, maxWidth:480 }}>Four pillars driving AI in Nepal</h2>
+        <h2 style={{ fontFamily:"var(--ff-head)", fontWeight:700, fontSize:"clamp(1.55rem,2.4vw,2.1rem)", lineHeight:1.25, letterSpacing:"-0.02em", marginBottom:48, maxWidth:480 }}>Connecting Minds, Empowering Nepal Through AI</h2>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))", gap:20 }}>
           {MISSION_ITEMS.map((item,i) => (
             <div key={i} style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:16, padding:"28px 24px", transition:"border-color .25s,transform .25s" }}
