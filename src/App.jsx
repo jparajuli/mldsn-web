@@ -98,7 +98,7 @@ const TEAM = [
   { name:"Dr. Sarbagya Ratna Shakya",role:"Asst. Professor",                         location:"Eastern New Mexico University, USA",url:"https://sites.google.com/view/sarbagyashakya/home",           initials:"SR", color:"#a78bfa" },
   { name:"Dr. Tej Bahadur Shahi",    role:"Researcher",                             location:"CQUniversity, Australia",         url:"https://scholar.google.com/citations?user=t7kVlfIAAAAJ&hl=en",                                              initials:"TS", color:"#34d399" },
   { name:"Mr. Surya Bahadur Basnet", role:"Principal",                               location:"Sankalpa College, Nepal",             url:"https://www.linkedin.com/in/surya-bdr-basnet-554859172/",                      initials:"SB", color:"#fb923c" },
-  { name:"Mr. Ashok Pant",           role:"CTO & Co-founder",                        location:"Treeleaf, Nepal",                 url:"https://treeleaf.ai/about.html",                                           initials:"AP", color:"#f472b6" },
+  { name:"Mr. Ashok Kumar Pant",           role:"CTO & Co-founder",                        location:"Treeleaf, Nepal",                 url:"https://www.linkedin.com/in/asokpant/",                                           initials:"AP", color:"#f472b6" },
   { name:"Mr. Dilip Yogi",           role:"Application Architect",                   location:"ABC Fitness Solution, USA",        url:"https://www.linkedin.com/in/yogidilip/",                                   initials:"DY", color:"#facc15" },
 ];
 
