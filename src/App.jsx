@@ -105,7 +105,7 @@ const TEAM = [
 const ADVISORS = [
   { name:"Prof. Dr. Manish Pokharel",role:"Dean, School of Engineering", location:"Kathmandu University, Nepal",    url:"https://ku.edu.np/contact-detail/18", initials:"MP", color:"#60a5fa" },
   { name:"Reg Bhandari",             role:"Registrar",                   location:"Lumbini Technological University",                                           initials:"RB", color:"#c084fc" },
-  { name:"Dr. Binod Bhattarai",role:"Asst. Professor, University of Aberdeen/ Chief AI Scientist, Fogsphere (Redev.AI Ltd, UK)", location:"UK",    url:"https://scholar.google.com/citations?user=PDEi58sAAAAJ&hl=en", initials:"BB", color:"##a78bfa" },
+  { name:"Dr. Binod Bhattarai", role:"Asst. Professor, University of Aberdeen/ Chief AI Scientist, UK", location:"UK",    url:"https://scholar.google.com/citations?user=PDEi58sAAAAJ&hl=en", initials:"BB", color:"#a78bfa" },
 ];
 
 const TIMELINE = [
