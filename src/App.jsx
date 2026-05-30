@@ -85,12 +85,38 @@ const STATS = [
   { value:"6",    label:"Years Active",        suffix:"+" },
   { value:"100",  label:"Members & Growing",   suffix:"s" },
 ];
-
 const MISSION_ITEMS = [
-  { icon:"◈", title:"Networking Platform",   desc:"Build connections between ML and Data Science enthusiasts across Nepal and the world." },
-  { icon:"◉", title:"Workshops & Events",    desc:"Organise workshops, guest lectures, seminars, conferences and major events related to ML & DS." },
-  { icon:"◎", title:"Research & Publications",desc:"Publish blog posts, articles and peer-reviewed papers. Fund and support student research for international publication." },
-  { icon:"◐", title:"Digital Nepal",          desc:"Promote IT and digitalisation for the rural development of Nepal — bridging the urban-rural knowledge divide." },
+  {
+    icon: "◈",
+    title: "Networking Platform",
+    desc: "Create a vibrant, inclusive ecosystem that connects AI, Machine Learning, and Data Science enthusiasts, students, researchers, and professionals across Nepal and the global diaspora."
+  },
+  {
+    icon: "◉",
+    title: "Workshops & Events",
+    desc: "Organize high-quality workshops, guest lectures, hackathons, seminars, conferences, and flagship events to foster continuous learning and knowledge exchange in AI/ML/Data Science."
+  },
+  {
+    icon: "◎",
+    title: "Research & Publications",
+    desc: "Promote a strong research culture by publishing insightful blogs, technical articles, and peer-reviewed papers. Provide funding, mentorship, and support for students and researchers to publish at international venues."
+  },
+  {
+    icon: "◐",
+    title: "Digital Nepal",
+    desc: "Drive AI and digital transformation in rural Nepal by bridging the urban-rural divide through accessible education, local language tools, and technology-enabled development initiatives."
+  },
+  
+  {
+    icon: "◼",
+    title: "Industry & Innovation",
+    desc: "Foster collaboration between academia and industry to translate research into real-world solutions, startups, and impactful AI-driven innovations for Nepal."
+  },
+  {
+    icon: "◈",
+    title: "Community & Inclusion",
+    desc: "Create an equitable and supportive community that encourages participation from women, underrepresented groups, and students from remote regions in the AI revolution."
+  }
 ];
 
 const TEAM = [
