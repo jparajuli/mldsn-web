@@ -322,6 +322,104 @@ const POSTS = [
       <p>Part II will cover <strong>maximum likelihood estimation</strong>, <strong>information theory</strong> (entropy, KL divergence, cross-entropy loss), and how these tools connect directly to training neural networks.</p>
     `,
   },
+  {
+    id:"llm-journey",
+    slug:"llm_journey_opportunities",
+    title:"The LLM Journey: From Text Prediction to Intelligent Agents — and What It Means for Nepal",
+    excerpt:"Large language models have evolved from simple autocomplete systems into reasoning agents that write code, pass professional exams, and power entire products. Here is how we got here, and why the opportunity for Nepal has never been greater.",
+    tag:"AI & LLMs", tagColor:"#f472b6",
+    author:"MLDSN Nepal", authorRole:"Editorial Team",
+    date:"2025", readTime:"7 min read",
+    url:"https://www.mldsnnepal.org/blog/llm_journey_opportunities",
+    content:`
+      <p>Not long ago, a language model was a specialised research tool — impressive in a seminar room, but far from the world's daily life. That changed in November 2022, when ChatGPT crossed one million users in five days. Since then, large language models (LLMs) have moved faster than almost any technology in history, and the question for every student, researcher, and practitioner in Nepal is no longer <em>should I pay attention to this?</em> — it is <em>how do I make the most of it?</em></p>
+
+      <h2>How We Got Here: A Brief Timeline</h2>
+      <p>The story of LLMs begins with the <strong>Transformer architecture</strong>, introduced by Google researchers in the landmark 2017 paper "Attention Is All You Need." Transformers replaced the sequential processing of earlier recurrent networks with a mechanism called self-attention, allowing models to process entire sequences in parallel and to weigh the relevance of every word against every other word simultaneously. This architectural leap made scaling practical.</p>
+      <p>GPT-1 (2018) and BERT (2018) were the first wave. GPT-3 (2020), with its 175 billion parameters, was the moment that made the broader world pay attention — it could write essays, answer questions, and translate languages without being explicitly trained on any specific task. The key insight was that a large enough model, trained on enough text, develops broad capabilities that were never directly programmed.</p>
+      <p>Then came the alignment era. Instruction-tuning and Reinforcement Learning from Human Feedback (RLHF) transformed raw language models into assistants that actually followed instructions, declined harmful requests, and gave useful answers. ChatGPT, Claude, and Gemini were all products of this phase.</p>
+
+      <div class="callout">
+        <div class="callout-title">Key Milestones at a Glance</div>
+        <ul>
+          <li><strong>2017</strong> — Transformer architecture introduced by Google</li>
+          <li><strong>2020</strong> — GPT-3 demonstrates few-shot generalisation at scale</li>
+          <li><strong>2022</strong> — ChatGPT launches; one million users in five days</li>
+          <li><strong>2024</strong> — GPT-4o brings real-time multimodal interaction (text, voice, image)</li>
+          <li><strong>Jan 2025</strong> — DeepSeek R1: open-source reasoning model rivalling closed frontier models at a fraction of the cost</li>
+          <li><strong>2025</strong> — Agentic AI: LLMs that plan, use tools, and complete multi-step tasks autonomously</li>
+        </ul>
+      </div>
+
+      <h2>The Two Biggest Shifts of 2024–2025</h2>
+      <h3>1. From Assistants to Reasoners</h3>
+      <p>Until 2024, most LLMs worked by pattern-matching at impressive scale — they were, in a sense, very sophisticated autocomplete systems. The release of OpenAI o1 and, shortly after, DeepSeek R1 in January 2025 marked a qualitative shift: <strong>reasoning models</strong>. These systems use chain-of-thought processing and reinforcement learning to actually work through problems step by step before giving an answer. DeepSeek R1, released under an open MIT licence, achieved benchmark results comparable to OpenAI's best reasoning model — and was reported to cost approximately 95% less to train and deploy. This democratised access to frontier-level reasoning, making it available to researchers and developers who could not afford expensive API calls.</p>
+
+      <h3>2. From Chatbots to Agents</h3>
+      <p>The second major shift is the move from question-and-answer chatbots to <strong>agentic AI</strong> — systems that can plan a sequence of actions, call external tools (APIs, databases, code interpreters, web browsers), remember context across sessions, and correct their own mistakes. In 2025, AI-assisted code now accounts for nearly half of all new software written, according to GitHub's annual report. Agentic workflows are beginning to change how entire professions operate — not just individual tasks, but the shape of work itself.</p>
+
+      <h2>The State of LLMs Today</h2>
+      <p>As of 2025, the global LLM market was valued at over $6 billion and is projected to reach $36 billion by 2030. ChatGPT alone has more than 200 million monthly active users. But raw user numbers only tell part of the story. The more significant development is the <strong>bifurcation of the field</strong> into two distinct tracks.</p>
+      <p>On one side are the closed frontier models — GPT-5, Claude Opus, and Gemini Ultra — which push the boundaries of what is possible with very large compute budgets. GPT-5, released in 2025, introduced a 400,000-token context window and reduced hallucination rates to roughly 6%. On the other side, the open-source ecosystem — Llama, Mistral, Qwen, and now DeepSeek — has produced models that run on modest hardware and can be fine-tuned for specific domains without sharing sensitive data with any third party.</p>
+      <p>This distinction matters enormously for organisations in Nepal and across the developing world. You no longer need to rely solely on expensive proprietary APIs. A well-chosen open model, fine-tuned on domain-specific data, can outperform a generic frontier model on a specific task — and run on infrastructure you control.</p>
+
+      <h2>Opportunities: Where Should Nepal Focus?</h2>
+      <p>Nepal's government has already announced a national ambition to develop a Nepali-language LLM, and the country's National AI Policy (2025) explicitly targets AI for socio-economic development. But building a full-scale LLM from scratch is not the only — or even the most practical — path forward. The real opportunities lie in several more accessible directions.</p>
+
+      <ol class="step-list">
+        <li>
+          <div class="step-num">1</div>
+          <div>
+            <strong>Nepali Language AI</strong><br/>
+            Current off-the-shelf LLMs perform poorly on low-resource languages like Nepali. Fine-tuning an existing open-source model on high-quality Nepali text — news, literature, government documents, educational content — is both achievable and high-impact. It could power better search, government services, educational tools, and healthcare information for millions of people who are not fluent in English.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div>
+            <strong>Education and Personalised Tutoring</strong><br/>
+            A 2025 study assessing LLMs against Nepal's K-10 curriculum found that while current models show promise, they lack cultural scaffolding — the ability to connect concepts to a Nepali learner's lived experience. This gap is an open research problem. Students and researchers at Nepali universities are uniquely positioned to build localised educational AI that global labs are not incentivised to create.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div>
+            <strong>Agriculture and Rural Development</strong><br/>
+            Nepal's economy is largely agricultural. LLM-powered advisory tools — accessible via SMS or voice for farmers without smartphones — could deliver crop disease detection, weather interpretation, and market price guidance. Several successful pilots in similar contexts (India, Kenya, Bangladesh) show this is viable at low cost using fine-tuned smaller models.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div>
+            <strong>Healthcare Information Access</strong><br/>
+            With a shortage of doctors relative to population, especially in rural areas, AI-assisted triage and health information tools could meaningfully extend the reach of Nepal's healthcare system. LLMs trained on Nepali medical literature and guidelines, combined with rigorous safety constraints, represent a serious research and product opportunity.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">5</div>
+          <div>
+            <strong>Research and Publications</strong><br/>
+            The global LLM research community is producing hundreds of papers per week. Nepali researchers who build expertise in areas like fine-tuning, evaluation, multilingual NLP, or AI safety can contribute meaningfully to this literature and build international collaborations. The tools to do serious LLM research — open models, cloud compute grants, and public datasets — are more accessible than ever.
+          </div>
+        </li>
+        <li>
+          <div class="step-num">6</div>
+          <div>
+            <strong>Careers and the Global Remote Economy</strong><br/>
+            Prompt engineering, LLM application development, fine-tuning, and AI product management are skills in extreme global demand. A Nepali developer with strong LLM skills can work for international companies remotely — a genuine pathway to high-income employment that did not exist five years ago.
+          </div>
+        </li>
+      </ol>
+
+      <h2>A Note on Responsibility</h2>
+      <p>LLMs are not without risk. They hallucinate — producing confident-sounding but false information. They can reflect and amplify the biases present in their training data. They raise genuine questions about copyright, consent, and job displacement. Any serious practitioner working with these systems must engage with these questions, not just the capabilities. Building AI literacy in Nepal means building critical AI literacy — understanding both what these systems can do and what they should not be trusted to do without human oversight.</p>
+
+      <blockquote>The countries and communities that will benefit most from the LLM era are not necessarily those with the largest compute budgets. They are those who develop the skills to adapt these tools to their own languages, problems, and contexts. Nepal has both the need and the talent. What it needs now is focused effort.</blockquote>
+
+      <h2>Getting Started</h2>
+      <p>If you are new to LLMs, the most practical starting point is hands-on experimentation. Use the free tiers of ChatGPT, Claude, or Gemini. Read the original Transformer paper and the GPT-3 paper to understand the foundations. Explore Hugging Face to see the breadth of available open models. Follow the MLDSN Nepal blog and community for local context, events, and collaborative opportunities. The LLM journey is one of the most important technological journeys of our generation — and it is very much still in its early chapters.</p>
+    `,
+  },
 ];
 
 const TIMELINE_COLORS = ["var(--accent)","var(--accent2)","var(--green)","var(--orange)"];
