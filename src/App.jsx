@@ -181,7 +181,7 @@ const POSTS = [
     tag:"Learning", tagColor:"#4f9cf9",
     author:"Dr. Jhanak Parajuli", authorRole:"Data Scientist, Germany",
     date:"2020", readTime:"8 min read",
-    url:"https://www.mldsnnepal.org/blog/kaggle_i",
+    url:"https://sites.google.com/view/mldsnorg/blog/kaggle_i",
     content:`
       <p>Either you are a beginner or a proficient data scientist and/or machine learning engineer, there is always a lot to learn from <a href="https://www.kaggle.com/" target="_blank">Kaggle</a>. Kaggle is a competition platform and provides us with a variety of datasets. You can also read very interesting kernels written by many competitors — it is really helpful to understand different perspectives from different data scientists.</p>
       <h2>Getting Started as a Beginner</h2>
@@ -229,7 +229,7 @@ const POSTS = [
     tag:"Mathematics", tagColor:"#a78bfa",
     author:"MLDSN Nepal", authorRole:"Editorial Team",
     date:"2020", readTime:"10 min read",
-    url:"https://www.mldsnnepal.org/blog/linear_algebra_i",
+    url:"https://sites.google.com/view/mldsnorg/blog/linear_algebra_i",
     content:`
       <p>Machine learning algorithms operate almost entirely on numbers arranged in specific structures — vectors and matrices. Without a working understanding of linear algebra, many ML concepts remain opaque. This guide builds geometric intuition first and introduces notation second.</p>
       <h2>Why Linear Algebra Matters in ML</h2>
@@ -276,7 +276,7 @@ const POSTS = [
     tag:"Mathematics", tagColor:"#34d399",
     author:"MLDSN Nepal", authorRole:"Editorial Team",
     date:"2020", readTime:"9 min read",
-    url:"https://www.mldsnnepal.org/blog/probability_i",
+    url:"https://sites.google.com/view/mldsnorg/blog/probability_i",
     content:`
       <p>Machine learning is fundamentally about making decisions under uncertainty. A model never knows the truth — it estimates the likelihood of different outcomes from data. Probability theory gives us the language to reason about this uncertainty rigorously.</p>
       <h2>Why Probability Underpins ML</h2>
@@ -330,7 +330,6 @@ const POSTS = [
     tag:"AI & LLMs", tagColor:"#f472b6",
     author:"MLDSN Nepal", authorRole:"Editorial Team",
     date:"2025", readTime:"7 min read",
-    url:"https://www.mldsnnepal.org/blog/llm_journey_opportunities",
     content:`
       <p>Not long ago, a language model was a specialised research tool — impressive in a seminar room, but far from the world's daily life. That changed in November 2022, when ChatGPT crossed one million users in five days. Since then, large language models (LLMs) have moved faster than almost any technology in history, and the question for every student, researcher, and practitioner in Nepal is no longer <em>should I pay attention to this?</em> — it is <em>how do I make the most of it?</em></p>
 
@@ -543,7 +542,7 @@ function Navbar({ page, navigate }) {
             onMouseLeave={e => e.currentTarget.style.color=(isBlog && l.label==="Blog") ? "var(--accent)" : "var(--sub)"}
           >{l.label}</button>
         ))}
-        <Btn href="https://www.mldsnnepal.org/become-a-member" primary small style={{ marginLeft:8 }}>Join Network</Btn>
+        <Btn href="https://sites.google.com/view/mldsnorg/become-a-member" primary small style={{ marginLeft:8 }}>Join Network</Btn>
       </div>
 
       {/* Mobile hamburger — hidden on desktop via CSS */}
@@ -571,7 +570,7 @@ function Navbar({ page, navigate }) {
             </button>
           ))}
           <div style={{ marginTop:28 }}>
-            <Btn href="https://www.mldsnnepal.org/become-a-member" primary style={{ width:"100%", display:"block", textAlign:"center" }}>
+            <Btn href="https://sites.google.com/view/mldsnorg/become-a-member" primary style={{ width:"100%", display:"block", textAlign:"center" }}>
               Join Network — It's Free
             </Btn>
           </div>
@@ -604,7 +603,7 @@ function Hero({ navigate }) {
           A non-profit community dedicated to advancing AI, machine learning and data science in Nepal — through education, research, networking and rural digital inclusion.
         </p>
         <div className="hero-ctas" style={{ display:"flex", gap:12, flexWrap:"wrap", animation:"fade-up .6s .3s ease both" }}>
-          <Btn href="https://www.mldsnnepal.org/become-a-member" primary>Become a Member</Btn>
+          <Btn href="https://sites.google.com/view/mldsnorg/become-a-member" primary>Become a Member</Btn>
           <Btn onClick={() => document.getElementById("about")?.scrollIntoView({ behavior:"smooth" })}>Learn More ↓</Btn>
         </div>
       </div>
@@ -660,7 +659,7 @@ function About() {
             ))}
             <div className="about-card-actions" style={{ marginTop:20, display:"flex", gap:8 }}>
               {[["Facebook Group","https://www.facebook.com/groups/217595548832685","var(--accent)","rgba(79,156,249,0.08)","rgba(79,156,249,0.2)"],
-                ["Research & Career","https://www.mldsnnepal.org/research-career","var(--accent2)","rgba(167,139,250,0.08)","rgba(167,139,250,0.2)"]].map(([l,h,c,bg,bd]) => (
+                ["Research & Career","https://sites.google.com/view/mldsnorg/research-career","var(--accent2)","rgba(167,139,250,0.08)","rgba(167,139,250,0.2)"]].map(([l,h,c,bg,bd]) => (
                 <a key={l} href={h} target="_blank"
                   style={{ flex:"1 1 110px", padding:"10px 8px", borderRadius:8, textAlign:"center", background:bg, border:`1px solid ${bd}`, color:c, fontSize:13, fontWeight:600, transition:"opacity .2s" }}
                   onMouseEnter={e => e.currentTarget.style.opacity=".75"}
@@ -795,7 +794,7 @@ function Events() {
         <SectionLabel>Events</SectionLabel>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:40, flexWrap:"wrap", gap:14 }}>
           <h2 style={{ fontFamily:"var(--ff-head)", fontWeight:700, fontSize:"clamp(1.45rem,2.4vw,2.1rem)", lineHeight:1.25, letterSpacing:"-0.02em" }}>News & Events</h2>
-          <a href="https://www.mldsnnepal.org/news-and-events/events" target="_blank"
+          <a href="https://sites.google.com/view/mldsnorg/news-and-events/events" target="_blank"
             style={{ padding:"9px 20px", borderRadius:8, border:"1px solid var(--border2)", color:"var(--sub)", fontSize:13, fontWeight:500, transition:"all .2s", whiteSpace:"nowrap" }}
             onMouseEnter={e => { e.currentTarget.style.color="var(--accent)"; e.currentTarget.style.borderColor="rgba(79,156,249,0.35)"; }}
             onMouseLeave={e => { e.currentTarget.style.color="var(--sub)"; e.currentTarget.style.borderColor="var(--border2)"; }}>All Events →</a>
@@ -870,7 +869,7 @@ function JoinCTA() {
             Join the network to receive updates on events, workshops, research opportunities and connect with Nepal's growing ML & DS community.
           </p>
           <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
-            <Btn href="https://www.mldsnnepal.org/become-a-member" primary>Register Now — It's Free</Btn>
+            <Btn href="https://sites.google.com/view/mldsnorg/become-a-member" primary>Register Now — It's Free</Btn>
             <Btn href="https://www.facebook.com/groups/217595548832685">Facebook Group</Btn>
           </div>
         </div>
@@ -901,10 +900,10 @@ function Footer({ navigate }) {
           </div>
           <div>
             <div style={{ fontFamily:"var(--ff-body)", fontWeight:600, fontSize:".85rem", marginBottom:14, color:"var(--text)" }}>Quick Links</div>
-            {[["NWMLDS 2021","https://www.mldsnnepal.org/news-and-events/events/nwmlds-2021"],
-              ["NWMLDS 2020","https://www.mldsnnepal.org/news-and-events/events/nwmlds-2020"],
-              ["Research & Career","https://www.mldsnnepal.org/research-career"],
-              ["Become a Member","https://www.mldsnnepal.org/become-a-member"]].map(([l,h]) => (
+            {[["NWMLDS 2021","hhttps://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2021"],
+              ["NWMLDS 2020","https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2020"],
+              ["Research & Career","https://sites.google.com/view/mldsnorg/research-career"],
+              ["Become a Member","https://sites.google.com/view/mldsnorg/become-a-member"]].map(([l,h]) => (
               <a key={l} href={h} target="_blank"
                 style={{ display:"block", color:"var(--muted)", fontSize:".85rem", marginBottom:10, transition:"color .2s" }}
                 onMouseEnter={e => e.currentTarget.style.color="var(--accent)"}
@@ -923,7 +922,7 @@ function Footer({ navigate }) {
           <div>
             <div style={{ fontFamily:"var(--ff-body)", fontWeight:600, fontSize:".85rem", marginBottom:14, color:"var(--text)" }}>Community</div>
             {[["👥 Facebook Group","https://www.facebook.com/groups/217595548832685","var(--accent)","rgba(79,156,249,0.07)","rgba(79,156,249,0.18)","rgba(79,156,249,0.15)"],
-              ["📅 Events","https://www.mldsnnepal.org/news-and-events","var(--accent2)","rgba(167,139,250,0.07)","rgba(167,139,250,0.18)","rgba(167,139,250,0.15)"]].map(([l,h,c,bg,bd,hbg]) => (
+              ["📅 Events","https://sites.google.com/view/mldsnorg/news-and-events/events","var(--accent2)","rgba(167,139,250,0.07)","rgba(167,139,250,0.18)","rgba(167,139,250,0.15)"]].map(([l,h,c,bg,bd,hbg]) => (
               <a key={l} href={h} target="_blank"
                 style={{ display:"flex", alignItems:"center", gap:8, padding:"10px 14px", borderRadius:8, marginBottom:10, background:bg, border:`1px solid ${bd}`, color:c, fontSize:".85rem", fontWeight:600, transition:"all .2s", textDecoration:"none" }}
                 onMouseEnter={e => e.currentTarget.style.background=hbg}
@@ -1048,7 +1047,7 @@ function BlogList({ navigate }) {
           <Tag color="var(--accent2)">Community</Tag>
           <h3 style={{ fontFamily:"var(--ff-head)", fontWeight:700, fontSize:"clamp(1.1rem,2vw,1.5rem)", letterSpacing:"-0.02em", margin:"14px 0 10px" }}>Want to contribute a blog post?</h3>
           <p style={{ color:"var(--sub)", fontSize:".92rem", maxWidth:460, margin:"0 auto 24px" }}>MLDSN Nepal welcomes well-written articles on ML, data science, AI and their applications. Join the community and share your knowledge.</p>
-          <Btn href="https://www.mldsnnepal.org/become-a-member" primary>Join & Contribute</Btn>
+          <Btn href="https://sites.google.com/view/mldsnorg/become-a-member" primary>Join & Contribute</Btn>
         </div>
       </div>
     </div>
@@ -1127,7 +1126,7 @@ function ArticleView({ post, navigate }) {
             ))}
           </div>
           {/* Join CTA */}
-          <a href="https://www.mldsnnepal.org/become-a-member" target="_blank"
+          <a href="https://sites.google.com/view/mldsnorg/become-a-member" target="_blank"
             style={{ display:"block", background:"rgba(79,156,249,0.08)", border:"1px solid rgba(79,156,249,0.25)", borderRadius:14, padding:"16px 18px", textAlign:"center", transition:"all .2s" }}
             onMouseEnter={e => e.currentTarget.style.background="rgba(79,156,249,0.15)"}
             onMouseLeave={e => e.currentTarget.style.background="rgba(79,156,249,0.08)"}>
