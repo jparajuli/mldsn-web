@@ -154,11 +154,6 @@ const TEAM = [
   { name:"Mr. Dilip Yogi",            role:"Application Architect",                   location:"ABC Fitness Solution, USA",         url:"https://www.linkedin.com/in/yogidilip/",                   initials:"DY", color:"#facc15" },
 ];
 
-const ADVISORS = [
-  { name:"Prof. Dr. Manish Pokharel",       role:"Dean, School of Engineering",                              location:"Kathmandu University, Nepal",      url:"https://ku.edu.np/contact-detail/18",                                            initials:"MP", color:"#60a5fa" },
-  { name:"Ass. Prof. Reg Bahadur Bhandari", role:"Registrar",                                                location:"Lumbini Technological University", url:"https://www.linkedin.com/in/associate-professor-reg-bahadur-bhandari-b6436125/", initials:"RB", color:"#c084fc" },
-  { name:"Dr. Binod Bhattarai",             role:"Asst. Prof. Univ. of Aberdeen / Chief AI Scientist",       location:"UK",                               url:"https://scholar.google.com/citations?user=PDEi58sAAAAJ",                         initials:"BB", color:"#a78bfa" },
-];
 
 const TIMELINE = [
   { year:"2018",   title:"Foundation",      colors:0, desc:"Launched with a 3-day National Workshop on Machine Learning and Data Science (May 9–11). Overwhelming participation confirmed Nepal's appetite for AI/ML education." },
@@ -179,7 +174,7 @@ const POSTS = [
     title:"Kaggle: The Best Place to Start Machine Learning and Data Science",
     excerpt:"Whether you're a beginner or a seasoned data scientist, Kaggle offers competitions, datasets and community kernels that accelerate your ML journey significantly.",
     tag:"Learning", tagColor:"#4f9cf9",
-    author:"Dr. Jhanak Parajuli", authorRole:"Data Scientist, Germany",
+    author:"MLDSN Nepal", authorRole:"Data Scientist, Germany",
     date:"2020", readTime:"8 min read",
     url:"https://sites.google.com/view/mldsnorg/blog/kaggle_i",
     content:`
