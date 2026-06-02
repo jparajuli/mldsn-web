@@ -154,6 +154,11 @@ const TEAM = [
   { name:"Mr. Dilip Yogi",            role:"Application Architect",                   location:"ABC Fitness Solution, USA",         url:"https://www.linkedin.com/in/yogidilip/",                   initials:"DY", color:"#facc15" },
 ];
 
+const ADVISORS = [
+  { name:"xxx",       role:"xxxx",                              location:"xxxx",      url:"xxx",                                            initials:"xxx", color:"#60a5fa" },
+  { name:"xxxx", role:"xxx",                                                location:"xxxx", url:"xxxx", initials:"xxx", color:"#c084fc" },
+  { name:"xxxx",             role:"xxxxx",       location:"xxxx",                               url:"xxxx",                         initials:"xxxx", color:"#a78bfa" },
+];
 
 const TIMELINE = [
   { year:"2018",   title:"Foundation",      colors:0, desc:"Launched with a 3-day National Workshop on Machine Learning and Data Science (May 9–11). Overwhelming participation confirmed Nepal's appetite for AI/ML education." },
