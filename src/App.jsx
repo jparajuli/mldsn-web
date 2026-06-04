@@ -45,7 +45,6 @@ const GLOBAL_CSS = `
     background-size: 48px 48px;
   }
 
-  /* ── Article prose ── */
   .article-body { line-height:1.85; color:var(--sub); font-size:1.01rem; }
   .article-body h2 { font-family:var(--ff-head); font-weight:700; font-size:clamp(1.3rem,2vw,1.7rem); color:var(--text); letter-spacing:-0.02em; margin:2.4rem 0 1rem; line-height:1.3; }
   .article-body h3 { font-family:var(--ff-head); font-weight:600; font-size:clamp(1.05rem,1.6vw,1.25rem); color:var(--text); letter-spacing:-0.01em; margin:2rem 0 .8rem; line-height:1.35; }
@@ -61,7 +60,6 @@ const GLOBAL_CSS = `
   .article-body blockquote { border-left:3px solid var(--accent); padding:12px 20px; margin:1.6rem 0; background:rgba(79,156,249,.04); border-radius:0 8px 8px 0; font-style:italic; color:var(--sub); }
   .article-body .callout { background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:18px 20px; margin:1.6rem 0; font-size:.92rem; }
   .article-body .callout-title { font-family:var(--ff-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--accent); margin-bottom:8px; }
-  /* FIX: tables scroll horizontally on mobile instead of overflowing */
   .article-body .data-table-wrap { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; margin:1.4rem 0; }
   .article-body .data-table { width:100%; border-collapse:collapse; font-size:.88rem; min-width:400px; }
   .article-body .data-table th { text-align:left; padding:8px 12px; border-bottom:1px solid var(--border2); color:var(--accent); font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; background:rgba(79,156,249,.04); }
@@ -71,64 +69,350 @@ const GLOBAL_CSS = `
   .article-body .step-list li { display:flex; gap:14px; margin-bottom:1.2rem; align-items:flex-start; }
   .article-body .step-num { width:26px; height:26px; border-radius:50%; flex-shrink:0; background:rgba(79,156,249,.12); border:1px solid rgba(79,156,249,.3); display:flex; align-items:center; justify-content:center; font-family:var(--ff-mono); font-size:.75rem; color:var(--accent); font-weight:600; margin-top:2px; }
 
-  /* ── Responsive helpers ── */
-
-  /* Navbar: hide desktop links, show hamburger on mobile */
-  @media(max-width:820px) {
-    .desktop-nav { display:none!important; }
-    .hamburger   { display:block!important; }
-  }
-
-  /* Stats: 4-col → 2x2 grid on narrow screens; remove mid-borders cleanly */
+  @media(max-width:820px) { .desktop-nav{display:none!important} .hamburger{display:block!important} }
   @media(max-width:560px) {
     .stats-grid { grid-template-columns:1fr 1fr!important; }
     .stat-cell  { border-right:none!important; border-bottom:1px solid var(--border)!important; }
     .stat-cell:nth-child(odd)  { border-right:1px solid var(--border)!important; }
     .stat-cell:nth-last-child(-n+2) { border-bottom:none!important; }
   }
-
-  /* About: two-col → one-col */
   @media(max-width:720px) { .about-grid { grid-template-columns:1fr!important; } }
-
-  /* About card action buttons: let them wrap on tiny screens */
   @media(max-width:360px) { .about-card-actions { flex-direction:column!important; } }
-
-  /* Team/advisors: single col on very narrow */
   @media(max-width:340px) { .team-grid { grid-template-columns:1fr!important; } }
-
-  /* Article: drop sidebar below content */
-  @media(max-width:860px) {
-    .article-grid    { grid-template-columns:1fr!important; }
-    .article-sidebar { position:static!important; }
-  }
-
-  /* Article author row: stack vertically on phones */
-  @media(max-width:520px) {
-    .author-row              { flex-direction:column!important; align-items:flex-start!important; }
-    .author-row .view-orig   { margin-left:0!important; }
-  }
-
-  /* Blog featured card: hide the decorative left panel on mobile */
-  @media(max-width:600px) {
-    .featured-grid   { grid-template-columns:1fr!important; }
-    .featured-visual { display:none!important; }
-  }
-
-  /* Footer: 4-col → 2-col → 1-col */
+  @media(max-width:860px) { .article-grid{grid-template-columns:1fr!important} .article-sidebar{position:static!important} }
+  @media(max-width:520px) { .author-row{flex-direction:column!important;align-items:flex-start!important} .author-row .view-orig{margin-left:0!important} }
+  @media(max-width:600px) { .featured-grid{grid-template-columns:1fr!important} .featured-visual{display:none!important} }
   @media(max-width:800px) { .footer-grid { grid-template-columns:1fr 1fr!important; } }
   @media(max-width:460px) { .footer-grid { grid-template-columns:1fr!important; } }
-
-  /* Hero CTA buttons: stack on very small screens */
-  @media(max-width:380px) {
-    .hero-ctas         { flex-direction:column!important; }
-    .hero-ctas > *     { width:100%!important; text-align:center!important; box-sizing:border-box!important; }
-  }
-
-  /* Reduce vertical section padding on mobile */
-  @media(max-width:600px) {
-    .sec { padding-top:64px!important; padding-bottom:64px!important; }
-  }
+  @media(max-width:380px) { .hero-ctas{flex-direction:column!important} .hero-ctas > *{width:100%!important;text-align:center!important;box-sizing:border-box!important} }
+  @media(max-width:600px) { .sec { padding-top:64px!important; padding-bottom:64px!important; } }
 `;
+
+// ═══════════════════════════════════════════════════════════════════
+//  EASY BLOG WRITING — MARKDOWN PARSER
+//  Write posts in Markdown, the site converts them to styled HTML.
+//
+//  Supported syntax:
+//    ## Heading 2          → <h2>
+//    ### Heading 3         → <h3>
+//    **bold**              → <strong>
+//    *italic*              → <em>
+//    `code`                → <code>
+//    > blockquote          → <blockquote>
+//    - item / * item       → <ul><li>
+//    1. item               → <ol><li>
+//    [text](url)           → <a>
+//    ---                   → <hr>
+//    blank line            → new paragraph
+//
+//  Special callout box:
+//    :::callout Title Here
+//    Body text of the callout.
+//    :::
+//
+// ═══════════════════════════════════════════════════════════════════
+function parseMarkdown(md) {
+  const lines = md.split("\n");
+  let html = "";
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Callout block  :::callout Title
+    if (line.startsWith(":::callout")) {
+      const title = line.replace(":::callout", "").trim();
+      let body = "";
+      i++;
+      while (i < lines.length && !lines[i].startsWith(":::")) {
+        body += lines[i] + "\n";
+        i++;
+      }
+      html += `<div class="callout"><div class="callout-title">${title}</div>${inlineFormat(body.trim())}</div>\n`;
+      i++;
+      continue;
+    }
+
+    // Headings
+    if (line.startsWith("## "))  { html += `<h2>${inlineFormat(line.slice(3))}</h2>\n`; i++; continue; }
+    if (line.startsWith("### ")) { html += `<h3>${inlineFormat(line.slice(4))}</h3>\n`; i++; continue; }
+
+    // Blockquote
+    if (line.startsWith("> ")) {
+      let bq = line.slice(2);
+      while (i + 1 < lines.length && lines[i + 1].startsWith("> ")) { i++; bq += " " + lines[i].slice(2); }
+      html += `<blockquote>${inlineFormat(bq)}</blockquote>\n`;
+      i++; continue;
+    }
+
+    // Unordered list
+    if (/^[-*] /.test(line)) {
+      html += "<ul>\n";
+      while (i < lines.length && /^[-*] /.test(lines[i])) {
+        html += `<li>${inlineFormat(lines[i].slice(2))}</li>\n`;
+        i++;
+      }
+      html += "</ul>\n";
+      continue;
+    }
+
+    // Ordered list
+    if (/^\d+\. /.test(line)) {
+      html += "<ol>\n";
+      while (i < lines.length && /^\d+\. /.test(lines[i])) {
+        html += `<li>${inlineFormat(lines[i].replace(/^\d+\. /, ""))}</li>\n`;
+        i++;
+      }
+      html += "</ol>\n";
+      continue;
+    }
+
+    // Horizontal rule
+    if (line.trim() === "---") { html += "<hr/>\n"; i++; continue; }
+
+    // Blank line → skip (paragraph spacing handled by <p> margin)
+    if (line.trim() === "") { i++; continue; }
+
+    // Regular paragraph — collect consecutive non-special lines
+    let para = line;
+    while (
+      i + 1 < lines.length &&
+      lines[i + 1].trim() !== "" &&
+      !lines[i + 1].startsWith("#") &&
+      !lines[i + 1].startsWith(">") &&
+      !lines[i + 1].startsWith(":::") &&
+      !/^[-*] /.test(lines[i + 1]) &&
+      !/^\d+\. /.test(lines[i + 1])
+    ) {
+      i++;
+      para += " " + lines[i];
+    }
+    html += `<p>${inlineFormat(para)}</p>\n`;
+    i++;
+  }
+  return html;
+}
+
+function inlineFormat(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g,  "<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g,       "<em>$1</em>")
+    .replace(/`(.+?)`/g,         "<code>$1</code>")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  BLOG POSTS
+//
+//  To add a new post, copy one of the objects below and fill it in.
+//  Write the `content` field in Markdown — no HTML needed.
+//
+//  Required fields:
+//    id         – unique slug, no spaces (e.g. "my-post")
+//    title      – shown as the article heading
+//    excerpt    – short summary shown on cards
+//    tag        – badge label (e.g. "Learning", "AI & LLMs")
+//    tagColor   – hex colour for the badge
+//    author     – author name
+//    authorRole – role shown under the author name
+//    date       – year or date string
+//    readTime   – e.g. "6 min read"
+//    url        – "View original" link (can be "#" if none)
+//    content    – the article body, written in Markdown
+// ═══════════════════════════════════════════════════════════════════
+const POSTS_RAW = [
+  {
+    id: "kaggle",
+    title: "Kaggle: The Best Place to Start Machine Learning and Data Science",
+    excerpt: "Whether you're a beginner or a seasoned data scientist, Kaggle offers competitions, datasets and community kernels that accelerate your ML journey significantly.",
+    tag: "Learning", tagColor: "#4f9cf9",
+    author: "MLDSN Nepal", authorRole: "Data Scientist, Germany",
+    date: "2020", readTime: "8 min read",
+    url: "https://sites.google.com/view/mldsnorg/blog/kaggle_i",
+    content: `
+Either you are a beginner or a proficient data scientist, there is always a lot to learn from [Kaggle](https://www.kaggle.com/). Kaggle is a competition platform and provides a variety of datasets. You can also read very interesting kernels written by many competitors.
+
+## Getting Started as a Beginner
+
+If you are a beginner, try a simple competition such as [the Titanic dataset](https://www.kaggle.com/c/titanic). Though there is no single solid step-by-step approach to solve any data science problem, it is always useful to know some initial steps.
+
+## The Four Core Steps
+
+1. **Understand the Problem** — Be clear on what you are doing before attacking any problem. It gives a big picture and some expectation about the results.
+2. **Collect the Requirements** — The most important requirement is data. You need proper information about what data is needed and where to obtain it from.
+3. **Know the Data Architecture** — Every organisation has its own architecture for storage (SQL, NoSQL), data in motion, governance and ETL.
+4. **Prepare the Data Dictionary** — Understand what each term means and why it exists. Get rid of unwanted data from your model.
+
+:::callout Variable Notes
+**Pclass** is a proxy for socio-economic status — 1st = Upper, 2nd = Middle, 3rd = Lower.
+**Age** is fractional if less than 1. Estimated ages appear as xx.5.
+**SibSp** counts siblings and spouses (mistresses and fiancés excluded).
+:::
+
+## Going Further
+
+Follow [this kernel](https://www.kaggle.com/jparajuli/data-exploration-encoding-and-ml-in-titanic) created by Dr. Jhanak Parajuli to understand detailed steps for the Titanic dataset — including data exploration, encoding and applying ML models end-to-end.
+
+> Kaggle is not just a competition platform — it is a learning community. Every kernel you read teaches you something a textbook never could.
+`
+  },
+  {
+    id: "linear-algebra",
+    title: "Linear Algebra for Machine Learning (Part I)",
+    excerpt: "Vectors, matrices and transformations form the mathematical backbone of every ML algorithm. This guide builds intuition before formulas.",
+    tag: "Mathematics", tagColor: "#a78bfa",
+    author: "MLDSN Nepal", authorRole: "Editorial Team",
+    date: "2020", readTime: "10 min read",
+    url: "https://sites.google.com/view/mldsnorg/blog/linear_algebra_i",
+    content: `
+Machine learning algorithms operate almost entirely on numbers arranged in specific structures — vectors and matrices. Without a working understanding of linear algebra, many ML concepts remain opaque.
+
+## Why Linear Algebra Matters in ML
+
+Every dataset you work with is a matrix. Every neural network layer performs a matrix multiplication. PCA uses eigenvectors. Image data is stored as multi-dimensional arrays.
+
+:::callout Core objects you need to master
+**Scalars** — single numbers (e.g. a learning rate of 0.01)
+**Vectors** — ordered lists of numbers representing a point or direction in space
+**Matrices** — rectangular grids of numbers; the workhorse of ML computation
+**Tensors** — generalised multi-dimensional arrays (what PyTorch and TensorFlow use)
+:::
+
+## Vectors: Intuition First
+
+Think of a vector as an arrow in space. A 2D vector \`[3, 4]\` points 3 units right and 4 units up from the origin.
+
+Key vector operations:
+
+- **Addition** — add element-wise; geometrically chains two arrows
+- **Scalar multiplication** — stretches or shrinks the arrow
+- **Dot product** — measures how aligned two vectors are; fundamental to attention
+- **Norm (length)** — \`||v|| = sqrt(v1^2 + v2^2 + ...)\` used in regularisation
+
+## Matrices: The Workhorses
+
+A matrix is a 2D array with *m* rows and *n* columns. In ML your dataset of 1000 samples with 20 features is a \`1000 x 20\` matrix.
+
+### Matrix Multiplication
+
+Given matrix **A** (m x k) and **B** (k x n), their product **C = AB** is (m x n). Each element is the dot product of a row of A with a column of B — exactly what a neural network layer does.
+
+> A matrix does not just hold numbers — it encodes a transformation of space. Learning to see this separates a practitioner from someone who merely applies formulas.
+
+## What's Coming in Part II
+
+Part II will cover **eigenvalues and eigenvectors** (the engine of PCA), **matrix decompositions** (SVD, LU), and **solving systems of linear equations** as they appear in linear regression and optimisation.
+`
+  },
+  {
+    id: "probability",
+    title: "Probability for Machine Learning (Part I)",
+    excerpt: "From Bayes' theorem to probability distributions — mastering the statistical thinking required to reason under uncertainty in ML systems.",
+    tag: "Mathematics", tagColor: "#34d399",
+    author: "MLDSN Nepal", authorRole: "Editorial Team",
+    date: "2020", readTime: "9 min read",
+    url: "https://sites.google.com/view/mldsnorg/blog/probability_i",
+    content: `
+Machine learning is fundamentally about making decisions under uncertainty. Probability theory gives us the language to reason about this rigorously.
+
+## Why Probability Underpins ML
+
+- A classifier outputs **probabilities** over classes, not hard labels
+- Loss functions like cross-entropy come from **maximum likelihood estimation**
+- Regularisation (L2) corresponds to placing a **Gaussian prior** on weights
+- Generative models (VAEs, diffusion) learn **distributions over data**
+
+## Core Concepts
+
+### Conditional Probability
+
+The probability of event A *given* event B has occurred:
+
+:::callout Formula
+**P(A | B) = P(A and B) / P(B)**, where P(B) > 0
+:::
+
+### Bayes Theorem
+
+:::callout Bayes Theorem
+**P(A | B) = P(B | A) x P(A) / P(B)**
+
+**P(A)** — Prior: what we believed before seeing B
+**P(B | A)** — Likelihood: how probable is B if A is true
+**P(A | B)** — Posterior: updated belief after seeing B
+:::
+
+## Key Distributions
+
+- **Bernoulli** — binary classification outputs
+- **Categorical** — multi-class classification (softmax)
+- **Gaussian (Normal)** — weight initialisation, noise modelling
+- **Beta** — Bayesian A/B testing, priors over probabilities
+- **Dirichlet** — topic models (LDA), priors over distributions
+
+> Understanding probability means building the intuition to ask "what do we know, what don't we know, and how confident should we be?" That mindset is the core skill in ML.
+`
+  },
+  {
+    id: "llm-journey",
+    title: "The LLM Journey: From Text Prediction to Intelligent Agents — and What It Means for Nepal",
+    excerpt: "Large language models have evolved from simple autocomplete systems into reasoning agents that write code, pass professional exams, and power entire products. Here is how we got here, and why the opportunity for Nepal has never been greater.",
+    tag: "AI & LLMs", tagColor: "#f472b6",
+    author: "MLDSN Nepal", authorRole: "Editorial Team",
+    date: "2025", readTime: "7 min read",
+    url: "#",
+    content: `
+Not long ago, a language model was a specialised research tool — impressive in a seminar room, but far from daily life. That changed in November 2022, when ChatGPT crossed one million users in five days. Since then, large language models (LLMs) have moved faster than almost any technology in history.
+
+## How We Got Here: A Brief Timeline
+
+The story of LLMs begins with the **Transformer architecture**, introduced by Google researchers in the landmark 2017 paper "Attention Is All You Need." Transformers replaced sequential processing with self-attention, allowing models to process entire sequences in parallel.
+
+GPT-1 (2018) and BERT (2018) were the first wave. GPT-3 (2020), with 175 billion parameters, was the moment that made the broader world pay attention. The key insight: a large enough model, trained on enough text, develops broad capabilities that were never directly programmed.
+
+:::callout Key Milestones at a Glance
+**2017** — Transformer architecture introduced by Google
+**2020** — GPT-3 demonstrates few-shot generalisation at scale
+**2022** — ChatGPT launches; one million users in five days
+**2024** — GPT-4o brings real-time multimodal interaction
+**Jan 2025** — DeepSeek R1: open-source reasoning model rivalling frontier models at a fraction of the cost
+**2025** — Agentic AI: LLMs that plan, use tools, and complete multi-step tasks
+:::
+
+## The Two Biggest Shifts of 2024–2025
+
+### 1. From Assistants to Reasoners
+
+The release of OpenAI o1 and DeepSeek R1 in January 2025 marked a qualitative shift: **reasoning models**. DeepSeek R1, under an open MIT licence, achieved benchmark results comparable to OpenAI's best model — at approximately 95% lower cost. This democratised access to frontier-level reasoning.
+
+### 2. From Chatbots to Agents
+
+The move to **agentic AI** — systems that plan sequences of actions, call external tools, remember context, and correct their own mistakes — is beginning to change how entire professions operate.
+
+## Opportunities: Where Should Nepal Focus?
+
+1. **Nepali Language AI** — Fine-tuning an open-source model on high-quality Nepali text is both achievable and high-impact.
+2. **Education and Personalised Tutoring** — Students and researchers at Nepali universities are uniquely positioned to build localised educational AI.
+3. **Agriculture and Rural Development** — LLM-powered advisory tools accessible via SMS or voice could help millions of farmers.
+4. **Healthcare Information Access** — AI-assisted triage tools could meaningfully extend Nepal's healthcare reach.
+5. **Research and Publications** — Open models and public datasets make serious LLM research more accessible than ever.
+6. **Careers and the Global Remote Economy** — LLM skills are in extreme global demand, opening remote income pathways.
+
+## A Note on Responsibility
+
+LLMs hallucinate, can amplify biases, and raise questions about copyright and job displacement. Building AI literacy in Nepal means building *critical* AI literacy.
+
+> The countries that will benefit most from the LLM era are those who develop the skills to adapt these tools to their own languages, problems, and contexts. Nepal has both the need and the talent. What it needs now is focused effort.
+`
+  },
+];
+
+// Convert all Markdown content to HTML at load time
+const POSTS = POSTS_RAW.map(p => ({
+  ...p,
+  slug: p.id.replace(/-/g, "_"),
+  content: parseMarkdown(p.content),
+}));
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const STATS = [
@@ -140,24 +424,18 @@ const STATS = [
 
 const MISSION_ITEMS = [
   { icon:"◉", title:"Community & Events",        desc:"Build a strong networking platform for AI, ML, and Data Science enthusiasts across Nepal and globally, while organizing impactful workshops, seminars, guest lectures, hackathons, and conferences." },
-  { icon:"◎", title:"Research & Innovation",     desc:"Drive research excellence through publications, blogs, and peer-reviewed papers. Bridge the gap between industry and academia by supporting students and researchers while fostering collaboration to translate ideas into real-world solutions and startups." },
+  { icon:"◎", title:"Research & Innovation",     desc:"Drive research excellence through publications, blogs, and peer-reviewed papers. Bridge the gap between industry and academia by supporting students and researchers." },
   { icon:"◐", title:"Digital Nepal",             desc:"Bridge the urban-rural divide by promoting AI, digital literacy, and technology-driven solutions for the inclusive development of rural Nepal." },
   { icon:"◆", title:"Skill & Talent Development",desc:"Equip the next generation with industry-relevant skills through bootcamps, structured training programs, mentorship, and certification pathways in AI and Data Science." },
 ];
 
 const TEAM = [
   { name:"Mr. Surya Bahadur Basnet",  role:"Principal",                               location:"Sankalpa College, Nepal",           url:"https://www.linkedin.com/in/surya-bdr-basnet-554859172/",  initials:"SB", color:"#fb923c" },
-  { name:"Dr. Jhanak Parajuli",       role:"Data Scientist & Global Program Manager", location:"Germany",                           url:"https://www.linkedin.com/in/jhanak-parajuli-41a29635/",    initials:"JP", color:"#4f9cf9" },
   { name:"Dr. Tej Bahadur Shahi",     role:"Researcher",                              location:"CQUniversity, Australia",           url:"https://scholar.google.com/citations?user=t7kVlfIAAAAJ",   initials:"TS", color:"#34d399" },
   { name:"Dr. Sarbagya Ratna Shakya", role:"Asst. Professor",                         location:"Eastern New Mexico University, USA",url:"https://sites.google.com/view/sarbagyashakya/home",        initials:"SR", color:"#a78bfa" },
   { name:"Mr. Ashok Kumar Pant",      role:"CTO & Co-founder",                        location:"Treeleaf, Nepal",                   url:"https://www.linkedin.com/in/asokpant/",                    initials:"AP", color:"#f472b6" },
   { name:"Mr. Dilip Yogi",            role:"Application Architect",                   location:"ABC Fitness Solution, USA",         url:"https://www.linkedin.com/in/yogidilip/",                   initials:"DY", color:"#facc15" },
-];
-
-const ADVISORS = [
-  { name:"xxx",       role:"xxxx",                              location:"xxxx",      url:"xxx",                                            initials:"xxx", color:"#60a5fa" },
-  { name:"xxxx", role:"xxx",                                                location:"xxxx", url:"xxxx", initials:"xxx", color:"#c084fc" },
-  { name:"xxxx",             role:"xxxxx",       location:"xxxx",                               url:"xxxx",                         initials:"xxxx", color:"#a78bfa" },
+  { name:"Dr. Jhanak Parajuli",       role:"Data Scientist & Global Program Manager", location:"Germany",                           url:"https://www.linkedin.com/in/jhanak-parajuli-41a29635/",    initials:"JP", color:"#4f9cf9" },
 ];
 
 const TIMELINE = [
@@ -173,265 +451,37 @@ const EVENTS_DATA = [
   { year:"Ongoing", title:"International Webinar Series",          type:"Webinar",  accent:"var(--green)",   desc:"Global experts in data science and ML share their views on how the field is evolving and opportunities for Nepal's tech community." },
 ];
 
-const POSTS = [
-  {
-    id:"kaggle", slug:"kaggle_i",
-    title:"Kaggle: The Best Place to Start Machine Learning and Data Science",
-    excerpt:"Whether you're a beginner or a seasoned data scientist, Kaggle offers competitions, datasets and community kernels that accelerate your ML journey significantly.",
-    tag:"Learning", tagColor:"#4f9cf9",
-    author:"MLDSN Nepal", authorRole:"Data Scientist, Germany",
-    date:"2020", readTime:"8 min read",
-    url:"https://sites.google.com/view/mldsnorg/blog/kaggle_i",
-    content:`
-      <p>Either you are a beginner or a proficient data scientist and/or machine learning engineer, there is always a lot to learn from <a href="https://www.kaggle.com/" target="_blank">Kaggle</a>. Kaggle is a competition platform and provides us with a variety of datasets. You can also read very interesting kernels written by many competitors — it is really helpful to understand different perspectives from different data scientists.</p>
-      <h2>Getting Started as a Beginner</h2>
-      <p>If you are a beginner, try a very simple competition such as <a href="https://www.kaggle.com/c/titanic" target="_blank">the Titanic dataset</a>. Though there is no single solid step-by-step approach to solve any data science problem, it is always useful to know some initial steps before attacking any task.</p>
-      <h2>The Four Core Steps</h2>
-      <ol class="step-list">
-        <li><div class="step-num">1</div><div><strong>Understand the Problem</strong><br/>Be clear on what you are doing or expected to solve before attacking any problem. It gives you a big picture and some expectation about the results.</div></li>
-        <li><div class="step-num">2</div><div><strong>Collect the Requirements</strong><br/>The most important requirement is data. You need proper information about what data is needed and what sources to obtain it from. Data types, sizes and sources may vary. Data engineers can help in this section.</div></li>
-        <li><div class="step-num">3</div><div><strong>Know the Data Architecture</strong><br/>Every organisation has its own data architecture — support for data storage (SQL, NoSQL), data in motion (real-time access), data governance and ETL. This gives a clear feeling on how to handle further steps such as data wrangling, feature engineering, hyperparameter tuning and applying relevant ML or deep learning algorithms.</div></li>
-        <li><div class="step-num">4</div><div><strong>Prepare the Data Dictionary</strong><br/>This is the initial data analysis approach, where you understand the parameters and features of your dataset. You need to understand what each term means and why it exists. Get rid of unwanted data from your model.</div></li>
-      </ol>
-      <h2>Case Study: The Titanic Dataset</h2>
-      <p>The Titanic dataset is the perfect starting point. Here is the full data dictionary you need before modelling:</p>
-      <div class="data-table-wrap"><table class="data-table">
-        <thead><tr><th>Field</th><th>Description</th><th>Values</th></tr></thead>
-        <tbody>
-          <tr><td><code>Survived</code></td><td>Survival status</td><td>0 = No, 1 = Yes</td></tr>
-          <tr><td><code>Pclass</code></td><td>Ticket class (proxy for SES)</td><td>1 = 1st, 2 = 2nd, 3 = 3rd</td></tr>
-          <tr><td><code>Sex</code></td><td>Gender</td><td>Male or Female</td></tr>
-          <tr><td><code>Age</code></td><td>Age in years</td><td>Numeric</td></tr>
-          <tr><td><code>SibSp</code></td><td>Siblings / spouses aboard</td><td>Numeric count</td></tr>
-          <tr><td><code>Parch</code></td><td>Parents / children aboard</td><td>Numeric count</td></tr>
-          <tr><td><code>Fare</code></td><td>Passenger fare</td><td>Numeric</td></tr>
-          <tr><td><code>Embarked</code></td><td>Port of embarkation</td><td>C = Cherbourg, Q = Queenstown, S = Southampton</td></tr>
-        </tbody>
-      </table></div>
-      <div class="callout">
-        <div class="callout-title">Variable Notes</div>
-        <ul>
-          <li><strong>Pclass</strong> is a proxy for socio-economic status — 1st = Upper, 2nd = Middle, 3rd = Lower.</li>
-          <li><strong>Age</strong> is fractional if less than 1. Estimated ages appear as xx.5.</li>
-          <li><strong>SibSp</strong> counts siblings and spouses (mistresses and fiancés excluded).</li>
-          <li><strong>Parch</strong> counts parents and children. Some children travelled only with a nanny, so parch=0 for them.</li>
-        </ul>
-      </div>
-      <h2>Going Further</h2>
-      <p>Follow <a href="https://www.kaggle.com/jparajuli/data-exploration-encoding-and-ml-in-titanic" target="_blank">this kernel</a> created by Dr. Jhanak Parajuli on Kaggle to understand the detailed steps and analysis for the Titanic dataset — including data exploration, encoding and applying ML models end-to-end.</p>
-      <blockquote>Kaggle is not just a competition platform — it is a learning community. Every kernel you read teaches you something a textbook never could.</blockquote>
-    `,
-  },
-  {
-    id:"linear-algebra", slug:"linear_algebra_i",
-    title:"Linear Algebra for Machine Learning (Part I)",
-    excerpt:"Vectors, matrices and transformations form the mathematical backbone of every ML algorithm. This guide builds intuition before formulas.",
-    tag:"Mathematics", tagColor:"#a78bfa",
-    author:"MLDSN Nepal", authorRole:"Editorial Team",
-    date:"2020", readTime:"10 min read",
-    url:"https://sites.google.com/view/mldsnorg/blog/linear_algebra_i",
-    content:`
-      <p>Machine learning algorithms operate almost entirely on numbers arranged in specific structures — vectors and matrices. Without a working understanding of linear algebra, many ML concepts remain opaque. This guide builds geometric intuition first and introduces notation second.</p>
-      <h2>Why Linear Algebra Matters in ML</h2>
-      <p>Every dataset you work with is a matrix. Every neural network layer performs a matrix multiplication. Principal Component Analysis (PCA) uses eigenvectors. Image data is stored as multi-dimensional arrays. Understanding these mathematical objects is not optional — it is the foundation.</p>
-      <div class="callout">
-        <div class="callout-title">Core objects you need to master</div>
-        <ul>
-          <li><strong>Scalars</strong> — single numbers (e.g. a learning rate of 0.01)</li>
-          <li><strong>Vectors</strong> — ordered lists of numbers representing a point or direction in space</li>
-          <li><strong>Matrices</strong> — rectangular grids of numbers; the workhorse of ML computation</li>
-          <li><strong>Tensors</strong> — generalised multi-dimensional arrays (what PyTorch and TensorFlow store data in)</li>
-        </ul>
-      </div>
-      <h2>Vectors: Intuition First</h2>
-      <p>Think of a vector as an arrow in space. A 2D vector <code>[3, 4]</code> points 3 units right and 4 units up from the origin. In ML, a single data point (e.g. a person with height=170cm, weight=65kg) is represented as a vector <code>[170, 65]</code>.</p>
-      <p>Key vector operations:</p>
-      <ul>
-        <li><strong>Addition</strong> — add element-wise; geometrically chains two arrows</li>
-        <li><strong>Scalar multiplication</strong> — stretches or shrinks the arrow</li>
-        <li><strong>Dot product</strong> — measures how aligned two vectors are; fundamental to similarity and attention</li>
-        <li><strong>Norm (length)</strong> — <code>||v|| = sqrt(v1^2 + v2^2 + ... + vn^2)</code>; used in regularisation</li>
-      </ul>
-      <h2>Matrices: The Workhorses</h2>
-      <p>A matrix is a 2D array of numbers with <em>m</em> rows and <em>n</em> columns, written as an <em>m x n</em> matrix. In ML your dataset of 1000 samples with 20 features is a <code>1000 x 20</code> matrix.</p>
-      <h3>Matrix Multiplication</h3>
-      <p>Given matrix <strong>A</strong> (m x k) and matrix <strong>B</strong> (k x n), their product <strong>C = AB</strong> is (m x n). The element at row i, column j of C is the dot product of row i of A with column j of B. This is exactly what a neural network layer does.</p>
-      <h2>Transformations: Seeing the Geometry</h2>
-      <p>Every matrix represents a geometric transformation of space:</p>
-      <ul>
-        <li><strong>Rotation</strong> — spins vectors around the origin</li>
-        <li><strong>Scaling</strong> — stretches or compresses along axes</li>
-        <li><strong>Shear</strong> — slants the grid diagonally</li>
-        <li><strong>Projection</strong> — squashes higher-dimensional vectors into a lower-dimensional subspace (core to PCA)</li>
-      </ul>
-      <blockquote>A matrix does not just hold numbers — it encodes a transformation of space. Learning to see this is what separates a practitioner from someone who merely applies formulas.</blockquote>
-      <h2>What's Coming in Part II</h2>
-      <p>Part II will cover <strong>eigenvalues and eigenvectors</strong> (the engine of PCA), <strong>matrix decompositions</strong> (SVD, LU), and <strong>solving systems of linear equations</strong> as they appear in linear regression and optimisation.</p>
-    `,
-  },
-  {
-    id:"probability", slug:"probability_i",
-    title:"Probability for Machine Learning (Part I)",
-    excerpt:"From Bayes' theorem to probability distributions — mastering the statistical thinking required to reason under uncertainty in ML systems.",
-    tag:"Mathematics", tagColor:"#34d399",
-    author:"MLDSN Nepal", authorRole:"Editorial Team",
-    date:"2020", readTime:"9 min read",
-    url:"https://sites.google.com/view/mldsnorg/blog/probability_i",
-    content:`
-      <p>Machine learning is fundamentally about making decisions under uncertainty. A model never knows the truth — it estimates the likelihood of different outcomes from data. Probability theory gives us the language to reason about this uncertainty rigorously.</p>
-      <h2>Why Probability Underpins ML</h2>
-      <ul>
-        <li>A classifier outputs <strong>probabilities</strong> over classes, not hard labels</li>
-        <li>Loss functions like cross-entropy come from <strong>maximum likelihood estimation</strong></li>
-        <li>Regularisation (L2) corresponds to placing a <strong>Gaussian prior</strong> on weights</li>
-        <li>Generative models (VAEs, diffusion models) learn <strong>distributions over data</strong></li>
-      </ul>
-      <h2>Core Concepts</h2>
-      <h3>Conditional Probability</h3>
-      <p>The probability of event A <em>given</em> event B has occurred is:</p>
-      <div class="callout">
-        <div class="callout-title">Formula</div>
-        <strong>P(A | B) = P(A and B) / P(B)</strong>, where P(B) &gt; 0
-      </div>
-      <p>In ML: "What is the probability this email is spam, <em>given</em> it contains the word 'prize'?" is a conditional probability question.</p>
-      <h3>Bayes Theorem</h3>
-      <div class="callout">
-        <div class="callout-title">Bayes Theorem</div>
-        <strong>P(A | B) = P(B | A) x P(A) / P(B)</strong>
-        <ul style="margin-top:10px">
-          <li><strong>P(A)</strong> — Prior: what we believed before seeing B</li>
-          <li><strong>P(B | A)</strong> — Likelihood: how probable is B if A is true</li>
-          <li><strong>P(A | B)</strong> — Posterior: updated belief after seeing B</li>
-        </ul>
-      </div>
-      <h2>Key Probability Distributions</h2>
-      <div class="data-table-wrap"><table class="data-table">
-        <thead><tr><th>Distribution</th><th>Type</th><th>ML Use Case</th></tr></thead>
-        <tbody>
-          <tr><td><code>Bernoulli</code></td><td>Discrete</td><td>Binary classification outputs</td></tr>
-          <tr><td><code>Categorical</code></td><td>Discrete</td><td>Multi-class classification (softmax)</td></tr>
-          <tr><td><code>Gaussian (Normal)</code></td><td>Continuous</td><td>Weight initialisation, noise modelling</td></tr>
-          <tr><td><code>Beta</code></td><td>Continuous</td><td>Bayesian A/B testing, priors over probabilities</td></tr>
-          <tr><td><code>Dirichlet</code></td><td>Continuous</td><td>Topic models (LDA), priors over distributions</td></tr>
-        </tbody>
-      </table></div>
-      <h3>The Gaussian Distribution</h3>
-      <p>The Gaussian <code>N(mu, sigma^2)</code> is the most widely used distribution in ML. Its bell curve is characterised by mean <strong>mu</strong> (centre) and variance <strong>sigma^2</strong> (spread). By the Central Limit Theorem, averages of many independent random variables tend towards a Gaussian.</p>
-      <blockquote>Understanding probability means building the intuition to ask "what do we know, what don't we know, and how confident should we be?" That mindset is the core skill in ML.</blockquote>
-      <h2>What's Coming in Part II</h2>
-      <p>Part II will cover <strong>maximum likelihood estimation</strong>, <strong>information theory</strong> (entropy, KL divergence, cross-entropy loss), and how these tools connect directly to training neural networks.</p>
-    `,
-  },
-  {
-    id:"llm-journey",
-    slug:"llm_journey_opportunities",
-    title:"The LLM Journey: From Text Prediction to Intelligent Agents — and What It Means for Nepal",
-    excerpt:"Large language models have evolved from simple autocomplete systems into reasoning agents that write code, pass professional exams, and power entire products. Here is how we got here, and why the opportunity for Nepal has never been greater.",
-    tag:"AI & LLMs", tagColor:"#f472b6",
-    author:"MLDSN Nepal", authorRole:"Editorial Team",
-    date:"2025", readTime:"7 min read",
-    content:`
-      <p>Not long ago, a language model was a specialised research tool — impressive in a seminar room, but far from the world's daily life. That changed in November 2022, when ChatGPT crossed one million users in five days. Since then, large language models (LLMs) have moved faster than almost any technology in history, and the question for every student, researcher, and practitioner in Nepal is no longer <em>should I pay attention to this?</em> — it is <em>how do I make the most of it?</em></p>
-
-      <h2>How We Got Here: A Brief Timeline</h2>
-      <p>The story of LLMs begins with the <strong>Transformer architecture</strong>, introduced by Google researchers in the landmark 2017 paper "Attention Is All You Need." Transformers replaced the sequential processing of earlier recurrent networks with a mechanism called self-attention, allowing models to process entire sequences in parallel and to weigh the relevance of every word against every other word simultaneously. This architectural leap made scaling practical.</p>
-      <p>GPT-1 (2018) and BERT (2018) were the first wave. GPT-3 (2020), with its 175 billion parameters, was the moment that made the broader world pay attention — it could write essays, answer questions, and translate languages without being explicitly trained on any specific task. The key insight was that a large enough model, trained on enough text, develops broad capabilities that were never directly programmed.</p>
-      <p>Then came the alignment era. Instruction-tuning and Reinforcement Learning from Human Feedback (RLHF) transformed raw language models into assistants that actually followed instructions, declined harmful requests, and gave useful answers. ChatGPT, Claude, and Gemini were all products of this phase.</p>
-
-      <div class="callout">
-        <div class="callout-title">Key Milestones at a Glance</div>
-        <ul>
-          <li><strong>2017</strong> — Transformer architecture introduced by Google</li>
-          <li><strong>2020</strong> — GPT-3 demonstrates few-shot generalisation at scale</li>
-          <li><strong>2022</strong> — ChatGPT launches; one million users in five days</li>
-          <li><strong>2024</strong> — GPT-4o brings real-time multimodal interaction (text, voice, image)</li>
-          <li><strong>Jan 2025</strong> — DeepSeek R1: open-source reasoning model rivalling closed frontier models at a fraction of the cost</li>
-          <li><strong>2025</strong> — Agentic AI: LLMs that plan, use tools, and complete multi-step tasks autonomously</li>
-        </ul>
-      </div>
-
-      <h2>The Two Biggest Shifts of 2024–2025</h2>
-      <h3>1. From Assistants to Reasoners</h3>
-      <p>Until 2024, most LLMs worked by pattern-matching at impressive scale — they were, in a sense, very sophisticated autocomplete systems. The release of OpenAI o1 and, shortly after, DeepSeek R1 in January 2025 marked a qualitative shift: <strong>reasoning models</strong>. These systems use chain-of-thought processing and reinforcement learning to actually work through problems step by step before giving an answer. DeepSeek R1, released under an open MIT licence, achieved benchmark results comparable to OpenAI's best reasoning model — and was reported to cost approximately 95% less to train and deploy. This democratised access to frontier-level reasoning, making it available to researchers and developers who could not afford expensive API calls.</p>
-
-      <h3>2. From Chatbots to Agents</h3>
-      <p>The second major shift is the move from question-and-answer chatbots to <strong>agentic AI</strong> — systems that can plan a sequence of actions, call external tools (APIs, databases, code interpreters, web browsers), remember context across sessions, and correct their own mistakes. In 2025, AI-assisted code now accounts for nearly half of all new software written, according to GitHub's annual report. Agentic workflows are beginning to change how entire professions operate — not just individual tasks, but the shape of work itself.</p>
-
-      <h2>The State of LLMs Today</h2>
-      <p>As of 2025, the global LLM market was valued at over $6 billion and is projected to reach $36 billion by 2030. ChatGPT alone has more than 200 million monthly active users. But raw user numbers only tell part of the story. The more significant development is the <strong>bifurcation of the field</strong> into two distinct tracks.</p>
-      <p>On one side are the closed frontier models — GPT-5, Claude Opus, and Gemini Ultra — which push the boundaries of what is possible with very large compute budgets. GPT-5, released in 2025, introduced a 400,000-token context window and reduced hallucination rates to roughly 6%. On the other side, the open-source ecosystem — Llama, Mistral, Qwen, and now DeepSeek — has produced models that run on modest hardware and can be fine-tuned for specific domains without sharing sensitive data with any third party.</p>
-      <p>This distinction matters enormously for organisations in Nepal and across the developing world. You no longer need to rely solely on expensive proprietary APIs. A well-chosen open model, fine-tuned on domain-specific data, can outperform a generic frontier model on a specific task — and run on infrastructure you control.</p>
-
-      <h2>Opportunities: Where Should Nepal Focus?</h2>
-      <p>Nepal's government has already announced a national ambition to develop a Nepali-language LLM, and the country's National AI Policy (2025) explicitly targets AI for socio-economic development. But building a full-scale LLM from scratch is not the only — or even the most practical — path forward. The real opportunities lie in several more accessible directions.</p>
-
-      <ol class="step-list">
-        <li>
-          <div class="step-num">1</div>
-          <div>
-            <strong>Nepali Language AI</strong><br/>
-            Current off-the-shelf LLMs perform poorly on low-resource languages like Nepali. Fine-tuning an existing open-source model on high-quality Nepali text — news, literature, government documents, educational content — is both achievable and high-impact. It could power better search, government services, educational tools, and healthcare information for millions of people who are not fluent in English.
-          </div>
-        </li>
-        <li>
-          <div class="step-num">2</div>
-          <div>
-            <strong>Education and Personalised Tutoring</strong><br/>
-            A 2025 study assessing LLMs against Nepal's K-10 curriculum found that while current models show promise, they lack cultural scaffolding — the ability to connect concepts to a Nepali learner's lived experience. This gap is an open research problem. Students and researchers at Nepali universities are uniquely positioned to build localised educational AI that global labs are not incentivised to create.
-          </div>
-        </li>
-        <li>
-          <div class="step-num">3</div>
-          <div>
-            <strong>Agriculture and Rural Development</strong><br/>
-            Nepal's economy is largely agricultural. LLM-powered advisory tools — accessible via SMS or voice for farmers without smartphones — could deliver crop disease detection, weather interpretation, and market price guidance. Several successful pilots in similar contexts (India, Kenya, Bangladesh) show this is viable at low cost using fine-tuned smaller models.
-          </div>
-        </li>
-        <li>
-          <div class="step-num">4</div>
-          <div>
-            <strong>Healthcare Information Access</strong><br/>
-            With a shortage of doctors relative to population, especially in rural areas, AI-assisted triage and health information tools could meaningfully extend the reach of Nepal's healthcare system. LLMs trained on Nepali medical literature and guidelines, combined with rigorous safety constraints, represent a serious research and product opportunity.
-          </div>
-        </li>
-        <li>
-          <div class="step-num">5</div>
-          <div>
-            <strong>Research and Publications</strong><br/>
-            The global LLM research community is producing hundreds of papers per week. Nepali researchers who build expertise in areas like fine-tuning, evaluation, multilingual NLP, or AI safety can contribute meaningfully to this literature and build international collaborations. The tools to do serious LLM research — open models, cloud compute grants, and public datasets — are more accessible than ever.
-          </div>
-        </li>
-        <li>
-          <div class="step-num">6</div>
-          <div>
-            <strong>Careers and the Global Remote Economy</strong><br/>
-            Prompt engineering, LLM application development, fine-tuning, and AI product management are skills in extreme global demand. A Nepali developer with strong LLM skills can work for international companies remotely — a genuine pathway to high-income employment that did not exist five years ago.
-          </div>
-        </li>
-      </ol>
-
-      <h2>A Note on Responsibility</h2>
-      <p>LLMs are not without risk. They hallucinate — producing confident-sounding but false information. They can reflect and amplify the biases present in their training data. They raise genuine questions about copyright, consent, and job displacement. Any serious practitioner working with these systems must engage with these questions, not just the capabilities. Building AI literacy in Nepal means building critical AI literacy — understanding both what these systems can do and what they should not be trusted to do without human oversight.</p>
-
-      <blockquote>The countries and communities that will benefit most from the LLM era are not necessarily those with the largest compute budgets. They are those who develop the skills to adapt these tools to their own languages, problems, and contexts. Nepal has both the need and the talent. What it needs now is focused effort.</blockquote>
-
-      <h2>Getting Started</h2>
-      <p>If you are new to LLMs, the most practical starting point is hands-on experimentation. Use the free tiers of ChatGPT, Claude, or Gemini. Read the original Transformer paper and the GPT-3 paper to understand the foundations. Explore Hugging Face to see the breadth of available open models. Follow the MLDSN Nepal blog and community for local context, events, and collaborative opportunities. The LLM journey is one of the most important technological journeys of our generation — and it is very much still in its early chapters.</p>
-    `,
-  },
-];
-
 const TIMELINE_COLORS = ["var(--accent)","var(--accent2)","var(--green)","var(--orange)"];
+
+// ─── LOGO ─────────────────────────────────────────────────────────────────────
+// Replace LOGO_URL with your image URL or a base64 data URL.
+// While no logo is set, the "ML" text badge is shown as fallback.
+const LOGO_URL = "data:image/png;base64,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";
+
+function Logo({ size = 36 }) {
+  if (LOGO_URL) {
+    // Width is wider than height to match the rectangular MLDSN logo proportions
+    const w = Math.round(size * 2.2);
+    const h = Math.round(size * 0.72);
+    return (
+      <img
+        src={LOGO_URL}
+        alt="MLDSN Nepal"
+        style={{ width:w, height:h, objectFit:"contain", flexShrink:0, borderRadius:3 }}
+      />
+    );
+  }
+  return (
+    <div style={{ width:size, height:size, borderRadius:8, background:"linear-gradient(135deg,var(--accent),var(--accent2))", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"var(--ff-body)", fontWeight:700, fontSize:Math.round(size*0.36), color:"#fff", letterSpacing:".04em", flexShrink:0 }}>ML</div>
+  );
+}
 
 // ─── SHARED PRIMITIVES ────────────────────────────────────────────────────────
 function Tag({ children, color = "var(--accent)" }) {
   return (
-    <span style={{
-      display:"inline-block", padding:"2px 10px", borderRadius:4,
-      fontSize:11, fontFamily:"var(--ff-mono)", letterSpacing:".08em",
-      fontWeight:500, textTransform:"uppercase",
-      background:`${color}18`, border:`1px solid ${color}44`, color,
-    }}>{children}</span>
+    <span style={{ display:"inline-block", padding:"2px 10px", borderRadius:4, fontSize:11, fontFamily:"var(--ff-mono)", letterSpacing:".08em", fontWeight:500, textTransform:"uppercase", background:`${color}18`, border:`1px solid ${color}44`, color }}>
+      {children}
+    </span>
   );
 }
 
@@ -479,8 +529,6 @@ function Navbar({ page, navigate }) {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  // If already on home: scroll immediately.
-  // If on another page: navigate first, then scroll after paint.
   const scrollToSection = useCallback((id) => {
     if (page === "home") {
       document.getElementById(id)?.scrollIntoView({ behavior:"smooth" });
@@ -508,36 +556,21 @@ function Navbar({ page, navigate }) {
   const isBlog = page === "blog" || page === "article";
 
   return (
-    <nav style={{
-      position:"fixed", top:0, left:0, right:0, zIndex:200,
-      padding:"0 clamp(16px,4vw,60px)",
-      background: scrolled ? "rgba(8,12,16,0.95)" : "transparent",
-      backdropFilter: scrolled ? "blur(20px)" : "none",
-      borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-      transition:"all .3s ease",
-      display:"flex", alignItems:"center", justifyContent:"space-between",
-      height:64,
-    }}>
-      {/* Logo */}
+    <nav style={{ position:"fixed", top:0, left:0, right:0, zIndex:200, padding:"0 clamp(16px,4vw,60px)", background: scrolled ? "rgba(8,12,16,0.95)" : "transparent", backdropFilter: scrolled ? "blur(20px)" : "none", borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent", transition:"all .3s ease", display:"flex", alignItems:"center", justifyContent:"space-between", height:64 }}>
+
       <button onClick={() => { navigate("home"); window.scrollTo({ top:0, behavior:"smooth" }); }}
         style={{ background:"none", border:"none", display:"flex", alignItems:"center", gap:10, padding:0, flexShrink:0 }}>
-        <div style={{ width:36, height:36, borderRadius:8, background:"linear-gradient(135deg,var(--accent),var(--accent2))", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"var(--ff-body)", fontWeight:700, fontSize:13, color:"#fff", letterSpacing:".04em", flexShrink:0 }}>ML</div>
+        <Logo size={36} />
         <div style={{ textAlign:"left" }}>
           <div style={{ fontFamily:"var(--ff-body)", fontWeight:600, fontSize:15, color:"var(--text)", lineHeight:1.1 }}>MLDSN Nepal</div>
           <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:".05em" }}>ML & Data Science Network</div>
         </div>
       </button>
 
-      {/* Desktop links */}
       <div className="desktop-nav" style={{ display:"flex", gap:2, alignItems:"center" }}>
         {links.map(l => (
           <button key={l.label} onClick={l.action}
-            style={{
-              padding:"7px 14px", borderRadius:6, fontSize:13, fontWeight:500, border:"none",
-              background:(isBlog && l.label==="Blog") ? "rgba(79,156,249,0.08)" : "transparent",
-              color:(isBlog && l.label==="Blog") ? "var(--accent)" : "var(--sub)",
-              transition:"color .2s",
-            }}
+            style={{ padding:"7px 14px", borderRadius:6, fontSize:13, fontWeight:500, border:"none", background:(isBlog && l.label==="Blog") ? "rgba(79,156,249,0.08)" : "transparent", color:(isBlog && l.label==="Blog") ? "var(--accent)" : "var(--sub)", transition:"color .2s" }}
             onMouseEnter={e => e.currentTarget.style.color="var(--text)"}
             onMouseLeave={e => e.currentTarget.style.color=(isBlog && l.label==="Blog") ? "var(--accent)" : "var(--sub)"}
           >{l.label}</button>
@@ -545,27 +578,16 @@ function Navbar({ page, navigate }) {
         <Btn href="https://sites.google.com/view/mldsnorg/become-a-member" primary small style={{ marginLeft:8 }}>Join Network</Btn>
       </div>
 
-      {/* Mobile hamburger — hidden on desktop via CSS */}
       <button className="hamburger" onClick={() => setMenuOpen(v => !v)}
         style={{ background:"none", border:"none", color:"var(--text)", fontSize:22, display:"none", padding:"6px 8px", lineHeight:1 }}>
         {menuOpen ? "✕" : "☰"}
       </button>
 
-      {/* Mobile menu overlay */}
       {menuOpen && (
-        <div style={{
-          position:"fixed", top:64, left:0, right:0, bottom:0,
-          background:"rgba(8,12,16,0.98)", backdropFilter:"blur(20px)",
-          padding:"20px 24px 40px", display:"flex", flexDirection:"column",
-          zIndex:199, overflowY:"auto",
-        }}>
+        <div style={{ position:"fixed", top:64, left:0, right:0, bottom:0, background:"rgba(8,12,16,0.98)", backdropFilter:"blur(20px)", padding:"20px 24px 40px", display:"flex", flexDirection:"column", zIndex:199, overflowY:"auto" }}>
           {links.map(l => (
             <button key={l.label} onClick={() => { l.action(); setMenuOpen(false); }}
-              style={{
-                padding:"16px 0", fontSize:17, fontFamily:"var(--ff-body)", fontWeight:600,
-                color:"var(--text)", background:"none", border:"none",
-                borderBottom:"1px solid var(--border)", textAlign:"left",
-              }}>
+              style={{ padding:"16px 0", fontSize:17, fontFamily:"var(--ff-body)", fontWeight:600, color:"var(--text)", background:"none", border:"none", borderBottom:"1px solid var(--border)", textAlign:"left" }}>
               {l.label}
             </button>
           ))}
@@ -611,11 +633,10 @@ function Hero({ navigate }) {
   );
 }
 
-// ─── STATS TICKER ─────────────────────────────────────────────────────────────
+// ─── STATS ────────────────────────────────────────────────────────────────────
 function StatsTicker() {
   return (
     <div style={{ borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", background:"var(--surface)", padding:"0 clamp(16px,5vw,60px)" }}>
-      {/* stats-grid: 4 cols on desktop, 2x2 on mobile via CSS class */}
       <div className="stats-grid" style={{ maxWidth:1100, margin:"0 auto", display:"grid", gridTemplateColumns:"repeat(4,1fr)" }}>
         {STATS.map((s, i) => (
           <div key={i} className="stat-cell" style={{ padding:"24px 16px", textAlign:"center", borderRight: i < STATS.length - 1 ? "1px solid var(--border)" : "none" }}>
@@ -660,8 +681,7 @@ function About() {
             <div className="about-card-actions" style={{ marginTop:20, display:"flex", gap:8 }}>
               {[["Facebook Group","https://www.facebook.com/groups/217595548832685","var(--accent)","rgba(79,156,249,0.08)","rgba(79,156,249,0.2)"],
                 ["Research & Career","https://sites.google.com/view/mldsnorg/research-career","var(--accent2)","rgba(167,139,250,0.08)","rgba(167,139,250,0.2)"]].map(([l,h,c,bg,bd]) => (
-                <a key={l} href={h} target="_blank"
-                  style={{ flex:"1 1 110px", padding:"10px 8px", borderRadius:8, textAlign:"center", background:bg, border:`1px solid ${bd}`, color:c, fontSize:13, fontWeight:600, transition:"opacity .2s" }}
+                <a key={l} href={h} target="_blank" style={{ flex:"1 1 110px", padding:"10px 8px", borderRadius:8, textAlign:"center", background:bg, border:`1px solid ${bd}`, color:c, fontSize:13, fontWeight:600, transition:"opacity .2s" }}
                   onMouseEnter={e => e.currentTarget.style.opacity=".75"}
                   onMouseLeave={e => e.currentTarget.style.opacity="1"}>{l}</a>
               ))}
@@ -685,15 +705,10 @@ function Mission() {
         </h2>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))", gap:16 }}>
           {MISSION_ITEMS.map((item, i) => (
-            <div key={i}
-              style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:16, padding:"24px 20px", transition:"border-color .25s,transform .25s" }}
+            <div key={i} style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:16, padding:"24px 20px", transition:"border-color .25s,transform .25s" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor="rgba(79,156,249,0.35)"; e.currentTarget.style.transform="translateY(-4px)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor="var(--border)"; e.currentTarget.style.transform="none"; }}>
-              <div style={{ width:44, height:44, borderRadius:10, marginBottom:16,
-                background:`linear-gradient(135deg,${["rgba(79,156,249,.15)","rgba(167,139,250,.15)","rgba(52,211,153,.15)","rgba(251,146,60,.15)"][i]},transparent)`,
-                border:`1px solid ${["rgba(79,156,249,.25)","rgba(167,139,250,.25)","rgba(52,211,153,.25)","rgba(251,146,60,.25)"][i]}`,
-                display:"flex", alignItems:"center", justifyContent:"center", fontSize:20,
-                color:["var(--accent)","var(--accent2)","var(--green)","var(--orange)"][i] }}>{item.icon}</div>
+              <div style={{ width:44, height:44, borderRadius:10, marginBottom:16, background:`linear-gradient(135deg,${["rgba(79,156,249,.15)","rgba(167,139,250,.15)","rgba(52,211,153,.15)","rgba(251,146,60,.15)"][i]},transparent)`, border:`1px solid ${["rgba(79,156,249,.25)","rgba(167,139,250,.25)","rgba(52,211,153,.25)","rgba(251,146,60,.25)"][i]}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, color:["var(--accent)","var(--accent2)","var(--green)","var(--orange)"][i] }}>{item.icon}</div>
               <h3 style={{ fontFamily:"var(--ff-head)", fontWeight:700, fontSize:"1.05rem", marginBottom:10 }}>{item.title}</h3>
               <p style={{ color:"var(--sub)", fontSize:".88rem", lineHeight:1.7 }}>{item.desc}</p>
             </div>
@@ -716,7 +731,7 @@ function History() {
           <div style={{ display:"flex", flexDirection:"column" }}>
             {TIMELINE.map((item, i) => (
               <div key={i} style={{ display:"flex", gap:"clamp(16px,4vw,32px)", paddingBottom: i < TIMELINE.length-1 ? 40 : 0 }}>
-                <div style={{ flexShrink:0, position:"relative" }}>
+                <div style={{ flexShrink:0 }}>
                   <div style={{ width:32, height:32, borderRadius:"50%", background:"var(--bg)", border:`2px solid ${TIMELINE_COLORS[item.colors]}`, display:"flex", alignItems:"center", justifyContent:"center", position:"relative", zIndex:1 }}>
                     <div style={{ width:8, height:8, borderRadius:"50%", background:TIMELINE_COLORS[item.colors] }} />
                   </div>
@@ -735,7 +750,7 @@ function History() {
   );
 }
 
-// ─── TEAM ─────────────────────────────────────────────────────────────────────
+// ─── TEAM (advisors removed) ──────────────────────────────────────────────────
 function Team() {
   return (
     <section id="team" className="sec" style={{ padding:"100px clamp(16px,6vw,80px)", background:"var(--surface)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)" }}>
@@ -743,8 +758,7 @@ function Team() {
         <SectionLabel>The People</SectionLabel>
         <h2 style={{ fontFamily:"var(--ff-head)", fontWeight:700, fontSize:"clamp(1.45rem,2.4vw,2.1rem)", lineHeight:1.25, letterSpacing:"-0.02em", marginBottom:8 }}>Core Team</h2>
         <p style={{ color:"var(--sub)", marginBottom:40, maxWidth:500, fontSize:".95rem" }}>Volunteers from academia, industry, and research — united by the mission to grow Nepal's AI ecosystem.</p>
-        {/* minmax(260px) prevents cards from exceeding viewport on small phones */}
-        <div className="team-grid" style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:14, marginBottom:48 }}>
+        <div className="team-grid" style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:14 }}>
           {TEAM.map((m, i) => (
             <a key={i} href={m.url||"#"} target="_blank"
               style={{ display:"block", background:"var(--card)", border:"1px solid var(--border)", borderRadius:14, padding:"20px 18px", transition:"all .25s", textDecoration:"none" }}
@@ -762,24 +776,6 @@ function Team() {
               </div>
             </a>
           ))}
-        </div>
-
-        <div style={{ borderTop:"1px solid var(--border)", paddingTop:40 }}>
-          <h3 style={{ fontFamily:"var(--ff-head)", fontWeight:600, fontSize:"1.1rem", marginBottom:20, color:"var(--accent2)" }}>Advisory Board</h3>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:12 }}>
-            {ADVISORS.map((m, i) => (
-              <a key={i} href={m.url||"#"} target="_blank"
-                style={{ display:"flex", alignItems:"center", gap:12, background:"var(--card)", border:"1px solid var(--border)", borderRadius:12, padding:"14px 16px", transition:"all .2s", textDecoration:"none" }}
-                onMouseEnter={e => e.currentTarget.style.borderColor=`${m.color}44`}
-                onMouseLeave={e => e.currentTarget.style.borderColor="var(--border)"}>
-                <div style={{ width:40, height:40, borderRadius:"50%", flexShrink:0, background:`${m.color}20`, border:`1.5px solid ${m.color}44`, display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"var(--ff-body)", fontWeight:700, fontSize:13, color:m.color }}>{m.initials}</div>
-                <div style={{ minWidth:0 }}>
-                  <div style={{ fontWeight:600, fontSize:".88rem", color:"var(--text)", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{m.name}</div>
-                  <div style={{ fontSize:11, color:"var(--muted)", marginTop:2 }}>{m.role} · {m.location}</div>
-                </div>
-              </a>
-            ))}
-          </div>
         </div>
       </div>
     </section>
@@ -801,8 +797,7 @@ function Events() {
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:18 }}>
           {EVENTS_DATA.map((ev, i) => (
-            <div key={i}
-              style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:16, overflow:"hidden", transition:"all .25s" }}
+            <div key={i} style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:16, overflow:"hidden", transition:"all .25s" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor=`${ev.accent}44`; e.currentTarget.style.transform="translateY(-4px)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor="var(--border)"; e.currentTarget.style.transform="none"; }}>
               <div style={{ height:4, background:`linear-gradient(90deg,${ev.accent},transparent)` }} />
@@ -822,7 +817,7 @@ function Events() {
   );
 }
 
-// ─── HOME BLOG PREVIEW ────────────────────────────────────────────────────────
+// ─── HOME BLOG ────────────────────────────────────────────────────────────────
 function HomeBlog({ navigate }) {
   return (
     <section id="blog" className="sec" style={{ padding:"100px clamp(16px,6vw,80px)", background:"var(--surface)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)" }}>
@@ -830,15 +825,13 @@ function HomeBlog({ navigate }) {
         <SectionLabel>Knowledge Hub</SectionLabel>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:40, flexWrap:"wrap", gap:14 }}>
           <h2 style={{ fontFamily:"var(--ff-head)", fontWeight:700, fontSize:"clamp(1.45rem,2.4vw,2.1rem)", lineHeight:1.25, letterSpacing:"-0.02em" }}>Recent Blog Posts</h2>
-          <button onClick={() => navigate("blog")}
-            style={{ padding:"9px 20px", borderRadius:8, border:"1px solid var(--border2)", color:"var(--sub)", fontSize:13, fontWeight:500, transition:"all .2s", background:"none", whiteSpace:"nowrap" }}
+          <button onClick={() => navigate("blog")} style={{ padding:"9px 20px", borderRadius:8, border:"1px solid var(--border2)", color:"var(--sub)", fontSize:13, fontWeight:500, transition:"all .2s", background:"none", whiteSpace:"nowrap" }}
             onMouseEnter={e => { e.currentTarget.style.color="var(--accent)"; e.currentTarget.style.borderColor="rgba(79,156,249,0.35)"; }}
             onMouseLeave={e => { e.currentTarget.style.color="var(--sub)"; e.currentTarget.style.borderColor="var(--border2)"; }}>All Posts →</button>
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:18 }}>
           {POSTS.map((p, i) => (
-            <div key={i} onClick={() => navigate("article", p)}
-              style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:16, padding:"24px 20px", cursor:"pointer", transition:"all .25s" }}
+            <div key={i} onClick={() => navigate("article", p)} style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:16, padding:"24px 20px", cursor:"pointer", transition:"all .25s" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor=`${p.tagColor}44`; e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow=`0 12px 32px ${p.tagColor}12`; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor="var(--border)"; e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; }}>
               <div style={{ marginBottom:12 }}><Tag color={p.tagColor}>{p.tag}</Tag></div>
@@ -883,50 +876,34 @@ function Footer({ navigate }) {
   return (
     <footer id="contact" style={{ background:"var(--surface)", borderTop:"1px solid var(--border)", padding:"56px clamp(16px,6vw,80px) 28px" }}>
       <div style={{ maxWidth:1100, margin:"0 auto" }}>
-        {/* footer-grid: 4-col → 2-col → 1-col via media queries */}
         <div className="footer-grid" style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1fr", gap:"clamp(24px,4vw,40px)", marginBottom:48 }}>
           <div>
             <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
-              <div style={{ width:36, height:36, borderRadius:8, background:"linear-gradient(135deg,var(--accent),var(--accent2))", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"var(--ff-body)", fontWeight:700, fontSize:13, color:"#fff", letterSpacing:".04em", flexShrink:0 }}>ML</div>
+              <Logo size={36} />
               <div style={{ fontFamily:"var(--ff-body)", fontWeight:600, fontSize:15 }}>MLDSN Nepal</div>
             </div>
             <p style={{ color:"var(--muted)", fontSize:".87rem", lineHeight:1.75, maxWidth:260, marginBottom:20 }}>A non-profit community advancing machine learning and data science education across Nepal since 2018.</p>
             <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
-              <a href="mailto:aimldsn@gmail.com" style={{ color:"var(--sub)", fontSize:".85rem", transition:"color .2s" }}
-                onMouseEnter={e => e.currentTarget.style.color="var(--accent)"}
-                onMouseLeave={e => e.currentTarget.style.color="var(--sub)"}>✉ aimldsn@gmail.com</a>
+              <a href="mailto:aimldsn@gmail.com" style={{ color:"var(--sub)", fontSize:".85rem", transition:"color .2s" }} onMouseEnter={e => e.currentTarget.style.color="var(--accent)"} onMouseLeave={e => e.currentTarget.style.color="var(--sub)"}>✉ aimldsn@gmail.com</a>
               <span style={{ color:"var(--sub)", fontSize:".85rem" }}>📞 +977 9851158281</span>
             </div>
           </div>
           <div>
             <div style={{ fontFamily:"var(--ff-body)", fontWeight:600, fontSize:".85rem", marginBottom:14, color:"var(--text)" }}>Quick Links</div>
-            {[["NWMLDS 2021","hhttps://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2021"],
-              ["NWMLDS 2020","https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2020"],
-              ["Research & Career","https://sites.google.com/view/mldsnorg/research-career"],
-              ["Become a Member","https://sites.google.com/view/mldsnorg/become-a-member"]].map(([l,h]) => (
-              <a key={l} href={h} target="_blank"
-                style={{ display:"block", color:"var(--muted)", fontSize:".85rem", marginBottom:10, transition:"color .2s" }}
-                onMouseEnter={e => e.currentTarget.style.color="var(--accent)"}
-                onMouseLeave={e => e.currentTarget.style.color="var(--muted)"}>{l}</a>
+            {[["NWMLDS 2021","https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2021"],["NWMLDS 2020","https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2020"],["Research & Career","https://sites.google.com/view/mldsnorg/research-career"],["Become a Member","https://sites.google.com/view/mldsnorg/become-a-member"]].map(([l,h]) => (
+              <a key={l} href={h} target="_blank" style={{ display:"block", color:"var(--muted)", fontSize:".85rem", marginBottom:10, transition:"color .2s" }} onMouseEnter={e => e.currentTarget.style.color="var(--accent)"} onMouseLeave={e => e.currentTarget.style.color="var(--muted)"}>{l}</a>
             ))}
           </div>
           <div>
             <div style={{ fontFamily:"var(--ff-body)", fontWeight:600, fontSize:".85rem", marginBottom:14, color:"var(--text)" }}>Recent Blogs</div>
             {POSTS.map(p => (
-              <button key={p.id} onClick={() => navigate("article", p)}
-                style={{ display:"block", background:"none", border:"none", textAlign:"left", color:"var(--muted)", fontSize:".83rem", marginBottom:10, lineHeight:1.4, transition:"color .2s", cursor:"pointer", padding:0 }}
-                onMouseEnter={e => e.currentTarget.style.color="var(--accent)"}
-                onMouseLeave={e => e.currentTarget.style.color="var(--muted)"}>{p.title}</button>
+              <button key={p.id} onClick={() => navigate("article", p)} style={{ display:"block", background:"none", border:"none", textAlign:"left", color:"var(--muted)", fontSize:".83rem", marginBottom:10, lineHeight:1.4, transition:"color .2s", cursor:"pointer", padding:0 }} onMouseEnter={e => e.currentTarget.style.color="var(--accent)"} onMouseLeave={e => e.currentTarget.style.color="var(--muted)"}>{p.title}</button>
             ))}
           </div>
           <div>
             <div style={{ fontFamily:"var(--ff-body)", fontWeight:600, fontSize:".85rem", marginBottom:14, color:"var(--text)" }}>Community</div>
-            {[["👥 Facebook Group","https://www.facebook.com/groups/217595548832685","var(--accent)","rgba(79,156,249,0.07)","rgba(79,156,249,0.18)","rgba(79,156,249,0.15)"],
-              ["📅 Events","https://sites.google.com/view/mldsnorg/news-and-events/events","var(--accent2)","rgba(167,139,250,0.07)","rgba(167,139,250,0.18)","rgba(167,139,250,0.15)"]].map(([l,h,c,bg,bd,hbg]) => (
-              <a key={l} href={h} target="_blank"
-                style={{ display:"flex", alignItems:"center", gap:8, padding:"10px 14px", borderRadius:8, marginBottom:10, background:bg, border:`1px solid ${bd}`, color:c, fontSize:".85rem", fontWeight:600, transition:"all .2s", textDecoration:"none" }}
-                onMouseEnter={e => e.currentTarget.style.background=hbg}
-                onMouseLeave={e => e.currentTarget.style.background=bg}>{l}</a>
+            {[["👥 Facebook Group","https://www.facebook.com/groups/217595548832685","var(--accent)","rgba(79,156,249,0.07)","rgba(79,156,249,0.18)","rgba(79,156,249,0.15)"],["📅 Events","https://sites.google.com/view/mldsnorg/news-and-events/events","var(--accent2)","rgba(167,139,250,0.07)","rgba(167,139,250,0.18)","rgba(167,139,250,0.15)"]].map(([l,h,c,bg,bd,hbg]) => (
+              <a key={l} href={h} target="_blank" style={{ display:"flex", alignItems:"center", gap:8, padding:"10px 14px", borderRadius:8, marginBottom:10, background:bg, border:`1px solid ${bd}`, color:c, fontSize:".85rem", fontWeight:600, transition:"all .2s", textDecoration:"none" }} onMouseEnter={e => e.currentTarget.style.background=hbg} onMouseLeave={e => e.currentTarget.style.background=bg}>{l}</a>
             ))}
           </div>
         </div>
@@ -947,7 +924,6 @@ function BlogList({ navigate }) {
 
   return (
     <div style={{ paddingTop:64 }}>
-      {/* Hero */}
       <div className="mountain-grid" style={{ padding:"72px clamp(16px,6vw,80px) 64px", position:"relative", overflow:"hidden", borderBottom:"1px solid var(--border)" }}>
         <div style={{ position:"absolute", top:"20%", right:"5%", width:400, height:400, borderRadius:"50%", background:"radial-gradient(circle,rgba(79,156,249,0.07) 0%,transparent 70%)", animation:"drift 12s ease-in-out infinite", pointerEvents:"none" }} />
         <div style={{ maxWidth:1100, margin:"0 auto", position:"relative" }}>
@@ -957,23 +933,16 @@ function BlogList({ navigate }) {
             <span style={{ background:"linear-gradient(90deg,var(--accent),var(--accent2))", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>Machine Learning</span>
             {" "}& Data Science
           </h1>
-          <p style={{ color:"var(--sub)", fontSize:"1rem", maxWidth:520, lineHeight:1.75, marginBottom:28 }}>
-            Articles on ML foundations, practical guides and research insights — written by MLDSN Nepal's community of practitioners and researchers.
-          </p>
+          <p style={{ color:"var(--sub)", fontSize:"1rem", maxWidth:520, lineHeight:1.75, marginBottom:28 }}>Articles on ML foundations, practical guides and research insights.</p>
           <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
             {tags.map(t => (
-              <button key={t} onClick={() => setFilter(t)}
-                style={{ padding:"7px 16px", borderRadius:20, fontSize:13, fontWeight:500, transition:"all .2s", border:"1px solid",
-                  background: filter===t ? "rgba(79,156,249,0.15)" : "transparent",
-                  borderColor: filter===t ? "rgba(79,156,249,0.5)" : "var(--border2)",
-                  color: filter===t ? "var(--accent)" : "var(--sub)" }}>{t}</button>
+              <button key={t} onClick={() => setFilter(t)} style={{ padding:"7px 16px", borderRadius:20, fontSize:13, fontWeight:500, transition:"all .2s", border:"1px solid", background: filter===t ? "rgba(79,156,249,0.15)" : "transparent", borderColor: filter===t ? "rgba(79,156,249,0.5)" : "var(--border2)", color: filter===t ? "var(--accent)" : "var(--sub)" }}>{t}</button>
             ))}
           </div>
         </div>
       </div>
 
       <div style={{ maxWidth:1100, margin:"0 auto", padding:"48px clamp(16px,6vw,80px)" }}>
-        {/* Featured card */}
         {filter === "All" && (
           <div style={{ marginBottom:40 }}>
             <div style={{ fontSize:11, fontFamily:"var(--ff-mono)", color:"var(--muted)", letterSpacing:".1em", textTransform:"uppercase", marginBottom:14 }}>Featured Post</div>
@@ -981,9 +950,7 @@ function BlogList({ navigate }) {
               style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:20, overflow:"hidden", cursor:"pointer", display:"grid", gridTemplateColumns:"1fr 1fr", transition:"all .25s" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor="rgba(79,156,249,0.35)"; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow="0 20px 60px rgba(0,0,0,0.4)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor="var(--border)"; e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; }}>
-              {/* Decorative panel — hidden on mobile via .featured-visual CSS class */}
-              <div className="featured-visual"
-                style={{ background:"linear-gradient(135deg,rgba(79,156,249,0.12) 0%,rgba(167,139,250,0.08) 100%)", display:"flex", alignItems:"center", justifyContent:"center", minHeight:220, position:"relative", overflow:"hidden", borderRight:"1px solid var(--border)" }}>
+              <div className="featured-visual" style={{ background:"linear-gradient(135deg,rgba(79,156,249,0.12) 0%,rgba(167,139,250,0.08) 100%)", display:"flex", alignItems:"center", justifyContent:"center", minHeight:220, position:"relative", overflow:"hidden", borderRight:"1px solid var(--border)" }}>
                 <div style={{ position:"absolute", inset:0, background:"radial-gradient(circle at 40% 50%,rgba(79,156,249,0.15) 0%,transparent 65%)" }} />
                 <div style={{ fontFamily:"var(--ff-head)", fontSize:"clamp(4rem,8vw,7rem)", color:"rgba(79,156,249,0.15)", fontWeight:700, userSelect:"none", lineHeight:1 }}>Kgl</div>
                 <div style={{ position:"absolute", bottom:20, left:20, fontFamily:"var(--ff-mono)", fontSize:11, color:"rgba(79,156,249,0.5)", letterSpacing:".1em" }}>kaggle_i.post</div>
@@ -999,7 +966,9 @@ function BlogList({ navigate }) {
                 </div>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:10 }}>
                   <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-                    <div style={{ width:32, height:32, borderRadius:"50%", background:`${POSTS[0].tagColor}22`, border:`1.5px solid ${POSTS[0].tagColor}44`, display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"var(--ff-body)", fontWeight:600, fontSize:11, color:POSTS[0].tagColor, flexShrink:0 }}>JP</div>
+                    <div style={{ width:32, height:32, borderRadius:"50%", background:`${POSTS[0].tagColor}22`, border:`1.5px solid ${POSTS[0].tagColor}44`, display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"var(--ff-body)", fontWeight:600, fontSize:11, color:POSTS[0].tagColor, flexShrink:0 }}>
+                      {POSTS[0].author.split(" ").map(w=>w[0]).join("").slice(0,2)}
+                    </div>
                     <div>
                       <div style={{ fontSize:13, fontWeight:500, color:"var(--text)" }}>{POSTS[0].author}</div>
                       <div style={{ fontSize:11, color:"var(--muted)" }}>{POSTS[0].date}</div>
@@ -1012,7 +981,6 @@ function BlogList({ navigate }) {
           </div>
         )}
 
-        {/* Post grid */}
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:18 }}>
           {(filter === "All" ? POSTS.slice(1) : filtered).map(post => (
             <div key={post.id} onClick={() => navigate("article", post)}
@@ -1041,7 +1009,6 @@ function BlogList({ navigate }) {
           ))}
         </div>
 
-        {/* Contribute CTA */}
         <div style={{ marginTop:56, background:"var(--card)", border:"1px solid var(--border)", borderRadius:20, padding:"36px clamp(20px,4vw,48px)", textAlign:"center", position:"relative", overflow:"hidden" }}>
           <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:"linear-gradient(90deg,transparent,var(--accent2),transparent)" }} />
           <Tag color="var(--accent2)">Community</Tag>
@@ -1061,16 +1028,13 @@ function ArticleView({ post, navigate }) {
 
   return (
     <div style={{ paddingTop:64 }}>
-      {/* Article hero */}
       <div style={{ background:"var(--surface)", borderBottom:"1px solid var(--border)", padding:"48px clamp(16px,6vw,80px) 40px", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse at 20% 50%,${post.tagColor}08 0%,transparent 60%)`, pointerEvents:"none" }} />
         <div style={{ maxWidth:800, margin:"0 auto", position:"relative" }}>
-          {/* Breadcrumb */}
           <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:20, flexWrap:"wrap" }}>
-            <button onClick={() => navigate("blog")}
-              style={{ background:"none", border:"none", padding:0, color:"var(--muted)", fontSize:13, display:"flex", alignItems:"center", gap:4, cursor:"pointer", transition:"color .2s" }}
-              onMouseEnter={e => e.currentTarget.style.color="var(--accent)"}
-              onMouseLeave={e => e.currentTarget.style.color="var(--muted)"}>← Blog</button>
+            <button onClick={() => navigate("blog")} style={{ background:"none", border:"none", padding:0, color:"var(--muted)", fontSize:13, display:"flex", alignItems:"center", gap:4, cursor:"pointer", transition:"color .2s" }}
+              onMouseEnter={e => e.currentTarget.style.color="var(--accent)"} onMouseLeave={e => e.currentTarget.style.color="var(--muted)"}
+            >← Blog</button>
             <span style={{ color:"var(--border2)", fontSize:13 }}>/</span>
             <span style={{ color:"var(--sub)", fontSize:13, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap", maxWidth:"min(260px,50vw)" }}>{post.title}</span>
           </div>
@@ -1081,7 +1045,6 @@ function ArticleView({ post, navigate }) {
           </div>
           <h1 style={{ fontFamily:"var(--ff-head)", fontWeight:700, fontSize:"clamp(1.5rem,3.5vw,2.6rem)", lineHeight:1.2, letterSpacing:"-0.025em", marginBottom:16, color:"var(--text)" }}>{post.title}</h1>
           <p style={{ color:"var(--sub)", fontSize:"clamp(.92rem,1.5vw,1.05rem)", lineHeight:1.7, marginBottom:24, maxWidth:680 }}>{post.excerpt}</p>
-          {/* Author row — stacks vertically on narrow screens via .author-row class */}
           <div className="author-row" style={{ display:"flex", alignItems:"center", gap:12, flexWrap:"wrap" }}>
             <div style={{ width:40, height:40, borderRadius:"50%", background:`${post.tagColor}22`, border:`1.5px solid ${post.tagColor}55`, display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"var(--ff-body)", fontWeight:700, fontSize:13, color:post.tagColor, flexShrink:0 }}>
               {post.author.split(" ").map(w=>w[0]).join("").slice(0,2)}
@@ -1090,19 +1053,19 @@ function ArticleView({ post, navigate }) {
               <div style={{ fontWeight:600, fontSize:".9rem", color:"var(--text)" }}>{post.author}</div>
               <div style={{ fontSize:12, color:"var(--muted)" }}>{post.authorRole}</div>
             </div>
-            <a href={post.url} target="_blank" className="view-orig"
-              style={{ marginLeft:"auto", display:"inline-flex", alignItems:"center", gap:5, padding:"7px 14px", borderRadius:8, fontSize:12, fontWeight:500, background:"rgba(255,255,255,0.04)", border:"1px solid var(--border2)", color:"var(--sub)", transition:"all .2s", whiteSpace:"nowrap" }}
-              onMouseEnter={e => { e.currentTarget.style.color="var(--accent)"; e.currentTarget.style.borderColor="rgba(79,156,249,0.3)"; }}
-              onMouseLeave={e => { e.currentTarget.style.color="var(--sub)"; e.currentTarget.style.borderColor="var(--border2)"; }}>View original ↗</a>
+            {post.url && post.url !== "#" && (
+              <a href={post.url} target="_blank" className="view-orig"
+                style={{ marginLeft:"auto", display:"inline-flex", alignItems:"center", gap:5, padding:"7px 14px", borderRadius:8, fontSize:12, fontWeight:500, background:"rgba(255,255,255,0.04)", border:"1px solid var(--border2)", color:"var(--sub)", transition:"all .2s", whiteSpace:"nowrap" }}
+                onMouseEnter={e => { e.currentTarget.style.color="var(--accent)"; e.currentTarget.style.borderColor="rgba(79,156,249,0.3)"; }}
+                onMouseLeave={e => { e.currentTarget.style.color="var(--sub)"; e.currentTarget.style.borderColor="var(--border2)"; }}>View original ↗</a>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Body + Sidebar — sidebar drops below on mobile via .article-grid class */}
       <div className="article-grid" style={{ maxWidth:1100, margin:"0 auto", padding:"48px clamp(16px,6vw,80px)", display:"grid", gridTemplateColumns:"1fr 280px", gap:"clamp(28px,5vw,56px)", alignItems:"start" }}>
         <article className="article-body" dangerouslySetInnerHTML={{ __html: post.content }} style={{ minWidth:0 }} />
         <aside className="article-sidebar" style={{ position:"sticky", top:80 }}>
-          {/* Meta card */}
           <div style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:14, padding:"18px", marginBottom:18 }}>
             <div style={{ fontFamily:"var(--ff-mono)", fontSize:11, color:"var(--accent)", letterSpacing:".1em", textTransform:"uppercase", marginBottom:12 }}>About this post</div>
             {[["Category",post.tag],["Author",post.author],["Read time",post.readTime],["Published",post.date]].map(([k,v]) => (
@@ -1112,20 +1075,16 @@ function ArticleView({ post, navigate }) {
               </div>
             ))}
           </div>
-          {/* More posts */}
           <div style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:14, padding:"18px", marginBottom:18 }}>
             <div style={{ fontFamily:"var(--ff-mono)", fontSize:11, color:"var(--accent)", letterSpacing:".1em", textTransform:"uppercase", marginBottom:14 }}>More Posts</div>
             {others.map((p, i) => (
-              <div key={p.id} onClick={() => navigate("article", p)}
-                style={{ paddingBottom: i<others.length-1?14:0, marginBottom: i<others.length-1?14:0, borderBottom: i<others.length-1?"1px solid var(--border)":"none", cursor:"pointer" }}>
+              <div key={p.id} onClick={() => navigate("article", p)} style={{ paddingBottom: i<others.length-1?14:0, marginBottom: i<others.length-1?14:0, borderBottom: i<others.length-1?"1px solid var(--border)":"none", cursor:"pointer" }}>
                 <div style={{ marginBottom:5 }}><Tag color={p.tagColor}>{p.tag}</Tag></div>
                 <div style={{ fontSize:".85rem", color:"var(--sub)", lineHeight:1.4, fontWeight:500, transition:"color .2s" }}
-                  onMouseEnter={e => e.currentTarget.style.color="var(--text)"}
-                  onMouseLeave={e => e.currentTarget.style.color="var(--sub)"}>{p.title}</div>
+                  onMouseEnter={e => e.currentTarget.style.color="var(--text)"} onMouseLeave={e => e.currentTarget.style.color="var(--sub)"}>{p.title}</div>
               </div>
             ))}
           </div>
-          {/* Join CTA */}
           <a href="https://sites.google.com/view/mldsnorg/become-a-member" target="_blank"
             style={{ display:"block", background:"rgba(79,156,249,0.08)", border:"1px solid rgba(79,156,249,0.25)", borderRadius:14, padding:"16px 18px", textAlign:"center", transition:"all .2s" }}
             onMouseEnter={e => e.currentTarget.style.background="rgba(79,156,249,0.15)"}
@@ -1142,11 +1101,10 @@ function ArticleView({ post, navigate }) {
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function App() {
-  const [page, setPage]         = useState("home");
+  const [page, setPage] = useState("home");
   const [activePost, setActivePost] = useState(null);
 
   useEffect(() => {
-    // Ensure viewport meta tag exists — critical for mobile rendering
     if (!document.querySelector('meta[name="viewport"]')) {
       const meta = document.createElement("meta");
       meta.name = "viewport";
@@ -1162,43 +1120,15 @@ export default function App() {
   const navigate = useCallback((target, post = null) => {
     setPage(target);
     if (post) setActivePost(post);
-    if (target !== "home" || post) {
-      window.scrollTo({ top:0, behavior:"smooth" });
-    }
+    if (target !== "home" || post) window.scrollTo({ top:0, behavior:"smooth" });
   }, []);
 
   return (
     <div style={{ minHeight:"100vh" }}>
       <Navbar page={page} navigate={navigate} />
-
-      {page === "home" && (
-        <>
-          <Hero navigate={navigate} />
-          <StatsTicker />
-          <About />
-          <Mission />
-          <History />
-          <Team />
-          <Events />
-          <HomeBlog navigate={navigate} />
-          <JoinCTA />
-          <Footer navigate={navigate} />
-        </>
-      )}
-
-      {page === "blog" && (
-        <>
-          <BlogList navigate={navigate} />
-          <Footer navigate={navigate} />
-        </>
-      )}
-
-      {page === "article" && activePost && (
-        <>
-          <ArticleView post={activePost} navigate={navigate} />
-          <Footer navigate={navigate} />
-        </>
-      )}
+      {page === "home" && (<><Hero navigate={navigate} /><StatsTicker /><About /><Mission /><History /><Team /><Events /><HomeBlog navigate={navigate} /><JoinCTA /><Footer navigate={navigate} /></>)}
+      {page === "blog" && (<><BlogList navigate={navigate} /><Footer navigate={navigate} /></>)}
+      {page === "article" && activePost && (<><ArticleView post={activePost} navigate={navigate} /><Footer navigate={navigate} /></>)}
     </div>
   );
 }
