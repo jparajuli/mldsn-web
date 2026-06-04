@@ -417,8 +417,8 @@ const POSTS = POSTS_RAW.map(p => ({
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const STATS = [
   { value:"2018", label:"Founded",             suffix:"" },
-  { value:"5",    label:"Day Annual Workshop",  suffix:"+" },
-  { value:"6",    label:"Years Active",         suffix:"+" },
+  { value:"10",    label:"Workshops & Seminars",  suffix:"+" },
+  { value:"7",    label:"Years Active",         suffix:"+" },
   { value:"100",  label:"Members & Growing",    suffix:"s" },
 ];
 
@@ -434,8 +434,8 @@ const TEAM = [
   { name:"Dr. Tej Bahadur Shahi",     role:"Researcher",                              location:"CQUniversity, Australia",           url:"https://scholar.google.com/citations?user=t7kVlfIAAAAJ",   initials:"TS", color:"#34d399" },
   { name:"Dr. Sarbagya Ratna Shakya", role:"Asst. Professor",                         location:"Eastern New Mexico University, USA",url:"https://sites.google.com/view/sarbagyashakya/home",        initials:"SR", color:"#a78bfa" },
   { name:"Mr. Ashok Kumar Pant",      role:"CTO & Co-founder",                        location:"Treeleaf, Nepal",                   url:"https://www.linkedin.com/in/asokpant/",                    initials:"AP", color:"#f472b6" },
-  { name:"Mr. Dilip Yogi",            role:"Application Architect",                   location:"ABC Fitness Solution, USA",         url:"https://www.linkedin.com/in/yogidilip/",                   initials:"DY", color:"#facc15" },
-  { name:"Dr. Jhanak Parajuli",       role:"Data Scientist & Global Program Manager", location:"Germany",                           url:"https://www.linkedin.com/in/jhanak-parajuli-41a29635/",    initials:"JP", color:"#4f9cf9" },
+  { name:"Mr. Dilip Yogi",            role:"Application Architect",                   location:"USA",                               url:"https://www.linkedin.com/in/yogidilip/",                   initials:"DY", color:"#facc15" },
+  { name:"Dr. Jhanak Parajuli",       role:"Senior Data Scientist",                   location:"Germany",                           url:"https://www.linkedin.com/in/jhanak-parajuli-41a29635/",    initials:"JP", color:"#4f9cf9" },
 ];
 
 const TIMELINE = [
