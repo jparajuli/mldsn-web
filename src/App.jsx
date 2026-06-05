@@ -401,7 +401,7 @@ function HomeBlog({ navigate }) {
             onMouseLeave={e => { e.currentTarget.style.color = "var(--sub)"; e.currentTarget.style.borderColor = "var(--border2)"; }}>All Posts →</button>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 18 }}>
-          {POSTS.map((p, i) => (
+          {[...POSTS].slice(0, 4).map((p, i) => (
             <div key={i} onClick={() => navigate("article", p)}
               style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 16, padding: "24px 20px", cursor: "pointer", transition: "all .25s" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = `${p.tagColor}44`; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = `0 12px 32px ${p.tagColor}12`; }}
@@ -473,7 +473,7 @@ function Footer({ navigate }) {
           </div>
           <div>
             <div style={{ fontFamily: "var(--ff-body)", fontWeight: 600, fontSize: ".85rem", marginBottom: 14, color: "var(--text)" }}>Recent Blogs</div>
-            {POSTS.map(p => (
+            {[...POSTS].slice(0, 4).map((p, i) => (
               <button key={p.id} onClick={() => navigate("article", p)}
                 style={{ display: "block", background: "none", border: "none", textAlign: "left", color: "var(--muted)", fontSize: ".83rem", marginBottom: 10, lineHeight: 1.4, transition: "color .2s", cursor: "pointer", padding: 0 }}
                 onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"}
