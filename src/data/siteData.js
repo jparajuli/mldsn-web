@@ -5,8 +5,8 @@
 
 export const STATS = [
   { value: "2018", label: "Founded",             suffix: ""  },
-  { value: "5",    label: "Day Annual Workshop",  suffix: "+" },
-  { value: "6",    label: "Years Active",         suffix: "+" },
+  { value: "8",    label: "Workshops & seminars",  suffix: "+" },
+  { value: "7",    label: "Years Active",         suffix: "+" },
   { value: "1000",  label: "Members & Growing",    suffix: "+" },
 ];
 
