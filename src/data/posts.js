@@ -2,8 +2,8 @@
 // Converts the Markdown written in each post's `content` field into HTML.
 //
 // Supported syntax:
-//   ## Heading 2         → <h2>
-//   ### Heading 3        → <h3>
+//   ## Heading 2        → <h2>
+//   ### Heading 3       → <h3>
 //   **bold** → <strong>
 //   *italic* → <em>
 //   `code`                → <code>
@@ -111,29 +111,131 @@ function parseMarkdown(md) {
 }
 
 // ─── BLOG POSTS ───────────────────────────────────────────────────────────────
-// REQUIRED FIELDS:
-//   id          – unique, no spaces  (e.g. "my-post-2025")
-//   title       – article heading
-//   excerpt     – 1–2 sentence summary shown on cards
-//   tag         – badge label        (e.g. "Learning", "AI & LLMs", "Research")
-//   tagColor    – hex colour         (e.g. "#4f9cf9")
-//   heroImage   – specific visual header background link
-//   author      – author full name
-//   authorRole  – role / affiliation shown under the name
-//   date        – year or date string (e.g. "2025" or "Jun 2025")
-//   readTime    – estimated read     (e.g. "6 min read")
-//   url         – "View original" link; use "#" if there is no external URL
-//   content     – article body in Markdown
-// ─────────────────────────────────────────────────────────────────────────────
-
 const POSTS_RAW = [
-  // ── Post 1 ──────────────────────────────────────────────────────────────────
+
+  // ── Post 1 ───────────────────────────────────────────────────────────────────
+  {
+    id: "ai-chips-nvidia-explained",
+    title: "Inside the Machine: How NVIDIA Builds AI Chips, What They Actually Do, and Why Nobody Has Caught Up",
+    excerpt: "Every ChatGPT response, every image generated, every LLM trained runs on specialised silicon. Here is a ground-up explanation of what AI chips are, how NVIDIA designs them, and why their two-decade head start has turned into one of the most durable moats in technology history.",
+    tag: "AI & LLMs", tagColor: "#34d399",
+    author: "MLDSN Nepal", authorRole: "Editorial Team",
+    date: "2025", readTime: "12 min read",
+    url: "#",
+    content: `
+When Jensen Huang, NVIDIA's CEO, took the stage at GTC 2024 to unveil the Blackwell GPU, he was not just announcing a new chip. He was describing a machine that packs 208 billion transistors onto two slices of silicon the size of a credit card, moves data at 8 terabytes per second, and consumes more power than a small apartment block. The crowd of engineers and researchers gave him a standing ovation. To understand why that moment mattered — and why the global race to build AI infrastructure runs almost entirely through one company in Santa Clara — you need to understand what an AI chip actually is, and what makes it so extraordinarily hard to replicate.
+
+## Why Normal Chips Cannot Train AI
+
+To understand AI chips, start with the problem they solve.
+
+A modern CPU — the kind inside your laptop — is a masterpiece of sequential logic. It has a small number of extremely powerful cores, typically 8 to 64, each capable of executing complex instructions in a specific order. This design is perfect for the kinds of tasks a computer normally does: running an operating system, executing a web browser, processing a spreadsheet. These tasks are inherently sequential. Step one must complete before step two begins.
+
+Training a neural network is almost exactly the opposite kind of problem. A neural network is, at its mathematical core, a colossal chain of matrix multiplications — operations that multiply enormous grids of numbers together simultaneously. A single forward pass through GPT-3 involved roughly 175 billion parameters, each requiring a multiply-and-add operation. None of these computations depend on each other in the way CPU tasks do. They can all happen at the same time.
+
+This is the foundational insight that makes GPUs so powerful for AI. A GPU does not have 8 or 64 powerful cores. The NVIDIA H100 has 18,432 CUDA cores — smaller, simpler, and individually slower than CPU cores, but capable of running in parallel simultaneously. While a top consumer CPU may have 16 cores, an NVIDIA RTX 4090 has 16,384 CUDA cores, and an H100 has 18,432 — giving a sense of the sheer scale of parallel processing power involved. For AI training, where the same simple operation must be applied to millions of values simultaneously, this parallelism is not a marginal advantage. It is a fundamental architectural match between the problem and the hardware.
+
+## What Is Inside an NVIDIA GPU?
+
+An NVIDIA AI GPU is not a single monolithic processor. It is a carefully organised hierarchy of specialised compute units, memory, and interconnects — all designed to keep thousands of cores busy simultaneously without ever waiting for data.
+
+### CUDA Cores: The Workhorses
+
+CUDA Cores allow massive parallel processing, making AI training up to 10 to 20 times faster than CPUs for many workloads. These tiny processors handle floating-point operations, making NVIDIA cards powerful and flexible parallel computing engines. Every mathematical operation in a neural network — every multiply, every add, every activation function — runs on CUDA cores. The name comes from CUDA (Compute Unified Device Architecture), NVIDIA's programming model, which we will come back to.
+
+### Tensor Cores: The AI Accelerators
+
+Beyond CUDA cores, NVIDIA introduced a second class of hardware unit specifically designed for AI: **Tensor Cores**. Tensor cores are specialised hardware units designed for matrix multiplications and other calculations required for deep learning. These cores significantly accelerate machine learning operations, particularly those involving deep neural networks.
+
+The reason Tensor Cores exist is that matrix multiplication — the dominant operation in every transformer model — follows a specific mathematical pattern: multiply two matrices and add the result to a third (an operation called a fused multiply-add, or FMA). A Tensor Core is a piece of hardware hardwired to perform exactly this pattern in a single clock cycle, whereas a CUDA core would need multiple cycles to achieve the same result. The NVIDIA H100 features fourth-generation Tensor Cores and a Transformer Engine with FP8 precision that provides up to 4x faster training over the prior generation for GPT-3 (175B) models.
+
+### HBM: The Memory That Feeds the Beast
+
+A chip that can compute at exaflop speeds is useless if it cannot be fed data fast enough. This is the memory bandwidth problem, and it is one of the most fundamental constraints in AI hardware.
+
+NVIDIA solves it with **High Bandwidth Memory (HBM)** — a type of RAM that is physically stacked in layers directly beside the GPU die inside the same package, rather than sitting on a separate chip connected by slower buses. The B200 is surrounded by HBM3e memory totalling 192 GB with a bandwidth of 8 terabytes per second, up from H200's 4.8 TB/s — a 67% increase in memory bandwidth in a single generation. For context, the fastest consumer RAM in a gaming PC transfers data at roughly 50–100 GB/s. NVIDIA's flagship AI GPU moves data at 80 times that speed.
+
+## The Race of Architectures: Hopper to Blackwell
+
+NVIDIA names its GPU architectures after famous mathematicians and scientists. The progression from Volta (2017) through Ampere (2020), Hopper (2022), and now Blackwell (2024) represents a roughly doubling of AI performance every two years — faster than Moore's Law alone can explain.
+
+### The Hopper H100 (2022)
+
+The H100 became the undisputed workhorse of the AI boom. It was the chip that trained GPT-4, that powered ChatGPT's scale-up, and that every cloud provider scrambled to acquire in 2023. The H100 delivers industry-leading conversational AI, speeding up large language models by 30x over its predecessor, and includes a dedicated Transformer Engine to solve trillion-parameter language models. At the time of its release, obtaining an H100 had a months-long waitlist and a price tag approaching USD 40,000 per unit.
+
+### The Blackwell B200 (2024): Breaking the Reticle Limit
+
+By 2024, NVIDIA faced a fundamental physical constraint. A chip can only be as large as the maximum area that a photolithography machine can expose on silicon in a single shot — the "reticle limit," roughly 858 square millimetres. The H100 was already almost at that limit at 814 mm².
+
+NVIDIA's solution was elegant: build two reticle-sized dies and connect them so tightly that software sees them as a single chip. The B200 is composed of about 1,600 square millimetres of processor on two silicon dies that are linked in the same package by a 10 terabytes per second connection, so they perform as if they were a single 208-billion-transistor chip.
+
+The performance leap was staggering. The B200 outperforms the H100 in every measurable dimension: 208 billion transistors versus 80 billion, 192 GB HBM3e versus 80 GB HBM3, 8 TB/s memory bandwidth versus 3.35 TB/s, and 20 petaFLOPS FP4 versus no FP4 support on H100. Independent MLPerf benchmarks confirm Blackwell's gains: B200-based systems delivered 2.2x faster Llama 2 70B fine-tuning and 2x faster GPT-3 175B pre-training compared to H100. Tasks that required 256 Hopper GPUs now run on just 64 Blackwell GPUs with no loss in per-GPU throughput.
+
+### The Blackwell Ultra B300 (2025)
+
+NVIDIA did not stop at Blackwell. The Blackwell Ultra B300 boosts HBM3E capacity by 50% to 288 GB per GPU, using twelve-high stacks of DRAM chips compared to the eight-high stacks used in the B100 and B200. While the base Blackwell architecture delivers 10 petaFLOPS of NVFP4 performance, Blackwell Ultra pushes that to 15 petaFLOPS — a 1.5x increase over Blackwell and a 7.5x increase from Hopper H100 and H200.
+
+## Connecting the Chips: NVLink and the AI Factory
+
+A single GPU, however powerful, cannot train the largest AI models alone. GPT-4 was trained on thousands of GPUs running simultaneously for months. This is where NVIDIA's system-level thinking becomes as important as the chip design itself.
+
+**NVLink** is NVIDIA's proprietary high-speed interconnect that lets multiple GPUs communicate with each other at speeds that dwarf conventional network connections. The GB200 NVL72 system — which connects 72 B200 GPUs — provides up to a 30x performance increase compared to the same number of H100 GPUs for LLM inference workloads, and reduces cost and energy consumption by up to 25x. The platform acts as a single GPU with 1.4 exaflops of AI performance and 30 TB of fast memory.
+
+This is what Jensen Huang means when he talks about "AI factories." NVIDIA no longer just sells chips. It sells entire rack-scale systems — the GB200 NVL72 is a liquid-cooled rack containing 36 Grace CPUs and 72 B200 GPUs, all connected by NVLink, that together behave as a single unified supercomputer. A hyperscaler buying one of these racks is not buying 72 separate GPUs; they are buying one enormous, integrated compute system.
+
+## The Real Moat: CUDA
+
+Here is the part that most hardware comparisons miss. NVIDIA's chip dominance is not primarily about transistor counts or memory bandwidth — it is about software.
+
+In 2006, NVIDIA released CUDA (Compute Unified Device Architecture) — a programming model that allowed software developers to write code that ran directly on NVIDIA GPU cores, rather than going through graphics APIs. This was 16 years before ChatGPT. NVIDIA's core competitive advantage lies in its algorithm-first, full-stack design. Unlike CPU vendors relying on compilers, NVIDIA's accelerated computing paradigm, built around CUDA, creates a stickier ecosystem. This software layer made up of libraries to accelerate diverse workloads is constantly improving in efficiency, and is a formidable competitive moat that NVIDIA's rivals find incredibly difficult to replicate.
+
+Every major deep learning framework — PyTorch, TensorFlow, JAX — is built on top of CUDA. Every AI researcher who learned to train neural networks in the last decade learned to do it on NVIDIA hardware, using CUDA libraries. Millions of lines of optimised code exist in the world that run on NVIDIA GPUs and nothing else. The CUDA moat is not a software trick or a contractual lock-in mechanism. It is a self-reinforcing ecosystem built on time, on massive developer investment, and on accumulated optimisation depth that no competitor has managed to replicate at comparable scale.
+
+:::callout Why the Software Gap Persists
+AMD's ROCm platform is genuinely improving year on year, but independent engineering benchmarks consistently show NVIDIA still leads AMD by 2–3x on training workloads — not because the hardware gap is that large, but because CUDA libraries are more mature, more complete, and more deeply integrated into the frameworks researchers actually use. The performance gap on hardware has narrowed; the software ecosystem gap remains wide enough to determine real purchasing decisions.
+:::
+
+## The Competitive Landscape in 2025
+
+NVIDIA commands approximately 80–90% of the AI accelerator market. Yet its fortress is no longer entirely unassailable. Several challengers are gaining ground:
+
+- **AMD MI300X / MI325X**: AMD's most credible challenge yet. The MI300X ships with 192 GB of HBM3 and is winning workloads at Microsoft Azure and Meta. ROCm 7.0 has made meaningful improvements, though the ecosystem gap with CUDA persists.
+- **Google TPUs (Tensor Processing Units)**: Google's custom chips, now in their sixth generation (Ironwood), are optimised specifically for transformer inference. They power Gemini internally and are available on Google Cloud. They are not general-purpose but are highly efficient for specific workloads.
+- **AWS Trainium / Inferentia**: Amazon's in-house chips are designed for training (Trainium) and inference (Inferentia) at AWS scale. They offer cost advantages for specific model types but have limited external ecosystem support.
+- **Custom silicon from hyperscalers**: Microsoft, Google, and Amazon are simultaneously NVIDIA's largest customers and most motivated competitors. Success of custom silicon could reduce NVIDIA's addressable market.
+
+None of these challengers has yet displaced NVIDIA for large-scale model training. The question is whether they can — and on what timeline.
+
+## What This Means for AI Practitioners in Nepal
+
+You do not need to own a Blackwell GPU to benefit from understanding this landscape. Several implications are directly relevant to students, researchers, and practitioners in Nepal's growing AI community:
+
+1. **Cloud access democratises the hardware advantage.** Through AWS, Google Cloud, Azure, and providers like Lambda Labs and RunPod, any researcher can rent H100 or A100 time by the hour. The USD 40,000 per GPU price tag is a barrier to ownership, not to access.
+
+2. **Understanding the hardware helps you write better code.** Knowing that GPUs are optimised for batch matrix operations is why every practical ML tutorial tells you to vectorise operations and avoid Python loops. Understanding memory bandwidth constraints explains why moving data efficiently matters as much as compute.
+
+3. **The open-source ecosystem runs on CUDA.** If you are learning PyTorch, Hugging Face, or any standard ML framework, you are already using CUDA under the hood. Understanding what it does — and why NVIDIA invested in it 16 years before it was commercially important — is a lesson in long-term platform strategy.
+
+4. **The AI chip market is expanding fast.** The global AI chip market was valued at approximately USD 60 billion in 2023 and is projected to exceed USD 300 billion by 2030. For engineers interested in hardware, low-level systems, or semiconductor careers, this is one of the fastest-growing technical disciplines in the world.
+
+## The Road Ahead: Rubin and Beyond
+
+NVIDIA has already announced its next architecture beyond Blackwell Ultra: **Rubin** (named after astronomer Vera Rubin), expected in 2026, followed by Rubin Ultra in 2027. The roadmap extends to 2028 and represents NVIDIA's commitment to maintaining a one-year generational cadence — a pace that competitors find extremely difficult to match while simultaneously closing the software ecosystem gap.
+
+The pattern is clear. Every two years, NVIDIA ships a chip that is roughly twice as capable as its predecessor. Every chip embeds its software advantages more deeply into the tools the world's AI researchers use daily. And every enterprise that builds its AI infrastructure on NVLink and CUDA makes the switching cost a little higher.
+
+> The story of NVIDIA is not ultimately a story about transistors. It is a story about a 20-year bet on parallel computing that the rest of the industry dismissed — and that turned out to be the exact architecture the most important technology of our generation required.
+
+For anyone building, researching, or learning about AI in 2025, understanding the hardware underneath the model is not optional background knowledge. It is the foundation.
+`,
+  },
+
+  // ── Post 2 ──────────────────────────────────────────────────────────────────
   {
     id: "agentic-ai-startup-concepts",
-    title: "5 High-Moat Agentic AI Startup Concepts for 2026: A VC Partner's Playbook",
+    title: "5 High-Moat Agentic AI Startup Concepts for 2026",
     excerpt: "Forget chatbot wrappers. These five multi-agent startup concepts target expensive, document-heavy, compliance-driven B2B workflows where deep integrations and proprietary data create durable moats.",
     tag: "AI & LLMs", tagColor: "#f472b6",
-    heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2025", readTime: "14 min read",
     url: "#",
@@ -310,17 +412,16 @@ The real advantage that does not get discussed enough is proven trust and regula
 
 If you are a founder entering this space: pick one workflow in one industry. Go deep before you go wide. The moat is in the data, the integrations, and the accumulated pattern-matching across thousands of real enterprise deployments — not in the LLM you chose.
 
-## The best agentic AI companies of 2026 will not be remembered for the model they used. They will be remembered for the workflow they owned.
+> The best agentic AI companies of 2026 will not be remembered for the model they used. They will be remembered for the workflow they owned.
 `,
   },
 
-  // ── Post 2 ──────────────────────────────────────────────────────────────────
+  // ── Post 3 ──────────────────────────────────────────────────────────────────
   {
     id: "probability-part-ii",
     title: "Probability for Machine Learning (Part II): Entropy & Estimation",
     excerpt: "Deep dive into Maximum Likelihood Estimation, Information Theory, and the mathematical roots of neural network loss functions.",
     tag: "Mathematics", tagColor: "#34d399",
-    heroImage: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2026", readTime: "12 min read",
     url: "#",
@@ -331,7 +432,7 @@ In Part I, we saw how probability forms the foundation of machine learning. In r
 
 Imagine you have a bag of marbles with unknown proportions of colors. You draw some marbles and want to guess the most likely mix inside the bag. This is the core problem MLE solves.
 
-In machine learning, we don't know the true distribution p(data). Instead, we propose a model with adjustable parameters θ and ask: which θ makes our observed data most probable? We maximize the **likelihood function**:
+In machine learning, we don't know the true distribution *p(data)*. Instead, we propose a model with adjustable parameters *θ* and ask: which *θ* makes our observed data most probable? We maximize the **likelihood function**:
 
 :::callout The Likelihood Function
 **L(θ) = ∏ p(xᵢ | θ)**
@@ -355,10 +456,10 @@ The key idea is **Shannon Entropy**, which tells us how unpredictable a distribu
 
 High entropy = very uncertain (hard to compress). Low entropy = more predictable.
 
-In ML, we compare our model's predicted distribution q to the true one p using:
+In ML, we compare our model's predicted distribution *q* to the true one *p* using:
 
 - **Kullback-Leibler (KL) Divergence**: How much extra "surprise" we get by using the wrong distribution.
-- **Cross-Entropy**: H(p, q) = H(p) + D_KL(p || q). Since the true entropy H(p) is fixed, minimizing cross-entropy during training is the same as minimizing KL divergence.
+- **Cross-Entropy**: *H(p, q) = H(p) + D_KL(p || q)*. Since the true entropy *H(p)* is fixed, minimizing cross-entropy during training is the same as minimizing KL divergence.
 
 These ideas are why your classification loss functions work and appear in advanced techniques like GANs and variational autoencoders.
 
@@ -372,23 +473,22 @@ From a Bayesian viewpoint, this is **Maximum A Posteriori (MAP)** estimation —
 **θ_MAP = argmax [ log p(data | θ) + log p(θ) ]**
 :::
 
-Assuming weights are normally distributed around zero turns the prior into the familiar -λ||θ||² penalty in your loss function.
+Assuming weights are normally distributed around zero turns the prior into the familiar *-λ||θ||²* penalty in your loss function.
 
 ## Summary for Practitioners
 
 MLE gives us loss functions, entropy and KL divergence power modern training objectives, and MAP explains why regularization works. Understanding these turns you from someone who just calls \`model.fit()\` into someone who knows why the math matters.
 
-> Every modern neural network loss function is secretly built on these fundamental statistical principles.
-`
+> "Every modern neural network loss function is secretly built on these fundamental statistical principles."
+`,
   },
 
-  // ── Post 3 ──────────────────────────────────────────────────────────────────
+  // ── Post 4 ──────────────────────────────────────────────────────────────────
   {
     id: "llm-journey",
     title: "The LLM Journey: From Text Prediction to Intelligent Agents — and What It Means for Nepal",
     excerpt: "Large language models have evolved from simple autocomplete systems into reasoning agents that write code, pass professional exams, and power entire products. Here is how we got here, and why the opportunity for Nepal has never been greater.",
     tag: "AI & LLMs", tagColor: "#f472b6",
-    heroImage: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2025", readTime: "7 min read",
     url: "#",
@@ -437,13 +537,12 @@ LLMs hallucinate, can amplify biases, and raise questions about copyright and jo
 `,
   },
 
-  // ── Post 4 ──────────────────────────────────────────────────────────────────
+  // ── Post 5 ──────────────────────────────────────────────────────────────────
   {
     id: "probability",
     title: "Probability for Machine Learning (Part I)",
     excerpt: "Master the art of reasoning under uncertainty: From Bayes' theorem to the statistical bedrock of modern ML.",
     tag: "Mathematics", tagColor: "#34d399",
-    heroImage: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2020", readTime: "9 min read",
     url: "https://sites.google.com/view/mldsnorg/blog/probability_i",
@@ -464,7 +563,7 @@ Why is probability non-negotiable for an ML practitioner? Consider these core pi
 Understanding probability starts with how we update our knowledge based on new evidence.
 
 :::callout The Conditional Logic
-The probability of event A, given that we have observed event B:
+The probability of event *A*, given that we have observed event *B*:
 
 \`P(A | B) = P(A ∩ B) / P(B), where P(B) > 0\`
 :::
@@ -481,25 +580,24 @@ Bayes' theorem is the engine of learning. It formalizes how we move from a "Prio
 
 ## The Practitioner's Toolbox: Key Distributions
 
-- **Bernoulli** — Binary outcomes (0 or 1).
-- **Categorical** — Multi-class tasks (Softmax).
-- **Gaussian** — Noise modeling & weight initialization.
-- **Beta** — Priors over probabilities.
-- **Dirichlet** — Topic modeling (LDA).
+- **Bernoulli:** Binary outcomes (0 or 1).
+- **Categorical:** Multi-class tasks (Softmax).
+- **Gaussian:** Noise modeling & weight initialization.
+- **Beta:** Priors over probabilities.
+- **Dirichlet:** Topic modeling (LDA).
 
-> Understanding probability isn't just about formulas; it’s about building the intuition to ask: *What do we know, what remains uncertain, and how confident should we be?*
+> "Understanding probability isn't just about formulas; it’s about building the intuition to ask: *What do we know, what remains uncertain, and how confident should we be?*"
 
 *Stay tuned for Part II, where we will dive into Maximum Likelihood Estimation and Information Theory.*
-`
+`,
   },
 
-  // ── Post 5 ──────────────────────────────────────────────────────────────────
+  // ── Post 6 ──────────────────────────────────────────────────────────────────
   {
     id: "linear-algebra",
     title: "Linear Algebra for Machine Learning (Part I)",
     excerpt: "Vectors, matrices and transformations form the mathematical backbone of every ML algorithm. This guide builds intuition before formulas.",
     tag: "Mathematics", tagColor: "#a78bfa",
-    heroImage: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2020", readTime: "10 min read",
     url: "https://sites.google.com/view/mldsnorg/blog/linear_algebra_i",
@@ -544,13 +642,12 @@ Part II will cover **eigenvalues and eigenvectors** (the engine of PCA), **matri
 `,
   },
 
-  // ── Post 6 ──────────────────────────────────────────────────────────────────
+  // ── Post 7 ──────────────────────────────────────────────────────────────────
   {
     id: "kaggle",
     title: "Kaggle: The Best Place to Start Machine Learning and Data Science",
     excerpt: "Whether you're a beginner or a seasoned data scientist, Kaggle offers competitions, datasets and community kernels that accelerate your ML journey significantly.",
     tag: "Learning", tagColor: "#4f9cf9",
-    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Data Scientist, Germany",
     date: "2020", readTime: "8 min read",
     url: "https://sites.google.com/view/mldsnorg/blog/kaggle_i",
@@ -581,37 +678,6 @@ Follow [this kernel](https://www.kaggle.com/jparajuli/data-exploration-encoding-
 > Kaggle is not just a competition platform — it is a learning community. Every kernel you read teaches you something a textbook never could.
 `,
   }
-
-  // ── ADD NEW POSTS BELOW THIS LINE ───────────────────────────────────────────
-  // Copy the template below, remove the comment markers, fill it in and save.
-  //
-  // {
-  //   id: "my-new-post",
-  //   title: "Your Post Title",
-  //   excerpt: "A short 1–2 sentence summary shown on cards and in search.",
-  //   tag: "Learning",  tagColor: "#4f9cf9",
-  //   heroImage: "https://images.unsplash.com/photo-...",
-  //   author: "Your Name",  authorRole: "Your Role",
-  //   date: "2026",  readTime: "5 min read",
-  //   url: "#",
-  //   content: `
-  // Write your post here in Markdown.
-  //
-  // ## Section Heading
-  //
-  // Regular paragraph text. **Bold** and *italic* work normally.
-  // Use \`inline code\` with escaped backticks.
-  //
-  // - Bullet one
-  // - Bullet two
-  //
-  // :::callout Note Title
-  // This is a highlighted callout box.
-  // :::
-  //
-  // > This becomes a pull quote / blockquote.
-  //    `,
-  // },
 ];
 
 // Convert Markdown → HTML at import time (runs once, not on every render)
