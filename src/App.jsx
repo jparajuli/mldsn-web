@@ -30,7 +30,7 @@ const SCRAPED_EVENTS = [
     year: "2024",
     type: "Workshop",
     accent: "var(--green)",
-    url: "https://sites.google.com/view/mldsnorg/news-and-events/events/1day_workshop"
+    url: "#"
   },
   {
     title: "1-Day International Symposium on AI, Machine Learning and Data Science",
@@ -38,7 +38,7 @@ const SCRAPED_EVENTS = [
     year: "2023",
     type: "Symposium",
     accent: "var(--accent2)",
-    url: "https://sites.google.com/view/mldsnorg/news-and-events/events/1day_symposium_ltu"
+    url: "#"
   },
   {
     title: "4th National Workshop on Machine Learning and Data Science (NWMLDS - 2021)",
@@ -62,7 +62,7 @@ const SCRAPED_EVENTS = [
     year: "2019",
     type: "Workshop",
     accent: "var(--accent2)",
-    url: "https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2019"
+    url: "#"
   },
   {
     title: "1st National Workshop on Machine Learning and Data Science (NWMLDS - 2018)",
@@ -70,7 +70,7 @@ const SCRAPED_EVENTS = [
     year: "2018",
     type: "Workshop",
     accent: "var(--green)",
-    url: "https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2018"
+    url: "#"
   }
 ];
 
@@ -109,7 +109,7 @@ const safeEvents = rawEvents.length
     }))
   : SCRAPED_EVENTS;
 
-// ─── LLM POST IMAGE FAULT-TOLERANT TRANSIT LAYER ─────────────────────────────
+// LLM Post Image Fault-Tolerant Transit Fallback Layer
 const safePosts = rawPosts.map(p => {
   let hero = p.heroImage;
   const isLLM = p.title?.toLowerCase().includes("llm") || p.excerpt?.toLowerCase().includes("llm") || p.tag?.toLowerCase().includes("llm");
@@ -131,7 +131,7 @@ const safeStats    = rawStats;
 const safeMission  = rawMission;
 const safeColors   = extractArray(siteModule, "TIMELINE_COLORS").length ? extractArray(siteModule, "TIMELINE_COLORS") : ["var(--accent)", "var(--accent2)", "var(--green)", "var(--orange)"];
 
-// ─── JOURNEY TIMELINE INJECTION MECHANICS ────────────────────────────────────
+// Journey Timeline Sync
 const baseTimeline = Array.isArray(rawTimeline) ? [...rawTimeline] : [];
 if (!baseTimeline.some(t => String(t?.year).includes("2024"))) {
   baseTimeline.push({
@@ -202,7 +202,6 @@ function SectionLabel({ children }) {
   );
 }
 
-// System interactive trigger buttons
 function Btn({ children, href, onClick, primary, small, style: extra = {} }) {
   const base = {
     display: "inline-block", borderRadius: 10, fontWeight: 600, transition: "all .2s",
@@ -431,7 +430,7 @@ function Mission() {
   );
 }
 
-// ─── History (2024 EVENT SYNCHRONIZED HERE) ────────────────────────────────────
+// ─── History ──────────────────────────────────────────────────────────────────
 function History() {
   return (
     <section className="sec" style={{ padding: "100px clamp(16px,6vw,80px)" }}>
@@ -544,7 +543,7 @@ function DedicatedEventsPage({ navigate }) {
   );
 }
 
-// ─── Dedicated Team Page (GROUP PORTRAIT REMOVED) ─────────────────────────────
+// ─── Dedicated Team Page ──────────────────────────────────────────────────────
 function DedicatedTeamPage() {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
 
@@ -683,7 +682,7 @@ function JoinCTA({ navigate }) {
   );
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
+// ─── Footer (INTERNAL EVENTS NAVIGATION CHIP APPLIED HERE) ────────────────────
 function Footer({ navigate }) {
   return (
     <footer id="contact" style={{ background: "var(--surface)", borderTop: "1px solid var(--border)", padding: "56px clamp(16px,6vw,80px) 28px" }}>
@@ -718,15 +717,18 @@ function Footer({ navigate }) {
           </div>
           <div>
             <div style={{ fontFamily: "var(--ff-body)", fontWeight: 600, fontSize: ".85rem", marginBottom: 14, color: "var(--text)" }}>Community</div>
-            {[
-              ["👥 Facebook Group","https://www.facebook.com/groups/217595548832685",         "var(--accent)",  "rgba(79,156,249,0.07)","rgba(79,156,249,0.18)","rgba(79,156,249,0.15)"],
-              ["📅 Events",        "https://sites.google.com/view/mldsnorg/news-and-events/events","var(--accent2)","rgba(167,139,250,0.07)","rgba(167,139,250,0.18)","rgba(167,139,250,0.15)"],
-            ].map(([l, h, c, bg, bd, hbg]) => (
-              <a key={l} href={h} target="_blank" rel="noreferrer"
-                style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", borderRadius: 8, marginBottom: 10, background: bg, border: `1px solid ${bd}`, color: c, fontSize: ".85rem", fontWeight: 600, transition: "all .2s", textDecoration: "none" }}
-                onMouseEnter={e => { e.currentTarget.style.background = hbg; }}
-                onMouseLeave={e => { e.currentTarget.style.background = bg; }}>{l}</a>
-            ))}
+            <a href="https://www.facebook.com/groups/217595548832685" target="_blank" rel="noreferrer"
+              style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", borderRadius: 8, marginBottom: 10, background: "rgba(79,156,249,0.07)", border: "1px solid rgba(79,156,249,0.18)", color: "var(--accent)", fontSize: ".85rem", fontWeight: 600, transition: "all .2s", textDecoration: "none" }}
+              onMouseEnter={e => { e.currentTarget.style.background = "rgba(79,156,249,0.15)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "rgba(79,156,249,0.07)"; }}>
+              👥 Facebook Group
+            </a>
+            <button onClick={() => navigate("events")}
+              style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", borderRadius: 8, marginBottom: 10, background: "rgba(167,139,250,0.07)", border: "1px solid rgba(167,139,250,0.18)", color: "var(--accent2)", fontSize: ".85rem", fontWeight: 600, transition: "all .2s", width: "100%", textDecoration: "none", textAlign: "left", cursor: "pointer" }}
+              onMouseEnter={e => { e.currentTarget.style.background = "rgba(167,139,250,0.15)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "rgba(167,139,250,0.07)"; }}>
+              📅 Events
+            </button>
           </div>
         </div>
         <div style={{ borderTop: "1px solid var(--border)", paddingTop: 20, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
