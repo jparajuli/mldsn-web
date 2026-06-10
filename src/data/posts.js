@@ -119,6 +119,7 @@ const POSTS_RAW = [
     title: "Inside the Machine: How NVIDIA Builds AI Chips, What They Actually Do, and Why Nobody Has Caught Up",
     excerpt: "Every ChatGPT response, every image generated, every LLM trained runs on specialised silicon. Here is a ground-up explanation of what AI chips are, how NVIDIA designs them, and why their two-decade head start has turned into one of the most durable moats in technology history.",
     tag: "AI & LLMs", tagColor: "#34d399",
+    heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2025", readTime: "12 min read",
     url: "#",
@@ -236,6 +237,7 @@ For anyone building, researching, or learning about AI in 2025, understanding th
     title: "5 High-Moat Agentic AI Startup Concepts for 2026",
     excerpt: "Forget chatbot wrappers. These five multi-agent startup concepts target expensive, document-heavy, compliance-driven B2B workflows where deep integrations and proprietary data create durable moats.",
     tag: "AI & LLMs", tagColor: "#f472b6",
+    heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2025", readTime: "14 min read",
     url: "#",
@@ -422,6 +424,7 @@ If you are a founder entering this space: pick one workflow in one industry. Go 
     title: "Probability for Machine Learning (Part II): Entropy & Estimation",
     excerpt: "Deep dive into Maximum Likelihood Estimation, Information Theory, and the mathematical roots of neural network loss functions.",
     tag: "Mathematics", tagColor: "#34d399",
+    heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2026", readTime: "12 min read",
     url: "#",
@@ -489,6 +492,7 @@ MLE gives us loss functions, entropy and KL divergence power modern training obj
     title: "The LLM Journey: From Text Prediction to Intelligent Agents — and What It Means for Nepal",
     excerpt: "Large language models have evolved from simple autocomplete systems into reasoning agents that write code, pass professional exams, and power entire products. Here is how we got here, and why the opportunity for Nepal has never been greater.",
     tag: "AI & LLMs", tagColor: "#f472b6",
+    heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2025", readTime: "7 min read",
     url: "#",
@@ -543,9 +547,10 @@ LLMs hallucinate, can amplify biases, and raise questions about copyright and jo
     title: "Probability for Machine Learning (Part I)",
     excerpt: "Master the art of reasoning under uncertainty: From Bayes' theorem to the statistical bedrock of modern ML.",
     tag: "Mathematics", tagColor: "#34d399",
+    heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2020", readTime: "9 min read",
-    url: "https://sites.google.com/view/mldsnorg/blog/probability_i",
+    url: "",
     content: `
 Machine learning is, at its heart, the science of decision-making under uncertainty. A model rarely deals in absolute certainties; instead, it estimates likelihoods. Probability theory is the formal language we use to quantify this process.
 
@@ -598,9 +603,10 @@ Bayes' theorem is the engine of learning. It formalizes how we move from a "Prio
     title: "Linear Algebra for Machine Learning (Part I)",
     excerpt: "Vectors, matrices and transformations form the mathematical backbone of every ML algorithm. This guide builds intuition before formulas.",
     tag: "Mathematics", tagColor: "#a78bfa",
+    heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2020", readTime: "10 min read",
-    url: "https://sites.google.com/view/mldsnorg/blog/linear_algebra_i",
+    url: "",
     content: `
 Machine learning algorithms operate almost entirely on numbers arranged in specific structures — vectors and matrices. Without a working understanding of linear algebra, many ML concepts remain opaque.
 
@@ -648,9 +654,10 @@ Part II will cover **eigenvalues and eigenvectors** (the engine of PCA), **matri
     title: "Kaggle: The Best Place to Start Machine Learning and Data Science",
     excerpt: "Whether you're a beginner or a seasoned data scientist, Kaggle offers competitions, datasets and community kernels that accelerate your ML journey significantly.",
     tag: "Learning", tagColor: "#4f9cf9",
+    heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Data Scientist, Germany",
     date: "2020", readTime: "8 min read",
-    url: "https://sites.google.com/view/mldsnorg/blog/kaggle_i",
+    url: "",
     content: `
 Either you are a beginner or a proficient data scientist, there is always a lot to learn from [Kaggle](https://www.kaggle.com/). Kaggle is a competition platform and provides a variety of datasets. You can also read very interesting kernels written by many competitors.
 
