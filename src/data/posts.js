@@ -4,9 +4,9 @@
 // Supported syntax:
 //   ## Heading 2         → <h2>
 //   ### Heading 3        → <h3>
-//   **bold**             → <strong>
-//   *italic*             → <em>
-//   `code`               → <code>
+//   **bold** → <strong>
+//   *italic* → <em>
+//   `code`                → <code>
 //   > blockquote         → <blockquote>
 //   - item  /  * item    → <ul><li>
 //   1. item              → <ol><li>
@@ -111,37 +111,29 @@ function parseMarkdown(md) {
 }
 
 // ─── BLOG POSTS ───────────────────────────────────────────────────────────────
-// HOW TO ADD A NEW POST:
-//   1. Copy the template object at the bottom of this file.
-//   2. Fill in every field.
-//   3. Write the article in the `content` field using Markdown.
-//   4. Save — the site picks it up automatically.
-//
-// BACKTICK NOTE: because the content is a JS template literal, any
-// inline code that uses backticks must be escaped: \`like this\`
-//
 // REQUIRED FIELDS:
-//   id         – unique, no spaces  (e.g. "my-post-2025")
-//   title      – article heading
-//   excerpt    – 1–2 sentence summary shown on cards
-//   tag        – badge label        (e.g. "Learning", "AI & LLMs", "Research")
-//   tagColor   – hex colour         (e.g. "#4f9cf9")
-//   author     – author full name
-//   authorRole – role / affiliation shown under the name
-//   date       – year or date string (e.g. "2025" or "Jun 2025")
-//   readTime   – estimated read     (e.g. "6 min read")
-//   url        – "View original" link; use "#" if there is no external URL
-//   content    – article body in Markdown
+//   id          – unique, no spaces  (e.g. "my-post-2025")
+//   title       – article heading
+//   excerpt     – 1–2 sentence summary shown on cards
+//   tag         – badge label        (e.g. "Learning", "AI & LLMs", "Research")
+//   tagColor    – hex colour         (e.g. "#4f9cf9")
+//   heroImage   – specific visual header background link
+//   author      – author full name
+//   authorRole  – role / affiliation shown under the name
+//   date        – year or date string (e.g. "2025" or "Jun 2025")
+//   readTime    – estimated read     (e.g. "6 min read")
+//   url         – "View original" link; use "#" if there is no external URL
+//   content     – article body in Markdown
 // ─────────────────────────────────────────────────────────────────────────────
 
 const POSTS_RAW = [
-
   // ── Post 1 ──────────────────────────────────────────────────────────────────
   {
     id: "agentic-ai-startup-concepts",
-    title: "5 High-Moat Agentic AI Startup Concepts for 2026",
+    title: "5 High-Moat Agentic AI Startup Concepts for 2026: A VC Partner's Playbook",
     excerpt: "Forget chatbot wrappers. These five multi-agent startup concepts target expensive, document-heavy, compliance-driven B2B workflows where deep integrations and proprietary data create durable moats.",
     tag: "AI & LLMs", tagColor: "#f472b6",
+    heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2025", readTime: "14 min read",
     url: "#",
@@ -318,75 +310,85 @@ The real advantage that does not get discussed enough is proven trust and regula
 
 If you are a founder entering this space: pick one workflow in one industry. Go deep before you go wide. The moat is in the data, the integrations, and the accumulated pattern-matching across thousands of real enterprise deployments — not in the LLM you chose.
 
-> The best agentic AI companies of 2026 will not be remembered for the model they used. They will be remembered for the workflow they owned.
+## The best agentic AI companies of 2026 will not be remembered for the model they used. They will be remembered for the workflow they owned.
 `,
   },
 
-  // ── Post 5 ──────────────────────────────────────────────────────────────────
+  // ── Post 2 ──────────────────────────────────────────────────────────────────
+  {
+    id: "probability-part-ii",
+    title: "Probability for Machine Learning (Part II): Entropy & Estimation",
+    excerpt: "Deep dive into Maximum Likelihood Estimation, Information Theory, and the mathematical roots of neural network loss functions.",
+    tag: "Mathematics", tagColor: "#34d399",
+    heroImage: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=80",
+    author: "MLDSN Nepal", authorRole: "Editorial Team",
+    date: "2026", readTime: "12 min read",
+    url: "#",
+    content: `
+In Part I, we saw how probability forms the foundation of machine learning. In real life, however, we rarely know the true underlying rules (the "true probability distribution") that generated our data. Part II bridges theory to practice by exploring how we estimate model parameters and measure uncertainty — concepts that directly power how neural networks learn.
 
-    {
-      "id": "probability-part-ii",
-      "title": "Probability for Machine Learning (Part II): Entropy & Estimation",
-      "excerpt": "Deep dive into Maximum Likelihood Estimation, Information Theory, and the mathematical roots of neural network loss functions.",
-      "tag": "Mathematics",
-      "tagColor": "#34d399",
-      "author": "MLDSN Nepal",
-      "authorRole": "Editorial Team",
-      "date": "2026",
-      "readTime": "12 min read",
-      "content": `
-      <p>In Part I, we saw how probability forms the foundation of machine learning. In real life, however, we rarely know the true underlying rules (the "true probability distribution") that generated our data. Part II bridges theory to practice by exploring how we estimate model parameters and measure uncertainty — concepts that directly power how neural networks learn.</p>
+## 1. Maximum Likelihood Estimation (MLE)
 
-      <h2>1. Maximum Likelihood Estimation (MLE)</h2>
-      <p>Imagine you have a bag of marbles with unknown proportions of colors. You draw some marbles and want to guess the most likely mix inside the bag. This is the core problem MLE solves.</p>
-      <p>In machine learning, we don't know the true distribution <em>p(data)</em>. Instead, we propose a model with adjustable parameters <em>θ</em> and ask: which <em>θ</em> makes our observed data most probable? We maximize the <strong>likelihood function</strong>:</p>
-      <div class="callout">
-        <div class="callout-title">The Likelihood Function</div>
-        <p style="text-align:center;"><strong>L(θ) = ∏ p(xᵢ | θ)</strong></p>
-        <p>Products are messy for computers, so we take the natural log (log-likelihood):</p>
-        <p style="text-align:center;"><strong>ℓ(θ) = ∑ log p(xᵢ | θ)</strong></p>
-      </div>
-      <p>Maximizing this is the same as minimizing the negative log-likelihood — which turns out to be exactly the cross-entropy loss used in training most neural network classifiers today. MLE exists because we need a principled, statistically sound way to fit models to data when we only have samples, not the full truth.</p>
+Imagine you have a bag of marbles with unknown proportions of colors. You draw some marbles and want to guess the most likely mix inside the bag. This is the core problem MLE solves.
 
-      <h2>2. Information Theory: Quantifying Uncertainty</h2>
-      <p>Life (and data) is full of uncertainty. Information Theory, developed by Claude Shannon during World War II to improve communication systems, gives us tools to measure it.</p>
-      <p>The key idea is <strong>Shannon Entropy</strong>, which tells us how unpredictable a distribution is:</p>
-      <div class="callout">
-        <div class="callout-title">Entropy Formula</div>
-        <p style="text-align:center;"><strong>H(X) = - ∑ p(x) log p(x)</strong></p>
-      </div>
-      <p>High entropy = very uncertain (hard to compress). Low entropy = more predictable.</p>
-      <p>In ML, we compare our model's predicted distribution <em>q</em> to the true one <em>p</em> using:</p>
-      <ul>
-        <li><strong>Kullback-Leibler (KL) Divergence</strong>: How much extra "surprise" we get by using the wrong distribution.</li>
-        <li><strong>Cross-Entropy</strong>: <em>H(p, q) = H(p) + D<sub>KL</sub>(p || q)</em>. Since the true entropy <em>H(p)</em> is fixed, minimizing cross-entropy during training is the same as minimizing KL divergence.</li>
-      </ul>
-      <p>These ideas are why your classification loss functions work and appear in advanced techniques like GANs and variational autoencoders.</p>
+In machine learning, we don't know the true distribution p(data). Instead, we propose a model with adjustable parameters θ and ask: which θ makes our observed data most probable? We maximize the **likelihood function**:
 
-      <h2>3. Regularization as Bayesian Thinking</h2>
-      <p>Models can memorize training data and fail on new examples (overfitting). Weight Decay (L2 regularization) helps prevent this.</p>
-      <p>From a Bayesian viewpoint, this is <strong>Maximum A Posteriori (MAP)</strong> estimation — we combine the likelihood of the data with our prior beliefs about the parameters:</p>
-      <div class="callout">
-        <div class="callout-title">MAP Estimation</div>
-        <p style="text-align:center;"><strong>θ_MAP = argmax [ log p(data | θ) + log p(θ) ]</strong></p>
-      </div>
-      <p>Assuming weights are normally distributed around zero turns the prior into the familiar <em>-λ||θ||²</em> penalty in your loss function.</p>
+:::callout The Likelihood Function
+**L(θ) = ∏ p(xᵢ | θ)**
 
-      <h2>Summary for Practitioners</h2>
-      <p>MLE gives us loss functions, entropy and KL divergence power modern training objectives, and MAP explains why regularization works. Understanding these turns you from someone who just calls <code>model.fit()</code> into someone who knows why the math matters.</p>
+Products are messy for computers, so we take the natural log (log-likelihood):
 
-      <blockquote>
-        "Every modern neural network loss function is secretly built on these fundamental statistical principles."
-      </blockquote>
-  `
-},
+**ℓ(θ) = ∑ log p(xᵢ | θ)**
+:::
 
-  // ── Post 4 ──────────────────────────────────────────────────────────────────
+Maximizing this is the same as minimizing the negative log-likelihood — which turns out to be exactly the cross-entropy loss used in training most neural network classifiers today. MLE exists because we need a principled, statistically sound way to fit models to data when we only have samples, not the full truth.
+
+## 2. Information Theory: Quantifying Uncertainty
+
+Life (and data) is full of uncertainty. Information Theory, developed by Claude Shannon during World War II to improve communication systems, gives us tools to measure it.
+
+The key idea is **Shannon Entropy**, which tells us how unpredictable a distribution is:
+
+:::callout Entropy Formula
+**H(X) = - ∑ p(x) log p(x)**
+:::
+
+High entropy = very uncertain (hard to compress). Low entropy = more predictable.
+
+In ML, we compare our model's predicted distribution q to the true one p using:
+
+- **Kullback-Leibler (KL) Divergence**: How much extra "surprise" we get by using the wrong distribution.
+- **Cross-Entropy**: H(p, q) = H(p) + D_KL(p || q). Since the true entropy H(p) is fixed, minimizing cross-entropy during training is the same as minimizing KL divergence.
+
+These ideas are why your classification loss functions work and appear in advanced techniques like GANs and variational autoencoders.
+
+## 3. Regularization as Bayesian Thinking
+
+Models can memorize training data and fail on new examples (overfitting). Weight Decay (L2 regularization) helps prevent this.
+
+From a Bayesian viewpoint, this is **Maximum A Posteriori (MAP)** estimation — we combine the likelihood of the data with our prior beliefs about the parameters:
+
+:::callout MAP Estimation
+**θ_MAP = argmax [ log p(data | θ) + log p(θ) ]**
+:::
+
+Assuming weights are normally distributed around zero turns the prior into the familiar -λ||θ||² penalty in your loss function.
+
+## Summary for Practitioners
+
+MLE gives us loss functions, entropy and KL divergence power modern training objectives, and MAP explains why regularization works. Understanding these turns you from someone who just calls \`model.fit()\` into someone who knows why the math matters.
+
+> Every modern neural network loss function is secretly built on these fundamental statistical principles.
+`
+  },
+
+  // ── Post 3 ──────────────────────────────────────────────────────────────────
   {
     id: "llm-journey",
     title: "The LLM Journey: From Text Prediction to Intelligent Agents — and What It Means for Nepal",
     excerpt: "Large language models have evolved from simple autocomplete systems into reasoning agents that write code, pass professional exams, and power entire products. Here is how we got here, and why the opportunity for Nepal has never been greater.",
     tag: "AI & LLMs", tagColor: "#f472b6",
+    heroImage: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2025", readTime: "7 min read",
     url: "#",
@@ -435,77 +437,69 @@ LLMs hallucinate, can amplify biases, and raise questions about copyright and jo
 `,
   },
 
-  // ── Post 3 ──────────────────────────────────────────────────────────────────
+  // ── Post 4 ──────────────────────────────────────────────────────────────────
   {
     id: "probability",
     title: "Probability for Machine Learning (Part I)",
     excerpt: "Master the art of reasoning under uncertainty: From Bayes' theorem to the statistical bedrock of modern ML.",
     tag: "Mathematics", tagColor: "#34d399",
+    heroImage: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2020", readTime: "9 min read",
     url: "https://sites.google.com/view/mldsnorg/blog/probability_i",
     content: `
-<p>Machine learning is, at its heart, the science of decision-making under uncertainty. A model rarely deals in absolute certainties; instead, it estimates likelihoods. Probability theory is the formal language we use to quantify this process.</p>
+Machine learning is, at its heart, the science of decision-making under uncertainty. A model rarely deals in absolute certainties; instead, it estimates likelihoods. Probability theory is the formal language we use to quantify this process.
 
-<h2>The Statistical Foundation of AI</h2>
-<p>Why is probability non-negotiable for an ML practitioner? Consider these core pillars:</p>
-<ul>
-  <li><strong>Probabilistic Classification:</strong> Models output confidence scores, not just rigid labels.</li>
-  <li><strong>Optimization:</strong> Loss functions, such as cross-entropy, are rooted in <em>Maximum Likelihood Estimation (MLE)</em>.</li>
-  <li><strong>Regularization:</strong> Techniques like L2 regularization are essentially <em>Gaussian priors</em> placed on model weights.</li>
-  <li><strong>Generative Power:</strong> Modern models (VAEs, Diffusion) explicitly learn complex <em>probability distributions</em> over data.</li>
-</ul>
+## The Statistical Foundation of AI
 
+Why is probability non-negotiable for an ML practitioner? Consider these core pillars:
 
+- **Probabilistic Classification:** Models output confidence scores, not just rigid labels.
+- **Optimization:** Loss functions, such as cross-entropy, are rooted in *Maximum Likelihood Estimation (MLE)*.
+- **Regularization:** Techniques like L2 regularization are essentially *Gaussian priors* placed on model weights.
+- **Generative Power:** Modern models (VAEs, Diffusion) explicitly learn complex *probability distributions* over data.
 
-<h2>Core Concepts: The Bayesian Lens</h2>
-<p>Understanding probability starts with how we update our knowledge based on new evidence.</p>
+## Core Concepts: The Bayesian Lens
 
-<div class="callout">
-  <div class="callout-title">The Conditional Logic</div>
-  <p>The probability of event <em>A</em>, given that we have observed event <em>B</em>:</p>
-  <code style="display:block; margin-top:10px;">P(A | B) = P(A ∩ B) / P(B), where P(B) > 0</code>
-</div>
+Understanding probability starts with how we update our knowledge based on new evidence.
 
-<div class="callout">
-  <div class="callout-title">Bayes' Theorem: Updating Beliefs</div>
-  <p>Bayes' theorem is the engine of learning. It formalizes how we move from a "Prior" to an "Updated Belief":</p>
-  <p style="text-align:center; font-size:1.2rem;"><strong>P(A | B) = (P(B | A) × P(A)) / P(B)</strong></p>
-  <ul>
-    <li><strong>Prior (P(A)):</strong> Our initial assumption.</li>
-    <li><strong>Likelihood (P(B | A)):</strong> How well the data fits the assumption.</li>
-    <li><strong>Posterior (P(A | B)):</strong> Our refined understanding.</li>
-  </ul>
-</div>
+:::callout The Conditional Logic
+The probability of event A, given that we have observed event B:
 
-<h2>The Practitioner's Toolbox: Key Distributions</h2>
-<div class="data-table-wrap">
-  <table class="data-table">
-    <thead><tr><th>Distribution</th><th>Best Used For</th></tr></thead>
-    <tbody>
-      <tr><td><code>Bernoulli</code></td><td>Binary outcomes (0 or 1).</td></tr>
-      <tr><td><code>Categorical</code></td><td>Multi-class tasks (Softmax).</td></tr>
-      <tr><td><code>Gaussian</code></td><td>Noise modeling & weight initialization.</td></tr>
-      <tr><td><code>Beta</code></td><td>Priors over probabilities.</td></tr>
-      <tr><td><code>Dirichlet</code></td><td>Topic modeling (LDA).</td></tr>
-    </tbody>
-  </table>
-</div>
+\`P(A | B) = P(A ∩ B) / P(B), where P(B) > 0\`
+:::
 
-<blockquote>
-  "Understanding probability isn't just about formulas; it’s about building the intuition to ask: <em>What do we know, what remains uncertain, and how confident should we be?</em>"
-</blockquote>
+:::callout Bayes' Theorem: Updating Beliefs
+Bayes' theorem is the engine of learning. It formalizes how we move from a "Prior" to an "Updated Belief":
 
-<p><em>Stay tuned for Part II, where we will dive into Maximum Likelihood Estimation and Information Theory.</em></p>
+**P(A | B) = (P(B | A) × P(A)) / P(B)**
+
+- **Prior (P(A)):** Our initial assumption.
+- **Likelihood (P(B | A)):** How well the data fits the assumption.
+- **Posterior (P(A | B)):** Our refined understanding.
+:::
+
+## The Practitioner's Toolbox: Key Distributions
+
+- **Bernoulli** — Binary outcomes (0 or 1).
+- **Categorical** — Multi-class tasks (Softmax).
+- **Gaussian** — Noise modeling & weight initialization.
+- **Beta** — Priors over probabilities.
+- **Dirichlet** — Topic modeling (LDA).
+
+> Understanding probability isn't just about formulas; it’s about building the intuition to ask: *What do we know, what remains uncertain, and how confident should we be?*
+
+*Stay tuned for Part II, where we will dive into Maximum Likelihood Estimation and Information Theory.*
 `
   },
 
-  // ── Post 2 ──────────────────────────────────────────────────────────────────
+  // ── Post 5 ──────────────────────────────────────────────────────────────────
   {
     id: "linear-algebra",
     title: "Linear Algebra for Machine Learning (Part I)",
     excerpt: "Vectors, matrices and transformations form the mathematical backbone of every ML algorithm. This guide builds intuition before formulas.",
     tag: "Mathematics", tagColor: "#a78bfa",
+    heroImage: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Editorial Team",
     date: "2020", readTime: "10 min read",
     url: "https://sites.google.com/view/mldsnorg/blog/linear_algebra_i",
@@ -550,12 +544,13 @@ Part II will cover **eigenvalues and eigenvectors** (the engine of PCA), **matri
 `,
   },
 
-  // ── Post 1 ──────────────────────────────────────────────────────────────────
+  // ── Post 6 ──────────────────────────────────────────────────────────────────
   {
     id: "kaggle",
     title: "Kaggle: The Best Place to Start Machine Learning and Data Science",
     excerpt: "Whether you're a beginner or a seasoned data scientist, Kaggle offers competitions, datasets and community kernels that accelerate your ML journey significantly.",
     tag: "Learning", tagColor: "#4f9cf9",
+    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
     author: "MLDSN Nepal", authorRole: "Data Scientist, Germany",
     date: "2020", readTime: "8 min read",
     url: "https://sites.google.com/view/mldsnorg/blog/kaggle_i",
@@ -595,8 +590,9 @@ Follow [this kernel](https://www.kaggle.com/jparajuli/data-exploration-encoding-
   //   title: "Your Post Title",
   //   excerpt: "A short 1–2 sentence summary shown on cards and in search.",
   //   tag: "Learning",  tagColor: "#4f9cf9",
+  //   heroImage: "https://images.unsplash.com/photo-...",
   //   author: "Your Name",  authorRole: "Your Role",
-  //   date: "2025",  readTime: "5 min read",
+  //   date: "2026",  readTime: "5 min read",
   //   url: "#",
   //   content: `
   // Write your post here in Markdown.
@@ -614,9 +610,8 @@ Follow [this kernel](https://www.kaggle.com/jparajuli/data-exploration-encoding-
   // :::
   //
   // > This becomes a pull quote / blockquote.
-  //   `,
+  //    `,
   // },
-
 ];
 
 // Convert Markdown → HTML at import time (runs once, not on every render)
