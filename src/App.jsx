@@ -273,8 +273,8 @@ function Navbar({ page, navigate }) {
         {links.map(l => (
           <button key={l.label} onClick={l.action}
             style={{ padding: "7px 14px", borderRadius: 6, fontSize: 13, fontWeight: 500, border: "none", fontFamily: "var(--ff-body)", transition: "color .2s", cursor: "pointer",
-              background: (page === l.label.toLowerCase()) ? "rgba(79,156,249,0.08)" : "transparent",
-              color:      (page === l.label.toLowerCase()) ? "var(--accent)" : "var(--sub)",
+              background: (page === l.label.toLowerCase() || (l.label === "Home" && page === "research-career")) ? "rgba(79,156,249,0.08)" : "transparent",
+              color:      (page === l.label.toLowerCase() || (l.label === "Home" && page === "research-career")) ? "var(--accent)" : "var(--sub)",
             }}
             onMouseEnter={e => e.currentTarget.style.color = "var(--text)"}
             onMouseLeave={e => e.currentTarget.style.color = (page === l.label.toLowerCase()) ? "var(--accent)" : "var(--sub)"}
@@ -356,8 +356,8 @@ function StatsTicker() {
   );
 }
 
-// ─── About ────────────────────────────────────────────────────────────────────
-function About() {
+// ─── About (INTERNAL SPA NAVIGATION PATH APPLIED HERE) ────────────────────────
+function About({ navigate }) {
   return (
     <section id="about" className="sec" style={{ padding: "100px clamp(16px,6vw,80px)" }}>
       <div className="about-grid" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px,6vw,80px)", alignItems: "center" }}>
@@ -384,15 +384,14 @@ function About() {
               </div>
             ))}
             <div className="about-card-actions" style={{ marginTop: 20, display: "flex", gap: 8 }}>
-              {[
-                ["Facebook Group",    "https://www.facebook.com/groups/217595548832685",         "var(--accent)",  "rgba(79,156,249,0.08)",  "rgba(79,156,249,0.2)"],
-                ["Research & Career","https://sites.google.com/view/mldsnorg/research-career", "var(--accent2)", "rgba(167,139,250,0.08)", "rgba(167,139,250,0.2)"],
-              ].map(([l, h, c, bg, bd]) => (
-                <a key={l} href={h} target="_blank" rel="noreferrer"
-                  style={{ flex: "1 1 110px", padding: "10px 8px", borderRadius: 8, textAlign: "center", background: bg, border: `1px solid ${bd}`, color: c, fontSize: 13, fontWeight: 600, transition: "opacity .2s", textDecoration: "none" }}
-                  onMouseEnter={e => e.currentTarget.style.opacity = ".75"}
-                  onMouseLeave={e => e.currentTarget.style.opacity = "1"}>{l}</a>
-              ))}
+              <a href="https://www.facebook.com/groups/217595548832685" target="_blank" rel="noreferrer"
+                style={{ flex: "1 1 110px", padding: "12px 8px", borderRadius: 8, textAlign: "center", background: "rgba(79,156,249,0.08)", border: "1px solid rgba(79,156,249,0.2)", color: "var(--accent)", fontSize: 13, fontWeight: 600, transition: "opacity .2s", textDecoration: "none" }}
+                onMouseEnter={e => e.currentTarget.style.opacity = ".75"}
+                onMouseLeave={e => e.currentTarget.style.opacity = "1"}>Facebook Group</a>
+              <button onClick={() => navigate("research-career")}
+                style={{ flex: "1 1 110px", padding: "12px 8px", borderRadius: 8, textAlign: "center", background: "rgba(167,139,250,0.08)", border: "1px solid rgba(167,139,250,0.2)", color: "var(--accent2)", fontSize: 13, fontWeight: 600, transition: "opacity .2s", cursor: "pointer", fontFamily: "var(--ff-body)" }}
+                onMouseEnter={e => e.currentTarget.style.opacity = ".75"}
+                onMouseLeave={e => e.currentTarget.style.opacity = "1"}>Research & Career</button>
             </div>
           </div>
           <div style={{ position: "absolute", top: -20, right: -20, width: 80, height: 80, borderRadius: "50%", border: "1px solid rgba(79,156,249,0.2)", animation: "spin-slow 20s linear infinite" }} />
@@ -614,6 +613,117 @@ function DedicatedTeamPage() {
   );
 }
 
+// ─── NEW DEDICATED RESEARCH AND CAREER COMPONENT ─────────────────────────────
+function DedicatedResearchCareerPage({ navigate }) {
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
+
+  const tracks = [
+    {
+      title: "Low-Resource NLP Core",
+      subtitle: "Language Models & Translation",
+      desc: "Structuring high-density computational datasets for low-resource languages across regional zones. Driving localized fine-tuning, automated legal translation modules, and parsing architectures built specifically for Devanagari syntax configurations.",
+      color: "var(--accent)"
+    },
+    {
+      title: "Agri-Tech Computer Vision",
+      subtitle: "Topography & Crop Health Diagnostics",
+      desc: "Deploying lightweight convolutional neural networks onto mobile devices to empower farmers. Research vectors center on real-time rust disease analysis, localized leaf parsing systems, and multi-spectral drone imagery interpretation.",
+      color: "var(--green)"
+    },
+    {
+      title: "Biomedical Systems & Rural Health",
+      subtitle: "Predictive Analytics Pipelines",
+      desc: "Collaborating with local health posts to establish robust inference engines. Focused on processing tabular metadata, automated diagnostic telemetry, and building early epidemic tracking algorithms under scarce structural conditions.",
+      color: "var(--accent2)"
+    }
+  ];
+
+  const openings = [
+    { title: "Voluntary Research Fellow (NLP Track)", type: "Academic Fellowship", scope: "Remote / Hybrid (Kathmandu)", time: "6 Months Track" },
+    { title: "Data Pipeline Coordinator", type: "Community Core Taskforce", scope: "Kathmandu Valley Labs", time: "Flexible Voluntary" },
+    { title: "Open-Source Dataset Compiler", type: "Undergrad Field Program", scope: "Rural Inclusion Track", time: "Project Bound" }
+  ];
+
+  return (
+    <div style={{ paddingTop: 64 }}>
+      <div className="mountain-grid" style={{ padding: "72px clamp(16px,6vw,80px) 64px", position: "relative", overflow: "hidden", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ position: "absolute", top: "-10%", right: "10%", width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(167,139,250,0.08) 0%,transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
+          <SectionLabel>Knowledge Ecosystem</SectionLabel>
+          <h1 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.8rem,4vw,3.2rem)", lineHeight: 1.15, letterSpacing: "-0.02em", marginBottom: 16 }}>
+            Research & <span style={{ background: "linear-gradient(90deg,var(--accent2),var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Career Hub</span>
+          </h1>
+          <p style={{ color: "var(--sub)", fontSize: "1.02rem", maxWidth: 640, lineHeight: 1.8 }}>
+            MLDSN Nepal serves as an open-access launchpad bridging academic investigation with domestic and international tech placements. We foster collaborative research labs, compile specialized open datasets, and pair diaspora professionals with local taskforces.
+          </p>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "56px clamp(16px,6vw,80px) 100px" }}>
+        
+        <div style={{ marginBottom: 64 }}>
+          <div style={{ fontSize: 11, fontFamily: "var(--ff-mono)", color: "var(--muted)", letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 24 }}>🔬 Active Research Focus Areas</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
+            {tracks.map((t, i) => (
+              <div key={i} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, padding: 28, position: "relative", overflow: "hidden" }}>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: t.color }} />
+                <div style={{ marginBottom: 14 }}>
+                  <Tag color={t.color}>{t.subtitle}</Tag>
+                </div>
+                <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "1.2rem", marginBottom: 10, color: "var(--text)" }}>{t.title}</h3>
+                <p style={{ color: "var(--sub)", fontSize: "0.9rem", lineHeight: 1.7, margin: 0 }}>{t.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: "clamp(32px,5vw,56px)", flexWrap: "wrap", alignItems: "start" }}>
+          <div>
+            <div style={{ fontSize: 11, fontFamily: "var(--ff-mono)", color: "var(--muted)", letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 20 }}>💼 Open Talent & Mentorship Tracks</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {openings.map((op, i) => (
+                <div key={i} style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 16, padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                  <div>
+                    <h4 style={{ margin: "0 0 6px 0", fontWeight: 600, fontSize: "1.02rem", color: "var(--text)" }}>{op.title}</h4>
+                    <div style={{ display: "flex", gap: 12, fontSize: 12, color: "var(--muted)" }}>
+                      <span>📋 {op.type}</span>
+                      <span>📍 {op.scope}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: 11, fontFamily: "var(--ff-mono)", color: "var(--accent)", background: "rgba(79,156,249,0.08)", border: "1px solid rgba(79,156,249,0.2)", padding: "4px 10px", borderRadius: 6, whiteSpace: "nowrap" }}>
+                      {op.time}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <Btn onClick={() => navigate("join")} primary small>Apply via Onboarding Portal →</Btn>
+            </div>
+          </div>
+
+          <aside style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, padding: 24, position: "sticky", top: 84 }}>
+            <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "1.1rem", marginBottom: 12, color: "var(--text)" }}>Call for Proposals</h3>
+            <p style={{ color: "var(--sub)", fontSize: "0.88rem", lineHeight: 1.6, marginBottom: 20 }}>
+              Are you an international researcher, a computational student lab, or an enterprise looking to build foundational ML benchmarks inside Nepal? 
+            </p>
+            <div style={{ background: "var(--surface)", borderRadius: 10, padding: 14, border: "1px solid var(--border)", fontSize: 12, color: "var(--muted)", fontFamily: "var(--ff-mono)", wordBreak: "break-all", marginBottom: 16 }}>
+              // Routing Terminal<br />
+              Email: aimldsn@gmail.com<br />
+              Subject: [Lab Proposal 2026]
+            </div>
+            <p style={{ color: "var(--muted)", fontSize: "0.8rem", margin: 0 }}>
+              Our expert review board provides operational data infrastructure mapping and technical evaluation guidance for peer-reviewed pipelines.
+            </p>
+          </aside>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 // ─── Home Blog ────────────────────────────────────────────────────────────────
 function HomeBlog({ navigate }) {
   return (
@@ -682,7 +792,7 @@ function JoinCTA({ navigate }) {
   );
 }
 
-// ─── Footer (INTERNAL EVENTS NAVIGATION CHIP APPLIED HERE) ────────────────────
+// ─── Footer (RESEARCH & CAREER LINK REMAPPED) ─────────────────────────────────
 function Footer({ navigate }) {
   return (
     <footer id="contact" style={{ background: "var(--surface)", borderTop: "1px solid var(--border)", padding: "56px clamp(16px,6vw,80px) 28px" }}>
@@ -703,7 +813,10 @@ function Footer({ navigate }) {
             <div style={{ fontFamily: "var(--ff-body)", fontWeight: 600, fontSize: ".85rem", marginBottom: 14, color: "var(--text)" }}>Quick Links</div>
             <a href="https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2021" target="_blank" rel="noreferrer" style={{ display: "block", color: "var(--muted)", fontSize: ".85rem", marginBottom: 10, transition: "color .2s", textDecoration: "none" }} onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"} onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}>NWMLDS 2021</a>
             <a href="https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2020" target="_blank" rel="noreferrer" style={{ display: "block", color: "var(--muted)", fontSize: ".85rem", marginBottom: 10, transition: "color .2s", textDecoration: "none" }} onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"} onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}>NWMLDS 2020</a>
-            <a href="https://sites.google.com/view/mldsnorg/research-career" target="_blank" rel="noreferrer" style={{ display: "block", color: "var(--muted)", fontSize: ".85rem", marginBottom: 10, transition: "color .2s", textDecoration: "none" }} onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"} onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}>Research & Career</a>
+            <button onClick={() => navigate("research-career")} 
+              style={{ display: "block", background: "none", border: "none", padding: 0, color: "var(--muted)", fontSize: ".85rem", marginBottom: 10, transition: "color .2s", cursor: "pointer", textAlign: "left", fontFamily: "var(--ff-body)" }} 
+              onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"} 
+              onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}>Research & Career</button>
             <button onClick={() => navigate("join")} style={{ display: "block", background: "none", border: "none", padding: 0, color: "var(--muted)", fontSize: ".85rem", marginBottom: 10, transition: "color .2s", cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"} onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}>Become a Member</button>
           </div>
           <div>
@@ -1145,7 +1258,7 @@ export default function App() {
         <>
           <Hero navigate={navigate} />
           <StatsTicker />
-          <About />
+          <About navigate={navigate} />
           <Mission />
           <History />
           <HomeEventsPreview navigate={navigate} />
@@ -1154,11 +1267,12 @@ export default function App() {
           <Footer navigate={navigate} />
         </>
       )}
-      {page === "team"    && <><DedicatedTeamPage /><Footer navigate={navigate} /></>}
-      {page === "events"  && <><DedicatedEventsPage navigate={navigate} /><Footer navigate={navigate} /></>}
-      {page === "blog"    && <><BlogList           navigate={navigate} /><Footer navigate={navigate} /></>}
-      {page === "article" && activePost && <><ArticleView post={activePost} navigate={navigate} /><Footer navigate={navigate} /></>}
-      {page === "join"    && <><MembershipForm    navigate={navigate} /><Footer navigate={navigate} /></>}
+      {page === "team"             && <><DedicatedTeamPage /><Footer navigate={navigate} /></>}
+      {page === "research-career"  && <><DedicatedResearchCareerPage navigate={navigate} /><Footer navigate={navigate} /></>}
+      {page === "events"           && <><DedicatedEventsPage navigate={navigate} /><Footer navigate={navigate} /></>}
+      {page === "blog"             && <><BlogList           navigate={navigate} /><Footer navigate={navigate} /></>}
+      {page === "article"          && activePost && <><ArticleView post={activePost} navigate={navigate} /><Footer navigate={navigate} /></>}
+      {page === "join"             && <><MembershipForm    navigate={navigate} /><Footer navigate={navigate} /></>}
     </div>
   );
 }
