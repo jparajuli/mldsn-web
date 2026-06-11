@@ -113,7 +113,79 @@ function parseMarkdown(md) {
 // ─── BLOG POSTS ───────────────────────────────────────────────────────────────
 const POSTS_RAW = [
 
-  // ── Post 1 ───────────────────────────────────────────────────────────────────
+  // post 7
+
+{
+  id: "demystifying-apis-2026",
+  title: "Demystifying APIs: The Digital Bridges Powering Our Connected World",
+  excerpt: "Whether you are a startup founder designing a roadmap or a developer compiling an MLOps infrastructure, understanding APIs is crucial. Explore the primary types of APIs with examples for technical and non-technical readers alike.",
+  tag: "Engineering",
+  tagColor: "var(--accent)",
+  readTime: "5 min read",
+  author: "MLDSN Core",
+  date: "June 11, 2026",
+  heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+  content: `
+    <p>In the modern digital landscape, software programs don't live on isolated islands. When you check the morning weather on your phone, book a flight online, or integrate an AI model into your data science pipeline, a hidden mechanism handles the heavy lifting behind the scenes. That mechanism is the <strong>API</strong>.</p>
+
+    <p>Whether you are a startup founder designing a product roadmap or a developer compiling a lightweight MLOps infrastructure, understanding APIs is crucial. This guide breaks down what APIs are, explores their different architectural types, and provides clear definitions and examples for both technical and non-technical readers.</p>
+
+    <h2 style="font-family:var(--ff-head); color:var(--text); margin-top:24px; font-size:1.4rem;">What on Earth is an API?</h2>
+    <p><strong>API</strong> stands for <strong>Application Programming Interface</strong>. At its core, it is a contract that allows two different applications to talk to each other.</p>
+
+    <h3 style="color:var(--accent); font-size:1.1rem; margin-top:16px;">The Non-Technical Perspective: The Restaurant Waiter</h3>
+    <blockquote style="border-left:3px solid var(--accent); padding-left:16px; color:var(--sub); margin:16px 0;">
+      Imagine you are sitting at a restaurant table. You have a <strong>menu</strong> of choices, and the <strong>kitchen</strong> prepares the food. The missing link is the <strong>waiter</strong>, who takes your order, delivers it to the kitchen, and brings the food back to your table. In this scenario, you are the user, the kitchen is the server/database, and the <strong>waiter is the API</strong>.
+    </blockquote>
+
+    <h3 style="color:var(--accent); font-size:1.1rem; margin-top:16px;">The Technical Perspective: The Digital Protocol</h3>
+    <blockquote style="border-left:3px solid var(--accent2); padding-left:16px; color:var(--sub); margin:16px 0;">
+      From a technical standpoint, an API is a set of defined protocols, routines, and tools for building software applications. It specifies how software components should interact, defining the exact request format, expected response payloads (typically in <strong>JSON</strong> or <strong>XML</strong>), and communication methods (such as HTTP methods like <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>).
+    </blockquote>
+
+    <h2 style="font-family:var(--ff-head); color:var(--text); margin-top:32px; font-size:1.4rem;">Exploring the Primary Types of APIs</h2>
+    <p>Not all APIs are built the same way. Over the years, different architectural styles and protocols have evolved to handle different system constraints, data speeds, and developer preferences. Let's look at the four most common types.</p>
+
+    <h3 style="color:var(--text); font-size:1.2rem; margin-top:20px;">1. REST APIs (Representational State Transfer)</h3>
+    <p>REST is the undisputed king of the modern web. It is an architectural style designed to use existing web protocols—primarily <strong>HTTP</strong>. It treats everything as a "resource" (a user, a blog post, a piece of sensor data) that can be accessed via a unique URL.</p>
+    <ul>
+      <li><strong>For Non-Technical Readers:</strong> Think of REST like browsing a well-structured catalog. If you want to look at item #105, you go to a specific URL page, look at it, and leave. It is simple, reliable, and standardized.</li>
+      <li><strong>For Technical Readers:</strong> REST is stateless, meaning each request from a client must contain all the information needed to understand and process it. It relies heavily on standard HTTP status codes (<code>200 OK</code>, <code>404 Not Found</code>, <code>500 Server Error</code>) and usually delivers data in <strong>JSON</strong> format.</li>
+    </ul>
+    <p><em>Real-World Example:</em> The <strong>OpenWeatherMap API</strong>. A smartphone weather app sends a quick request containing city coordinates, and the API returns a neat package of current temperature data.</p>
+
+    <h3 style="color:var(--text); font-size:1.2rem; margin-top:20px;">2. GraphQL (The Precision Selector)</h3>
+    <p>Developed by Facebook, GraphQL is a query language for APIs that solves a major problem found in REST: getting either too much data (over-fetching) or not enough data (under-fetching).</p>
+    <ul>
+      <li><strong>For Non-Technical Readers:</strong> Imagine ordering custom street food. Instead of buying a pre-made standard lunch box that contains items you don't want, you hand the chef a precise checklist: <em>"Give me exactly two pieces of chicken, a side of rice, and absolutely no onions."</em> You get exactly what you asked for—nothing more, nothing less.</li>
+      <li><strong>For Technical Readers:</strong> GraphQL uses a single endpoint (typically <code>/graphql</code>) and allows clients to define the exact structure of the response using a strongly-typed schema. Clients execute queries or mutations, reducing database load and network overhead by fetching nested data structures in a single round-trip.</li>
+    </ul>
+    <p><em>Real-World Example:</em> The <strong>GitHub API</strong>. If a dashboard only needs to display a list of repository names and the number of stars, it requests <em>just</em> those fields, omitting heavy strings like user bios, commit histories, and pull request timelines.</p>
+
+    <h3 style="color:var(--text); font-size:1.2rem; margin-top:20px;">3. SOAP APIs (Simple Object Access Protocol)</h3>
+    <p>SOAP is a strict, official protocol (unlike REST, which is a flexible architectural style). It has been around since the late 1990s and is famous for its rigid security and structure.</p>
+    <ul>
+      <li><strong>For Non-Technical Readers:</strong> Think of SOAP like sending a highly secure legal document via a certified courier. It requires a specific envelope, a mandatory signature layout, and strict verification at every checkpoint. It is slower and clunkier than regular mail, but it ensures the document cannot be tampered with.</li>
+      <li><strong>For Technical Readers:</strong> SOAP relies exclusively on <strong>XML</strong> for its message format and requires strict contract definitions using <strong>WSDL</strong> (Web Services Description Language). It features built-in ACID compliance and enterprise-grade security protocols (WS-Security), making it the standard for legacy integrations.</li>
+    </ul>
+    <p><em>Real-World Example:</em> <strong>Banking and Payment Gateways</strong>. High-security systems, like inter-bank wire transfer networks or legacy credit verification systems, utilize SOAP to ensure transactions are completely foolproof.</p>
+
+    <h3 style="color:var(--text); font-size:1.2rem; margin-top:20px;">4. Webhooks & Real-Time APIs (The Instant Alerts)</h3>
+    <p>While traditional APIs work on a <em>request-and-response</em> basis (you ask, it answers), Webhooks reverse the flow. They operate on an event-driven mechanism.</p>
+    <ul>
+      <li><strong>For Non-Technical Readers:</strong> Instead of calling a store every ten minutes to ask, <em>"Is my package here yet?"</em> (traditional API polling), you leave your phone number and tell the shopkeeper, <em>"Call me the exact second it arrives"</em> (Webhook).</li>
+      <li><strong>For Technical Readers:</strong> A Webhook is a user-defined HTTP callback. When a specific event occurs on the source server (e.g., a database update, a completed payment), the server triggers an HTTP <code>POST</code> payload directly to the client's configured destination URL in real time.</li>
+    </ul>
+    <p><em>Real-World Example:</em> <strong>Payment Confirmations</strong>. When a user buys a subscription using a digital payment gateway, the gateway fires a Webhook to your application server to immediately unlock the premium features for that user.</p>
+
+    <h2 style="font-family:var(--ff-head); color:var(--text); margin-top:32px; font-size:1.4rem;">Why APIs Matter for Emerging Tech Ecosystems</h2>
+    <p>For tech networks, research communities, and innovators alike, APIs are the connective tissue of scaling projects. They allow local developers and data scientists to tap into world-class infrastructure instantly.</p>
+    <p>For example, a machine learning student building an automated crop diagnostics tool in Nepal doesn't need to train a massive language vision model from scratch on expensive hardware. They can safely wrap their pipeline around existing computer vision APIs or use OpenAI/Anthropic endpoints to handle complex semantic classifications via simple API requests.</p>
+    <p>By understanding the strengths and structural boundaries of each API type, engineers can build faster, cleaner systems, while non-technical project managers can make informed strategic choices about software scaling, product integration, and data architecture.</p>
+  `
+},
+
+  // ── Post 6 ───────────────────────────────────────────────────────────────────
   {
     id: "ai-chips-nvidia-explained",
     title: "Inside the Machine: How NVIDIA Builds AI Chips, What They Actually Do, and Why Nobody Has Caught Up",
@@ -231,7 +303,7 @@ For anyone building, researching, or learning about AI in 2025, understanding th
 `,
   },
 
-  // ── Post 2 ──────────────────────────────────────────────────────────────────
+  // ── Post 5 ──────────────────────────────────────────────────────────────────
   {
     id: "agentic-ai-startup-concepts",
     title: "5 High-Moat Agentic AI Startup Concepts for 2026",
@@ -418,7 +490,7 @@ If you are a founder entering this space: pick one workflow in one industry. Go 
 `,
   },
 
-  // ── Post 3 ──────────────────────────────────────────────────────────────────
+  // ── Post 4 ──────────────────────────────────────────────────────────────────
   {
     id: "probability-part-ii",
     title: "Probability for Machine Learning (Part II): Entropy & Estimation",
@@ -486,7 +558,7 @@ MLE gives us loss functions, entropy and KL divergence power modern training obj
 `,
   },
 
-  // ── Post 4 ──────────────────────────────────────────────────────────────────
+  // ── Post 3 ──────────────────────────────────────────────────────────────────
   {
     id: "llm-journey",
     title: "The LLM Journey: From Text Prediction to Intelligent Agents — and What It Means for Nepal",
@@ -541,7 +613,7 @@ LLMs hallucinate, can amplify biases, and raise questions about copyright and jo
 `,
   },
 
-  // ── Post 5 ──────────────────────────────────────────────────────────────────
+  // ── Post 2 ──────────────────────────────────────────────────────────────────
   {
     id: "probability",
     title: "Probability for Machine Learning (Part I)",
@@ -597,7 +669,7 @@ Bayes' theorem is the engine of learning. It formalizes how we move from a "Prio
 `,
   },
 
-  // ── Post 6 ──────────────────────────────────────────────────────────────────
+  // ── Post 1 ──────────────────────────────────────────────────────────────────
   {
     id: "linear-algebra",
     title: "Linear Algebra for Machine Learning (Part I)",
@@ -648,7 +720,7 @@ Part II will cover **eigenvalues and eigenvectors** (the engine of PCA), **matri
 `,
   },
 
-  // ── Post 7 ──────────────────────────────────────────────────────────────────
+  // ── Post 0 ──────────────────────────────────────────────────────────────────
   {
     id: "kaggle",
     title: "Kaggle: The Best Place to Start Machine Learning and Data Science",
