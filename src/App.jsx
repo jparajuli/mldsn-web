@@ -22,7 +22,7 @@ const SCRAPED_EVENTS = [
     year: "2026 (TBD)",
     type: "Workshop",
     accent: "var(--accent)",
-    url: "#"
+    url: "https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2022"
   },
   {
     title: "1-Day National Workshop on AI and Emerging Technologies",
@@ -30,7 +30,7 @@ const SCRAPED_EVENTS = [
     year: "2024",
     type: "Workshop",
     accent: "var(--green)",
-    url: "#"
+    url: "https://sites.google.com/view/mldsnorg/news-and-events/events/1day_workshop"
   },
   {
     title: "1-Day International Symposium on AI, Machine Learning and Data Science",
@@ -38,7 +38,7 @@ const SCRAPED_EVENTS = [
     year: "2023",
     type: "Symposium",
     accent: "var(--accent2)",
-    url: "#"
+    url: "https://sites.google.com/view/mldsnorg/news-and-events/events/1day_symposium_ltu"
   },
   {
     title: "4th National Workshop on Machine Learning and Data Science (NWMLDS - 2021)",
@@ -62,7 +62,7 @@ const SCRAPED_EVENTS = [
     year: "2019",
     type: "Workshop",
     accent: "var(--accent2)",
-    url: "#"
+    url: "https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2019"
   },
   {
     title: "1st National Workshop on Machine Learning and Data Science (NWMLDS - 2018)",
@@ -70,7 +70,7 @@ const SCRAPED_EVENTS = [
     year: "2018",
     type: "Workshop",
     accent: "var(--green)",
-    url: "#"
+    url: "https://sites.google.com/view/mldsnorg/news-and-events/events/nwmlds-2018"
   }
 ];
 
@@ -191,6 +191,7 @@ function Tag({ children, color = "var(--accent)" }) {
   );
 }
 
+// Section label module element
 function SectionLabel({ children }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
@@ -284,7 +285,7 @@ function Navbar({ page, navigate }) {
       </div>
 
       <button className="hamburger" onClick={() => setMenuOpen(v => !v)}
-        style={{ background: "none", border: "none", color: "var(--text)", fontSize: 22, display: "none", padding: "6px 8px", lineHeight: 1, cursor: "pointer" }}>
+        style={{ background: "none", border: "none", color: "var(--text)", fontSize: 24, padding: "6px 8px", lineHeight: 1, cursor: "pointer" }}>
         {menuOpen ? "✕" : "☰"}
       </button>
 
@@ -321,17 +322,17 @@ function Hero({ navigate }) {
           <div style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--green)", animation: "pulse-dot 2s ease-in-out infinite", flexShrink: 0 }} />
           <span style={{ fontFamily: "var(--ff-mono)", fontSize: 11, letterSpacing: ".12em", color: "var(--accent)", textTransform: "uppercase" }}>Est. 2018 · Kathmandu, Nepal</span>
         </div>
-        <h1 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(2rem,5vw,3.8rem)", lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, animation: "fade-up .6s .1s ease both" }}>
+        <h1 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.9rem,5vw,3.8rem)", lineHeight: 1.15, letterSpacing: "-0.02em", marginBottom: 24, animation: "fade-up .6s .1s ease both" }}>
           Machine Learning &{" "}
           <span style={{ background: "linear-gradient(90deg,var(--accent),var(--accent2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Data Science</span>
           {" "}Network Nepal
         </h1>
-        <p style={{ fontSize: "clamp(.9rem,1.8vw,1.15rem)", color: "var(--sub)", maxWidth: 620, lineHeight: 1.75, marginBottom: 40, animation: "fade-up .6s .2s ease both" }}>
+        <p style={{ fontSize: "clamp(.95rem,1.8vw,1.15rem)", color: "var(--sub)", maxWidth: 620, lineHeight: 1.75, marginBottom: 40, animation: "fade-up .6s .2s ease both" }}>
           A non-profit community dedicated to advancing AI, machine learning and data science in Nepal — through education, research, networking and rural digital inclusion.
         </p>
         <div className="hero-ctas" style={{ display: "flex", gap: 12, flexWrap: "wrap", animation: "fade-up .6s .3s ease both" }}>
-          <Btn onClick={() => navigate("join")} primary>Become a Member</Btn>
-          <Btn onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}>Learn More ↓</Btn>
+          <Btn onClick={() => navigate("join")} primary style={{ flex: "1 1 auto", minWidth: 160 }}>Become a Member</Btn>
+          <Btn onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })} style={{ flex: "1 1 auto", minWidth: 140 }}>Learn More ↓</Btn>
         </div>
       </div>
     </section>
@@ -342,9 +343,9 @@ function Hero({ navigate }) {
 function StatsTicker() {
   return (
     <div style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", background: "var(--surface)", padding: "0 clamp(16px,5vw,60px)" }}>
-      <div className="stats-grid" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}>
+      <div className="stats-grid" style={{ maxWidth: 1100, margin: "0 auto", display: "grid" }}>
         {safeStats.map((s, i) => (
-          <div key={i} className="stat-cell" style={{ padding: "24px 16px", textAlign: "center", borderRight: i < safeStats.length - 1 ? "1px solid var(--border)" : "none" }}>
+          <div key={i} className="stat-cell" style={{ padding: "24px 16px", textAlign: "center" }}>
             <div style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.5rem,2.8vw,2.2rem)", letterSpacing: "-0.02em", color: i % 2 === 0 ? "var(--accent)" : "var(--accent2)", lineHeight: 1 }}>
               {s.value}<span style={{ fontSize: "60%" }}>{s.suffix}</span>
             </div>
@@ -356,11 +357,11 @@ function StatsTicker() {
   );
 }
 
-// ─── About (INTERNAL SPA NAVIGATION PATH APPLIED HERE) ────────────────────────
+// ─── About ────────────────────────────────────────────────────────────────────
 function About({ navigate }) {
   return (
     <section id="about" className="sec" style={{ padding: "100px clamp(16px,6vw,80px)" }}>
-      <div className="about-grid" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px,6vw,80px)", alignItems: "center" }}>
+      <div className="about-grid" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gap: "clamp(32px,6vw,80px)", alignItems: "center" }}>
         <div>
           <SectionLabel>Who We Are</SectionLabel>
           <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.45rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em", marginBottom: 20 }}>
@@ -373,28 +374,27 @@ function About({ navigate }) {
             Understanding this growing demand, we founded MLDSN Nepal in 2018 — a non-profit community where students, entrepreneurs, researchers and digital experts share knowledge, organise events, write blogs and collectively advance the field across Nepal.
           </p>
         </div>
-        <div style={{ position: "relative" }}>
-          <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, padding: "28px 24px", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "relative", width: "100%" }}>
+          <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, padding: "28px clamp(16px,4vw,24px)", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--accent),var(--accent2))" }} />
             <div style={{ fontFamily: "var(--ff-mono)", fontSize: 11, color: "var(--muted)", marginBottom: 20, letterSpacing: ".08em" }}>// community.profile</div>
             {[["Founded","2018"],["Type","Non-Profit Community"],["Focus","ML · DS · AI"],["Location","Nepal (Global Network)"],["Contact","aimldsn@gmail.com"]].map(([k, v]) => (
-              <div key={k} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "10px 0", borderBottom: "1px solid var(--border)", fontSize: ".9rem", gap: 8 }}>
+              <div key={k} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "10px 0", borderBottom: "1px solid var(--border)", fontSize: ".9rem", gap: 12 }}>
                 <span style={{ color: "var(--muted)", fontFamily: "var(--ff-mono)", fontSize: 12, flexShrink: 0 }}>{k}</span>
                 <span style={{ color: "var(--text)", fontWeight: 500, textAlign: "right", wordBreak: "break-all" }}>{v}</span>
               </div>
             ))}
-            <div className="about-card-actions" style={{ marginTop: 20, display: "flex", gap: 8 }}>
+            <div style={{ marginTop: 20, display: "flex", gap: 10, flexWrap: "wrap" }}>
               <a href="https://www.facebook.com/groups/217595548832685" target="_blank" rel="noreferrer"
-                style={{ flex: "1 1 110px", padding: "12px 8px", borderRadius: 8, textAlign: "center", background: "rgba(79,156,249,0.08)", border: "1px solid rgba(79,156,249,0.2)", color: "var(--accent)", fontSize: 13, fontWeight: 600, transition: "opacity .2s", textDecoration: "none" }}
+                style={{ flex: "1 1 130px", padding: "12px 8px", borderRadius: 8, textAlign: "center", background: "rgba(79,156,249,0.08)", border: "1px solid rgba(79,156,249,0.2)", color: "var(--accent)", fontSize: 13, fontWeight: 600, transition: "opacity .2s", textDecoration: "none" }}
                 onMouseEnter={e => e.currentTarget.style.opacity = ".75"}
                 onMouseLeave={e => e.currentTarget.style.opacity = "1"}>Facebook Group</a>
               <button onClick={() => navigate("research-career")}
-                style={{ flex: "1 1 110px", padding: "12px 8px", borderRadius: 8, textAlign: "center", background: "rgba(167,139,250,0.08)", border: "1px solid rgba(167,139,250,0.2)", color: "var(--accent2)", fontSize: 13, fontWeight: 600, transition: "opacity .2s", cursor: "pointer", fontFamily: "var(--ff-body)" }}
+                style={{ flex: "1 1 130px", padding: "12px 8px", borderRadius: 8, textAlign: "center", background: "rgba(167,139,250,0.08)", border: "1px solid rgba(167,139,250,0.2)", color: "var(--accent2)", fontSize: 13, fontWeight: 600, transition: "opacity .2s", cursor: "pointer", fontFamily: "var(--ff-body)" }}
                 onMouseEnter={e => e.currentTarget.style.opacity = ".75"}
                 onMouseLeave={e => e.currentTarget.style.opacity = "1"}>Research & Career</button>
             </div>
           </div>
-          <div style={{ position: "absolute", top: -20, right: -20, width: 80, height: 80, borderRadius: "50%", border: "1px solid rgba(79,156,249,0.2)", animation: "spin-slow 20s linear infinite" }} />
         </div>
       </div>
     </section>
@@ -413,7 +413,7 @@ function Mission() {
         <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.45rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em", marginBottom: 40, maxWidth: 480 }}>
           Connecting Minds, Empowering Nepal Through AI, ML and DS
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))", gap: 16 }}>
           {safeMission.map((item, i) => (
             <div key={i} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 16, padding: "24px 20px", transition: "border-color .25s,transform .25s" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(79,156,249,0.35)"; e.currentTarget.style.transform = "translateY(-4px)"; }}
@@ -437,16 +437,16 @@ function History() {
         <SectionLabel>A Bit of History</SectionLabel>
         <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.45rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em", marginBottom: 48 }}>Our journey since 2018</h2>
         <div style={{ position: "relative" }}>
-          <div style={{ position: "absolute", left: 16, top: 0, bottom: 0, width: 1, background: "linear-gradient(180deg,var(--accent),var(--accent2),transparent)" }} />
+          <div style={{ position: "absolute", left: 12, top: 0, bottom: 0, width: 1, background: "linear-gradient(180deg,var(--accent),var(--accent2),transparent)" }} />
           <div style={{ display: "flex", flexDirection: "column" }}>
             {safeTimeline.map((item, i) => (
-              <div key={i} style={{ display: "flex", gap: "clamp(16px,4vw,32px)", paddingBottom: i < safeTimeline.length - 1 ? 40 : 0 }}>
+              <div key={i} style={{ display: "flex", gap: "clamp(12px,3vw,24px)", paddingBottom: i < safeTimeline.length - 1 ? 40 : 0 }}>
                 <div style={{ flexShrink: 0 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--bg)", border: `2px solid ${safeColors[item.colors % safeColors.length]}`, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", zIndex: 1 }}>
-                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: safeColors[item.colors % safeColors.length] }} />
+                  <div style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--bg)", border: `2px solid ${safeColors[item.colors % safeColors.length]}`, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", zIndex: 1, left: -1 }}>
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: safeColors[item.colors % safeColors.length] }} />
                   </div>
                 </div>
-                <div style={{ paddingTop: 4 }}>
+                <div style={{ paddingTop: 2 }}>
                   <Tag color={safeColors[item.colors % safeColors.length]}>{item.year}</Tag>
                   <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "1.05rem", margin: "10px 0 8px" }}>{item.title}</h3>
                   <p style={{ color: "var(--sub)", fontSize: ".9rem", lineHeight: 1.75, maxWidth: 560 }}>{item.desc}</p>
@@ -466,7 +466,7 @@ function HomeEventsPreview({ navigate }) {
     <section id="events" className="sec" style={{ padding: "100px clamp(16px,6vw,80px)" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <SectionLabel>Events</SectionLabel>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 40, flexWrap: "wrap", gap: 14 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 40, flexWrap: "wrap", gap: 14 }}>
           <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.45rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em" }}>News & Events</h2>
           <button onClick={() => navigate("events")}
             style={{ background: "none", padding: "9px 20px", borderRadius: 8, border: "1px solid var(--border2)", color: "var(--sub)", fontSize: 13, fontWeight: 500, transition: "all .2s", whiteSpace: "nowrap", cursor: "pointer" }}
@@ -495,7 +495,7 @@ function HomeEventsPreview({ navigate }) {
   );
 }
 
-// ─── DEDICATED FULL EVENTS CHRONOLOGY PAGE ────────────────────────────────────
+// ─── DEDICATED FULL EVENTS CHRONOLOGY PAGE (WHOLE CARD LINK UPGRADE) ──────────
 function DedicatedEventsPage({ navigate }) {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
   return (
@@ -515,26 +515,26 @@ function DedicatedEventsPage({ navigate }) {
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "56px clamp(16px,6vw,80px) 80px" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           {safeEvents.map((ev, i) => (
-            <div key={i} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 18, padding: "28px clamp(16px,4vw,32px)", transition: "all .25s", display: "grid", gridTemplateColumns: "1fr auto", gap: 24, alignItems: "center" }}
+            <a key={i} 
+              href={ev.url && ev.url !== "#" ? ev.url : "https://sites.google.com/view/mldsnorg/news-and-events/events"} 
+              target="_blank" 
+              rel="noreferrer"
+              style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 18, padding: "28px clamp(18px,4vw,32px)", transition: "all .25s", display: "block", textDecoration: "none", cursor: "pointer" }}
+              className="event-row-card"
               onMouseEnter={e => { e.currentTarget.style.borderColor = `${ev.accent}55`; e.currentTarget.style.boxShadow = "0 12px 40px rgba(0,0,0,0.3)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}>
-              <div>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
                   <Tag color={ev.accent}>{ev.type}</Tag>
                   <span style={{ fontFamily: "var(--ff-mono)", fontSize: 12, fontWeight: 600, color: "var(--text)" }}>Timeline: {ev.year}</span>
                 </div>
-                <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.1rem,1.8vw,1.35rem)", lineHeight: 1.3, marginBottom: 10, color: "var(--text)" }}>{ev.title}</h3>
+                <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.1rem,1.8vw,1.35rem)", lineHeight: 1.3, marginBottom: 10, color: "var(--text)", display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                  {ev.title} 
+                  <span style={{ fontSize: "85%", color: ev.accent, opacity: 0.8 }}>↗</span>
+                </h3>
                 <p style={{ color: "var(--sub)", fontSize: ".92rem", lineHeight: 1.7, maxWidth: 780, margin: 0 }}>{ev.desc}</p>
               </div>
-              <div style={{ flexShrink: 0 }}>
-                <a href={ev.url && ev.url !== "#" ? ev.url : "https://sites.google.com/view/mldsnorg/news-and-events/events"} target="_blank" rel="noreferrer"
-                  style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 20px", borderRadius: 10, border: `1px solid ${ev.accent}44`, background: `${ev.accent}08`, color: ev.accent, fontSize: 13, fontWeight: 600, textDecoration: "none", transition: "all 0.2s" }}
-                  onMouseEnter={e => { e.currentTarget.style.background = ev.accent; e.currentTarget.style.color = "#fff"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = `${ev.accent}08`; e.currentTarget.style.color = ev.accent; }}>
-                  {ev.url && ev.url !== "#" ? "View Materials ↗" : "Event details ↗"}
-                </a>
-              </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>
@@ -613,7 +613,7 @@ function DedicatedTeamPage() {
   );
 }
 
-// ─── NEW DEDICATED RESEARCH AND CAREER COMPONENT ─────────────────────────────
+// ─── Dedicated Research & Career Page ────────────────────────────────────────
 function DedicatedResearchCareerPage({ navigate }) {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
 
@@ -663,7 +663,7 @@ function DedicatedResearchCareerPage({ navigate }) {
         
         <div style={{ marginBottom: 64 }}>
           <div style={{ fontSize: 11, fontFamily: "var(--ff-mono)", color: "var(--muted)", letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 24 }}>🔬 Active Research Focus Areas</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
             {tracks.map((t, i) => (
               <div key={i} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, padding: 28, position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: t.color }} />
@@ -677,7 +677,7 @@ function DedicatedResearchCareerPage({ navigate }) {
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: "clamp(32px,5vw,56px)", flexWrap: "wrap", alignItems: "start" }}>
+        <div className="research-career-split-grid" style={{ display: "grid", gap: "clamp(32px,5vw,56px)", alignItems: "start" }}>
           <div>
             <div style={{ fontSize: 11, fontFamily: "var(--ff-mono)", color: "var(--muted)", letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 20 }}>💼 Open Talent & Mentorship Tracks</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -685,13 +685,13 @@ function DedicatedResearchCareerPage({ navigate }) {
                 <div key={i} style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 16, padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
                   <div>
                     <h4 style={{ margin: "0 0 6px 0", fontWeight: 600, fontSize: "1.02rem", color: "var(--text)" }}>{op.title}</h4>
-                    <div style={{ display: "flex", gap: 12, fontSize: 12, color: "var(--muted)" }}>
+                    <div style={{ display: "flex", gap: 12, fontSize: 12, color: "var(--muted)", flexWrap: "wrap" }}>
                       <span>📋 {op.type}</span>
                       <span>📍 {op.scope}</span>
                     </div>
                   </div>
-                  <div>
-                    <span style={{ fontSize: 11, fontFamily: "var(--ff-mono)", color: "var(--accent)", background: "rgba(79,156,249,0.08)", border: "1px solid rgba(79,156,249,0.2)", padding: "4px 10px", borderRadius: 6, whiteSpace: "nowrap" }}>
+                  <div style={{ width: "100%", smWidth: "auto" }}>
+                    <span style={{ display: "inline-block", fontSize: 11, fontFamily: "var(--ff-mono)", color: "var(--accent)", background: "rgba(79,156,249,0.08)", border: "1px solid rgba(79,156,249,0.2)", padding: "4px 10px", borderRadius: 6, whiteSpace: "nowrap" }}>
                       {op.time}
                     </span>
                   </div>
@@ -699,11 +699,11 @@ function DedicatedResearchCareerPage({ navigate }) {
               ))}
             </div>
             <div style={{ marginTop: 24 }}>
-              <Btn onClick={() => navigate("join")} primary small>Apply via Onboarding Portal →</Btn>
+              <Btn onClick={() => navigate("join")} primary Pouched style={{ width: "100%", smWidth: "auto" }}>Apply via Onboarding Portal →</Btn>
             </div>
           </div>
 
-          <aside style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, padding: 24, position: "sticky", top: 84 }}>
+          <aside style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, padding: 24 }}>
             <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "1.1rem", marginBottom: 12, color: "var(--text)" }}>Call for Proposals</h3>
             <p style={{ color: "var(--sub)", fontSize: "0.88rem", lineHeight: 1.6, marginBottom: 20 }}>
               Are you an international researcher, a computational student lab, or an enterprise looking to build foundational ML benchmarks inside Nepal? 
@@ -730,7 +730,7 @@ function HomeBlog({ navigate }) {
     <section id="blog" className="sec" style={{ padding: "100px clamp(16px,6vw,80px)", background: "var(--surface)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <SectionLabel>Knowledge Hub</SectionLabel>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 40, flexWrap: "wrap", gap: 14 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 40, flexWrap: "wrap", gap: 14 }}>
           <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.45rem,2.4vw,2.1rem)", lineHeight: 1.25, letterSpacing: "-0.02em" }}>Recent Blog Posts</h2>
           <button onClick={() => navigate("blog")} style={{ padding: "9px 20px", borderRadius: 8, border: "1px solid var(--border2)", color: "var(--sub)", fontSize: 13, fontWeight: 500, transition: "all .2s", background: "none", whiteSpace: "nowrap", cursor: "pointer" }}
             onMouseEnter={e => { e.currentTarget.style.color = "var(--accent)"; e.currentTarget.style.borderColor = "rgba(79,156,249,0.35)"; }}
@@ -771,7 +771,7 @@ function HomeBlog({ navigate }) {
 function JoinCTA({ navigate }) {
   return (
     <section className="sec" style={{ padding: "100px clamp(16px,6vw,80px)" }}>
-      <div style={{ maxWidth: 780, margin: "0 auto", textAlign: "center", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 24, padding: "clamp(36px,6vw,72px) clamp(20px,5vw,64px)", position: "relative", overflow: "hidden" }}>
+      <div style={{ maxWidth: 780, margin: "0 auto", textAlign: "center", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 24, padding: "clamp(36px,6vw,72px) clamp(16px,5vw,64px)", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 0%,rgba(79,156,249,0.08) 0%,transparent 60%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent)" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
@@ -783,8 +783,8 @@ function JoinCTA({ navigate }) {
             Join the network to receive updates on events, workshops, research opportunities and connect with Nepal's growing ML & DS community.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <Btn onClick={() => navigate("join")} primary>Register Now — It's Free</Btn>
-            <Btn href="https://www.facebook.com/groups/217595548832685">Facebook Group</Btn>
+            <Btn onClick={() => navigate("join")} primary style={{ width: "100%", smWidth: "auto" }}>Register Now — It's Free</Btn>
+            <Btn href="https://www.facebook.com/groups/217595548832685" style={{ width: "100%", smWidth: "auto" }}>Facebook Group</Btn>
           </div>
         </div>
       </div>
@@ -792,12 +792,12 @@ function JoinCTA({ navigate }) {
   );
 }
 
-// ─── Footer (RESEARCH & CAREER LINK REMAPPED) ─────────────────────────────────
+// ─── Footer ───────────────────────────────────────────────────────────────────
 function Footer({ navigate }) {
   return (
     <footer id="contact" style={{ background: "var(--surface)", borderTop: "1px solid var(--border)", padding: "56px clamp(16px,6vw,80px) 28px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "clamp(24px,4vw,40px)", marginBottom: 48 }}>
+        <div className="footer-grid" style={{ display: "grid", gap: "clamp(24px,4vw,40px)", marginBottom: 48 }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
               <Logo size={36} />
@@ -889,11 +889,11 @@ function BlogList({ navigate }) {
           <div style={{ marginBottom: 40 }}>
             <div style={{ fontSize: 11, fontFamily: "var(--ff-mono)", color: "var(--muted)", letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 14 }}>Featured Post</div>
             <div className="featured-grid" onClick={() => navigate("article", safePosts[0])}
-              style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, overflow: "hidden", cursor: "pointer", display: "grid", gridTemplateColumns: "1fr 1fr", transition: "all .25s" }}
+              style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, overflow: "hidden", cursor: "pointer", display: "grid", transition: "all .25s" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(79,156,249,0.35)"; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.4)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}>
               
-              <div className="featured-visual" style={{ background: "rgba(255,255,255,0.01)", display: "flex", alignItems: "center", justifyContent: "center", minHeight: 240, position: "relative", overflow: "hidden", borderRight: "1px solid var(--border)" }}>
+              <div className="featured-visual" style={{ background: "rgba(255,255,255,0.01)", display: "flex", alignItems: "center", justifyContent: "center", minHeight: 200, position: "relative", overflow: "hidden" }}>
                 {safePosts[0].heroImage ? (
                   <img src={safePosts[0].heroImage} alt={safePosts[0].title} style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} />
                 ) : (
@@ -901,7 +901,7 @@ function BlogList({ navigate }) {
                 )}
               </div>
 
-              <div style={{ padding: "clamp(20px,4vw,36px) clamp(18px,4vw,32px)", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div style={{ padding: "24px clamp(16px,4vw,28px)", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                 <div>
                   <div style={{ display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap", alignItems: "center" }}>
                     <Tag color={safePosts[0].tagColor}>{safePosts[0].tag}</Tag>
@@ -910,7 +910,7 @@ function BlogList({ navigate }) {
                   <h2 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.1rem,2vw,1.55rem)", lineHeight: 1.3, letterSpacing: "-0.02em", marginBottom: 12, color: "var(--text)" }}>{safePosts[0].title}</h2>
                   <p style={{ color: "var(--sub)", fontSize: ".9rem", lineHeight: 1.75, marginBottom: 20 }}>{safePosts[0].excerpt}</p>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                     <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${safePosts[0].tagColor}22`, border: `1.5px solid ${safePosts[0].tagColor}44`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--ff-body)", fontWeight: 600, fontSize: 11, color: safePosts[0].tagColor, flexShrink: 0 }}>
                       {safePosts[0].author ? safePosts[0].author.split(" ").map(w => w[0]).join("").slice(0, 2) : "AU"}
@@ -964,7 +964,7 @@ function BlogList({ navigate }) {
           ))}
         </div>
 
-        <div style={{ marginTop: 56, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, padding: "36px clamp(20px,4vw,48px)", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ marginTop: 56, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 20, padding: "36px clamp(16px,4vw,48px)", textAlign: "center", position: "relative", overflow: "hidden" }}>
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,transparent,var(--accent2),transparent)" }} />
           <Tag color="var(--accent2)">Community</Tag>
           <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 700, fontSize: "clamp(1.1rem,2vw,1.5rem)", letterSpacing: "-0.02em", margin: "14px 0 10px" }}>Want to contribute a blog post?</h3>
@@ -1018,9 +1018,9 @@ function ArticleView({ post, navigate }) {
         </div>
       </div>
 
-      <div className="article-grid" style={{ maxWidth: 1100, margin: "0 auto", padding: "48px clamp(16px,6vw,80px)", display: "grid", gridTemplateColumns: "1fr 280px", gap: "clamp(28px,5vw,56px)", alignItems: "start" }}>
+      <div className="article-grid" style={{ maxWidth: 1100, margin: "0 auto", padding: "48px clamp(16px,6vw,80px)", display: "grid", gap: "clamp(28px,5vw,56px)", alignItems: "start" }}>
         <article className="article-body" dangerouslySetInnerHTML={{ __html: post.content }} style={{ minWidth: 0 }} />
-        <aside className="article-sidebar" style={{ position: "sticky", top: 80 }}>
+        <aside className="article-sidebar">
           <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 14, padding: "18px", marginBottom: 18 }}>
             <div style={{ fontFamily: "var(--ff-mono)", fontSize: 11, color: "var(--accent)", letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 12 }}>About this post</div>
             {[["Category", post.tag], ["Author", post.author], ["Read time", post.readTime], ["Published", post.date]].map(([k, v]) => (
@@ -1213,7 +1213,7 @@ function MembershipForm({ navigate }) {
         <div>
           <h3 style={{ fontFamily: "var(--ff-head)", fontWeight: 600, fontSize: "1.1rem", borderBottom: "1px solid var(--border)", paddingBottom: 8, marginBottom: 12, color: "var(--accent)" }}>3. Core Tech Interests</h3>
           <p style={{ fontSize: 12, color: "var(--muted)", marginBottom: 14 }}>Identify your areas of interest to stay updated with specialized network opportunities.</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10 }}>
             {interestsList.map(interest => (
               <label key={interest} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: 12, border: "1px solid var(--border)", borderRadius: 8, cursor: "pointer", background: "var(--surface)" }}>
                 <input type="checkbox" checked={selectedInterests.includes(interest)} onChange={() => handleCheckboxChange(interest)} style={{ marginTop: 2, accentColor: "var(--accent)" }} />
@@ -1253,6 +1253,39 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100vh" }}>
+      {/* ─── GUARANTEED RESPONSIVE LAYOUT ENGINE OVERRIDES ─── */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .desktop-nav { display: flex; }
+        .hamburger { display: none; }
+        .stats-grid { grid-template-columns: repeat(4, 1fr); }
+        .about-grid { grid-template-columns: 1fr 1fr; }
+        .featured-grid { grid-template-columns: 1.1fr 0.9fr; }
+        .article-grid { grid-template-columns: 1fr 280px; }
+        .research-career-split-grid { grid-template-columns: 1fr 340px; }
+        .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+
+        @media (max-width: 960px) {
+          .featured-grid { grid-template-columns: 1fr !important; }
+          .article-grid { grid-template-columns: 1fr !important; }
+          .research-career-split-grid { grid-template-columns: 1fr !important; }
+        }
+
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .hamburger { display: block !important; }
+          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .about-grid { grid-template-columns: 1fr !important; }
+          .footer-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; }
+          .hero-ctas button, .hero-ctas a { width: 100% !important; }
+        }
+
+        @media (max-width: 480px) {
+          .stats-grid { grid-template-columns: 1fr !important; }
+          .stat-cell { border-right: none !important; border-bottom: 1px solid var(--border); }
+          .stat-cell:last-child { border-bottom: none !important; }
+        }
+      `}} />
+
       <Navbar page={page} navigate={navigate} />
       {page === "home" && (
         <>
